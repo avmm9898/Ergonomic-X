@@ -58,7 +58,6 @@ public:
     ThreeDWindow(QWidget *parent = nullptr);
     ~ThreeDWindow();
 
-	int activeOpenMatId;
 	QPoint lastPos;
 	int xRot;
 	int yRot;
@@ -68,10 +67,10 @@ public:
 	int zSRot;
     ObjFileParser caseObj[5];
 	float lpmsCaseScale;
-    Eigen::Matrix3f rM[5];
-    Eigen::Matrix3f MM;
-    Eigen::Matrix3f rotmatrix[5];
-	ImuData imuData;
+    Eigen::Matrix3f IdentityMatrix;
+    Eigen::Matrix3f CorrectionRM;    //使用者視角修正的旋轉矩陣
+    Eigen::Matrix3f RotationMatrix;  //來自IMU的旋轉矩陣
+
 	Eigen::Vector3f fieldMap[ABSMAXPITCH][ABSMAXROLL][ABSMAXYAW];
 	Eigen::Vector3f hardIronOffset;
 	Eigen::Matrix3f softIronMatrix;
@@ -80,33 +79,22 @@ public:
 	float glob_translate_y;
 	float glob_translate_z;	
 
-    QSize minimumSizeHint() const;
-    QSize sizeHint() const;
 	void drawAxes(void);
-	void setActiveLpms(int openMatId);
-	void drawPointCube(void);
+
     virtual void initializeGL();
     virtual void paintGL();
     virtual void resizeGL(int width, int height);
 	void drawTri(Eigen::Vector3f p0, Eigen::Vector3f p1, Eigen::Vector3f p2, bool fill);
-	void drawQuad(Eigen::Vector3f p0, Eigen::Vector3f p1, Eigen::Vector3f p2, Eigen::Vector3f p3, bool fill);
 	void drawFloor(void);
     void drawLpmsCase(int n_lpms);
 	void drawBackground(void);	
-	void drawCylinder(float l, float r, Eigen::Matrix3f m);
-	void drawCone(float l, float r, Eigen::Matrix4f T4, std::string tipText);
-	void drawGridCube(void);
-	void drawSphere(Eigen::Vector3f p, float r);
-	void drawFieldMap(void);
-	int heightForWidth(int w);
-    bool hasHeightForWidth();
     void loadObjFile(std::string filename, struct LpmsDevice *m_lpms);
 
 signals:
 
 
 public slots:
-	void updateQuaternion(ImuData imuData);
+
 	void updateFieldMap(float magField[ABSMAXPITCH][ABSMAXROLL][ABSMAXYAW][3], float hardIronOffset[3], float softIronMatrix[3][3]);
     void updateWindow(void);
 	void rotateBy(int xAngle, int yAngle, int zAngle);
@@ -115,9 +103,9 @@ public slots:
 	void mouseMoveEvent(QMouseEvent *event);	
 
 	void wheelEvent(QWheelEvent *event);
-    void quat_to_rotmatrix(struct LpmsDevice *m_lpms);
+    void updateRMbyQuat(struct LpmsDevice *m_lpms);
+    void model_view_correction(struct LpmsDevice *m_lpms);
 private:
-    float RotMatrix[4][4];
 
 };
 

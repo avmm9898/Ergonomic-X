@@ -21,15 +21,20 @@ struct LpmsDevice{
     const char *address=nullptr;
     int id;
     std::string type;
-    QQuaternion quat_ajust;
+
     QQuaternion quat_raw;
+    /*ps1
+    QQuaternion quat_ajust;
     QQuaternion quat_ajusted;
+    */
+
     LpmsSensorI *function;
-    int orientationX,orientationY,orientationZ;
+    int viewX=90,viewY=0,viewZ=0;
     struct LpmsDevice *head;
     struct LpmsDevice *body;
-
-
+    LpmsDevice *getme(void){
+        return this;
+    }
 };
 
 
@@ -40,13 +45,12 @@ class MainWindow : public QMainWindow
 
 public:
 
-
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-
-    static LpmsDevice LPMS_SEARCH_ID[];
-
+    static LpmsDevice *LPMS_SEARCH_ID[];
+    std::list<LpmsDevice *>lpmsList;
+    std::list<LpmsDevice *>::iterator it;
 
 protected:
 
@@ -66,7 +70,6 @@ private slots:
     void timer_loop();
     void on_BTN_set_origin_clicked();
 
-
     void on_btn_x_plus_clicked();
 
     void on_btn_y_plus_clicked();
@@ -84,7 +87,11 @@ private:
 
     QTimer *dataTimer;
 
-    LpmsDevice MyLpms,head,body;
+    LpmsDevice myLpms,head,body;
+
+    int ActiveModelID=0;
+
+
 };
 
 #endif // MAINWINDOW_H

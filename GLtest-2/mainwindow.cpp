@@ -2,13 +2,10 @@
 #include "ui_mainwindow.h"
 
 
-float MainWindow::x_cus=0;
-float MainWindow::y_cus=0;
-float MainWindow::z_cus=0;
 using namespace std;
 
 
-LpmsDevice MainWindow::LPMS_SEARCH_ID[10];
+extern LpmsDevice MainWindow::*LPMS_SEARCH_ID[10];
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -21,17 +18,19 @@ MainWindow::MainWindow(QWidget *parent) :
     manager = LpmsSensorManagerFactory();
     ui->Label_WristArmScore->setText("0");
 
-    MyLpms.head = &head;
-    MyLpms.body = &body;
-    auto a=*MyLpms.head;
-    MyLpms.head->address="00:04:3E:9B:A2:EF";
-    MyLpms.head->id=0;
-    MyLpms.head->type="head";
+    myLpms.head = &head;
+    myLpms.body = &body;
 
-    MyLpms.body->address="00:04:3E:9B:A3:62";
-    MyLpms.body->id=1;
-    MyLpms.body->type="body";
+    myLpms.head->address="00:04:3E:9B:A2:EF";
+    myLpms.head->id=0;
+    myLpms.head->type="head";
 
+    myLpms.body->address="00:04:3E:9B:A3:62";
+    myLpms.body->id=1;
+    myLpms.body->type="body";
+
+    lpmsList.push_back(&head);
+    lpmsList.push_back(&body);
 
 }
 
@@ -46,17 +45,22 @@ void MainWindow::on_actionclose_triggered()
 }
 
 void MainWindow::data_display(LpmsDevice *m_lpms){
-    //qDebug()<<m_lpms->id;
-    m_lpms->quat_ajusted=m_lpms->quat_raw*m_lpms->quat_ajust;
-    auto EulerEngle=m_lpms->quat_ajusted.toEulerAngles();
 
-    //Here in this QT function, y is roll, x is pitch, z is yaw
+    /* ps1
+    m_lpms->quat_ajusted=m_lpms->quat_raw*m_lpms->quat_ajust;
+    */
+
+    auto EulerEngle=m_lpms->quat_raw.toEulerAngles();
+
+    /*
+    Here in this QT function, y is roll, x is pitch, z is yaw
+    */
 
     int roll=static_cast<int>(EulerEngle.y());
     int pitch=static_cast<int>(EulerEngle.x());
     int yaw=static_cast<int>(EulerEngle.z());
-    //QString text=QString("roll=%1 \npitch=%2 \nyaw=%3").arg(roll).arg(pitch).arg(yaw);
-    //ui->textbrowser->append(text);
+    QString text=QString("roll=%1 \npitch=%2 \nyaw=%3").arg(roll).arg(pitch).arg(yaw);
+    ui->textbrowser->append(text);
 
 }
 
@@ -100,6 +104,7 @@ void MainWindow::lpms_connect(LpmsDevice *m_lpms)
     while(1){
         if(m_lpms->function->getConnectionStatus() == SENSOR_CONNECTION_CONNECTED)
         {
+
             ui->textbrowser->append("IMU connect "+ QString::fromStdString(m_lpms->type));
             break;
         }
@@ -113,13 +118,12 @@ void MainWindow::timer_loop()
 {
 
     //get data
-    data_receive(MyLpms.head);
-
-    data_display(MyLpms.head);
-    data_receive(MyLpms.body);
-    data_display(MyLpms.body);
-    LPMS_SEARCH_ID[MyLpms.head->id]=head;
-    LPMS_SEARCH_ID[MyLpms.body->id]=body;
+    data_receive(myLpms.head);
+    data_display(myLpms.head);
+    data_receive(myLpms.body);
+    data_display(myLpms.body);
+    LPMS_SEARCH_ID[myLpms.head->id]=myLpms.head;
+    LPMS_SEARCH_ID[myLpms.body->id]=myLpms.body;
     int AScore=rula_calc();
     ui->Label_WristArmScore->setText(QString::number(AScore));
 
@@ -128,11 +132,11 @@ void MainWindow::timer_loop()
 int MainWindow::rula_calc()
 {
 
-    auto EulerEngleUpArm=MyLpms.head->quat_ajusted.toEulerAngles();
-    auto EulerEngleLowArm=MyLpms.head->quat_ajusted.toEulerAngles();
-    auto EulerEngleWrist=MyLpms.head->quat_ajusted.toEulerAngles();
-    auto EulerEngleHead=MyLpms.head->quat_ajusted.toEulerAngles();
-    auto EulerEngleTrunk=MyLpms.body->quat_ajusted.toEulerAngles();
+    auto EulerEngleUpArm=myLpms.head->quat_raw.toEulerAngles();
+    auto EulerEngleLowArm=myLpms.head->quat_raw.toEulerAngles();
+    auto EulerEngleWrist=myLpms.head->quat_raw.toEulerAngles();
+    auto EulerEngleHead=myLpms.head->quat_raw.toEulerAngles();
+    auto EulerEngleTrunk=myLpms.body->quat_raw.toEulerAngles();
 
     //(int) is old-style cast
     int UpperArmPos_roll=static_cast<int>(EulerEngleUpArm.y())+90;//roll
@@ -614,11 +618,9 @@ int MainWindow::rula_calc()
 void MainWindow::on_BTN_StartAllLpms_clicked()
 {
 
+    lpms_connect(myLpms.head);
 
-
-    lpms_connect(MyLpms.head);
-
-    lpms_connect(MyLpms.body);
+    lpms_connect(myLpms.body);
 
 
     dataTimer = new QTimer(this);
@@ -630,25 +632,40 @@ void MainWindow::on_BTN_StartAllLpms_clicked()
 
 void MainWindow::on_BTN_set_origin_clicked()
 {
+    for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
+        (*it)->getme()->function->setOrientationOffset(0);
+    }
 
-    MyLpms.head->quat_ajust=MyLpms.head->quat_raw.inverted();
-    MyLpms.body->quat_ajust=MyLpms.body->quat_raw.inverted();
-
+    /*ps1
+    myLpms.head->quat_ajust=myLpms.head->quat_raw.inverted();
+    myLpms.body->quat_ajust=myLpms.body->quat_raw.inverted();
+    */
 }
 
 void MainWindow::on_btn_x_plus_clicked()
 {
-    x_cus+=90;
+    if(ActiveModelID==myLpms.head->id)
+        myLpms.head->viewX+=90;
+    else if(ActiveModelID==myLpms.body->id)
+        myLpms.body->viewX+=90;
+
+
 }
 
 void MainWindow::on_btn_y_plus_clicked()
 {
-    y_cus+=90;
+    if(ActiveModelID==myLpms.head->id)
+        myLpms.head->viewY+=90;
+    else if(ActiveModelID==myLpms.body->id)
+        myLpms.body->viewY+=90;
 }
 
 void MainWindow::on_btn_z_plus_clicked()
 {
-    z_cus+=90;
+    if(ActiveModelID==myLpms.head->id)
+        myLpms.head->viewZ+=90;
+    else if(ActiveModelID==myLpms.body->id)
+        myLpms.body->viewZ+=90;
 }
 
 void MainWindow::on_OpenHead_triggered()
@@ -660,7 +677,8 @@ void MainWindow::on_OpenHead_triggered()
     if(QFile(file).exists())
     {
         std::cout << file.toStdString() << std::endl;
-        ui->widget->loadObjFile(file.toStdString(), MyLpms.head);
+        ui->widget->loadObjFile(file.toStdString(), myLpms.head);
+        ActiveModelID=myLpms.head->id;
     }
 }
 
@@ -674,6 +692,16 @@ void MainWindow::on_OpenBody_triggered()
     if(QFile(file).exists())
     {
         std::cout << file.toStdString() << std::endl;
-        ui->widget->loadObjFile(file.toStdString(), MyLpms.body);
+        ui->widget->loadObjFile(file.toStdString(), myLpms.body);
+        ActiveModelID=myLpms.body->id;
     }
 }
+
+
+/**
+Ps1:
+    使用此方法，用新矩陣事後補償IMU的資料，所以IMU在現實空間並沒有校正，會受到pitch角影響精準度
+    and old method using correction rotation matrix to set offset
+    new nethod is to directly call the IMU build-in function to set offset.
+
+**/

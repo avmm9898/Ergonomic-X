@@ -53,12 +53,12 @@ public:
     QRadioButton *load_choose1;
     QRadioButton *load_choose2;
     QRadioButton *load_choose3;
-    QPushButton *BTN_set_origin;
     QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayout;
     ThreeDWindow *widget;
     QSpacerItem *verticalSpacer;
     QHBoxLayout *horizontalLayout;
+    QPushButton *BTN_set_origin;
     QPushButton *btn_x_plus;
     QPushButton *btn_y_plus;
     QPushButton *btn_z_plus;
@@ -126,9 +126,6 @@ public:
         load_choose3 = new QRadioButton(centralWidget);
         load_choose3->setObjectName(QString::fromUtf8("load_choose3"));
         load_choose3->setGeometry(QRect(910, 210, 100, 21));
-        BTN_set_origin = new QPushButton(centralWidget);
-        BTN_set_origin->setObjectName(QString::fromUtf8("BTN_set_origin"));
-        BTN_set_origin->setGeometry(QRect(230, 20, 80, 24));
         verticalLayoutWidget = new QWidget(centralWidget);
         verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
         verticalLayoutWidget->setGeometry(QRect(40, 60, 491, 521));
@@ -154,6 +151,11 @@ public:
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        BTN_set_origin = new QPushButton(verticalLayoutWidget);
+        BTN_set_origin->setObjectName(QString::fromUtf8("BTN_set_origin"));
+
+        horizontalLayout->addWidget(BTN_set_origin);
+
         btn_x_plus = new QPushButton(verticalLayoutWidget);
         btn_x_plus->setObjectName(QString::fromUtf8("btn_x_plus"));
 
@@ -224,10 +226,10 @@ public:
         load_choose1->setText(QApplication::translate("MainWindow", "<2 kg", nullptr));
         load_choose2->setText(QApplication::translate("MainWindow", "2~10 kg", nullptr));
         load_choose3->setText(QApplication::translate("MainWindow", ">10 kg", nullptr));
-        BTN_set_origin->setText(QApplication::translate("MainWindow", "set origin", nullptr));
-        btn_x_plus->setText(QApplication::translate("MainWindow", "x+90", nullptr));
-        btn_y_plus->setText(QApplication::translate("MainWindow", "y+90", nullptr));
-        btn_z_plus->setText(QApplication::translate("MainWindow", "z+90", nullptr));
+        BTN_set_origin->setText(QApplication::translate("MainWindow", "Set Origin", nullptr));
+        btn_x_plus->setText(QApplication::translate("MainWindow", "X+90", nullptr));
+        btn_y_plus->setText(QApplication::translate("MainWindow", "Y+90", nullptr));
+        btn_z_plus->setText(QApplication::translate("MainWindow", "Z+90", nullptr));
         menuwindow->setTitle(QApplication::translate("MainWindow", "window", nullptr));
     } // retranslateUi
 
