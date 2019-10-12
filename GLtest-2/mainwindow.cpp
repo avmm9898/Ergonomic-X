@@ -4,8 +4,8 @@
 
 using namespace std;
 
+list<LpmsDevice *> MainWindow::lpmsList;
 
-extern LpmsDevice MainWindow::*LPMS_SEARCH_ID[10];
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     ui->textbrowser->setText("Ready to start.");
-    //Gets a LpmsSensorManager instance
+    //Gets a LpmsSensorManager instance0
     manager = LpmsSensorManagerFactory();
     ui->Label_WristArmScore->setText("0");
 
@@ -52,13 +52,30 @@ void MainWindow::data_display(LpmsDevice *m_lpms){
 
     auto EulerEngle=m_lpms->quat_raw.toEulerAngles();
 
+
+    //QVector3D EulerEngle_t;
+    //EulerEngle_t.setX(m_lpms->.y());
+    //EulerEngle_t.setY(EulerEngle.x());
+    //EulerEngle_t.setZ(EulerEngle.z());
+
+    //    QQuaternion a;
+    //    a.fromEulerAngles(m_lpms->euler_raw);
+    //m_lpms->quat_raw.fromEulerAngles(m_lpms->euler_raw);
+
     /*
     Here in this QT function, y is roll, x is pitch, z is yaw
     */
 
-    int roll=static_cast<int>(EulerEngle.y());
-    int pitch=static_cast<int>(EulerEngle.x());
-    int yaw=static_cast<int>(EulerEngle.z());
+    // y is yaw, z is roll, x is pitch
+     int roll=static_cast<int>(EulerEngle.x());
+      int pitch=static_cast<int>(EulerEngle.y());
+     int yaw=static_cast<int>(EulerEngle.z());
+
+    //QQuaternion a;
+    //a.fromEulerAngles(pitch,yaw,roll);
+    //m_lpms->quat_raw=a;
+    //QString text1=QString("roll1=%1 \npitch1=%2 \nyaw1=%3").arg(m_lpms->euler_raw.x()).arg(m_lpms->euler_raw.y()).arg(m_lpms->euler_raw.z());
+    //ui->textbrowser->append(text1);
     QString text=QString("roll=%1 \npitch=%2 \nyaw=%3").arg(roll).arg(pitch).arg(yaw);
     ui->textbrowser->append(text);
 
@@ -81,6 +98,13 @@ void MainWindow::data_receive(LpmsDevice *m_lpms)
         m_lpms->quat_raw.setX(temp.q[1]);
         m_lpms->quat_raw.setY(temp.q[2]);
         m_lpms->quat_raw.setZ(temp.q[3]);
+
+        m_lpms->euler_raw.setX(temp.r[0]);
+        m_lpms->euler_raw.setY(temp.r[1]);
+        m_lpms->euler_raw.setZ(temp.r[2]);
+
+       // QQuaternion fromEuler=QQuaternion::fromEulerAngles(-temp.r[1],temp.r[2],temp.r[0]);
+       // m_lpms->quat_raw=fromEuler;
 
     }
 }
@@ -122,10 +146,10 @@ void MainWindow::timer_loop()
     data_display(myLpms.head);
     data_receive(myLpms.body);
     data_display(myLpms.body);
-    LPMS_SEARCH_ID[myLpms.head->id]=myLpms.head;
-    LPMS_SEARCH_ID[myLpms.body->id]=myLpms.body;
-    int AScore=rula_calc();
-    ui->Label_WristArmScore->setText(QString::number(AScore));
+    //LPMS_SEARCH_ID[myLpms.head->id]=myLpms.head;
+    //LPMS_SEARCH_ID[myLpms.body->id]=myLpms.body;
+    //int AScore=rula_calc();
+    //ui->Label_WristArmScore->setText(QString::number(AScore));
 
 }
 
@@ -634,6 +658,7 @@ void MainWindow::on_BTN_set_origin_clicked()
 {
     for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
         (*it)->getme()->function->setOrientationOffset(0);
+        //(*it)->getme()->function->setOrientationOffset(1);
     }
 
     /*ps1

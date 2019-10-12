@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.4
+** Created by: Qt User Interface Compiler version 5.12.5
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -94,13 +94,13 @@ public:
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         textbrowser = new QTextBrowser(centralWidget);
         textbrowser->setObjectName(QString::fromUtf8("textbrowser"));
-        textbrowser->setGeometry(QRect(720, 310, 191, 321));
+        textbrowser->setGeometry(QRect(670, 280, 381, 341));
         label = new QLabel(centralWidget);
         label->setObjectName(QString::fromUtf8("label"));
-        label->setGeometry(QRect(760, 270, 121, 31));
+        label->setGeometry(QRect(770, 250, 121, 31));
         Label_WristArmScore = new QLabel(centralWidget);
         Label_WristArmScore->setObjectName(QString::fromUtf8("Label_WristArmScore"));
-        Label_WristArmScore->setGeometry(QRect(900, 250, 71, 71));
+        Label_WristArmScore->setGeometry(QRect(920, 230, 71, 71));
         QFont font;
         font.setFamily(QString::fromUtf8("Adobe Devanagari"));
         font.setPointSize(20);
@@ -177,7 +177,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1233, 24));
+        menuBar->setGeometry(QRect(0, 0, 1233, 30));
         menuwindow = new QMenu(menuBar);
         menuwindow->setObjectName(QString::fromUtf8("menuwindow"));
         MainWindow->setMenuBar(menuBar);

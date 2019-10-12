@@ -23,13 +23,14 @@ struct LpmsDevice{
     std::string type;
 
     QQuaternion quat_raw;
+    QVector3D euler_raw;
     /*ps1
     QQuaternion quat_ajust;
     QQuaternion quat_ajusted;
     */
 
     LpmsSensorI *function;
-    int viewX=90,viewY=0,viewZ=0;
+    int viewX=0,viewY=0,viewZ=0;
     struct LpmsDevice *head;
     struct LpmsDevice *body;
     LpmsDevice *getme(void){
@@ -48,8 +49,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    static LpmsDevice *LPMS_SEARCH_ID[];
-    std::list<LpmsDevice *>lpmsList;
+    static std::list<LpmsDevice *>lpmsList;
     std::list<LpmsDevice *>::iterator it;
 
 protected:

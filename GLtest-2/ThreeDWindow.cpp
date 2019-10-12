@@ -56,7 +56,6 @@ ThreeDWindow::ThreeDWindow(QWidget *parent)
 
 
     IdentityMatrix = Eigen::Matrix3f::Identity();
-    //CorrectionRM= Eigen::Matrix3f::Identity();
 
 
     glob_translate_x = 0.0f;
@@ -122,7 +121,7 @@ void ThreeDWindow::paintGL()
     glRotatef(45, 0.0f, 1.0f, 0.0f);
 
     drawAxes();
-
+    drawFloor();
 
     Eigen::Vector3f l;
     std::list<LpmsDevice *>::iterator it;
@@ -134,13 +133,12 @@ void ThreeDWindow::paintGL()
         }
         else {
 
-            for (it = MainWindow().lpmsList.begin(); it != MainWindow().lpmsList.end(); ++it) {
+            for (it = MainWindow::lpmsList.begin(); it != MainWindow::lpmsList.end(); ++it) {
                  if((*it)->getme()->id==i){
                      model_view_correction((*it)->getme());
                      updateRMbyQuat((*it)->getme());
                  }
              }
-
 
 
 //            model_view_correction(&MainWindow::LPMS_SEARCH_ID[i]);
@@ -199,18 +197,21 @@ float hardIronOffset[3], float softIronMatrix[3][3])
 
 void ThreeDWindow::drawLpmsCase(int n_lpms)
 {
-
+    Eigen::Matrix3f M;
+    M = Eigen::AngleAxisf(-90 * d2r, Eigen::Vector3f::UnitX()) *
+            Eigen::AngleAxisf(0 * d2r, Eigen::Vector3f::UnitY()) *
+            Eigen::AngleAxisf(0 * d2r, Eigen::Vector3f::UnitZ());
 
     std::vector<ObjFace> faceList = caseObj[n_lpms].getFaceList();
 
     for (unsigned int i=0; i<faceList.size(); i++) {
 
-        drawTri(RotationMatrix.transpose() * CorrectionRM * faceList[i].vertexList[2],
-                RotationMatrix.transpose() * CorrectionRM * faceList[i].vertexList[1],
-                RotationMatrix.transpose() * CorrectionRM * faceList[i].vertexList[0], true);
-        drawTri(RotationMatrix.transpose() * CorrectionRM * faceList[i].vertexList[0],
-                RotationMatrix.transpose() * CorrectionRM * faceList[i].vertexList[1],
-                RotationMatrix.transpose() * CorrectionRM * faceList[i].vertexList[2], true);
+        drawTri(RotationMatrix * CorrectionRM * faceList[i].vertexList[2],
+                RotationMatrix * CorrectionRM * faceList[i].vertexList[1],
+                RotationMatrix * CorrectionRM * faceList[i].vertexList[0], true);
+        drawTri(RotationMatrix * CorrectionRM * faceList[i].vertexList[0],
+                RotationMatrix * CorrectionRM * faceList[i].vertexList[1],
+                RotationMatrix * CorrectionRM * faceList[i].vertexList[2], true);
     }
 
 
@@ -351,6 +352,8 @@ void ThreeDWindow::updateRMbyQuat(struct LpmsDevice *m_lpms)
     float qy=m_lpms->quat_ajusted.y();
     float qz=m_lpms->quat_ajusted.z();
     */
+    QMatrix3x3 a;
+    a=m_lpms->quat_raw.toRotationMatrix();
     float qw=m_lpms->quat_raw.scalar();
     float qx=m_lpms->quat_raw.x();
     float qy=m_lpms->quat_raw.y();
@@ -368,17 +371,27 @@ void ThreeDWindow::updateRMbyQuat(struct LpmsDevice *m_lpms)
 
     float zz      = qz * qz;
     float zw      = qz * qw;
+    a=a.transposed();
 
+    RotationMatrix(0,0)=a(0,0);
+    RotationMatrix(0,1)=a(0,1);
+    RotationMatrix(0,2)=a(0,2);
+    RotationMatrix(1,0)=a(1,0);
+    RotationMatrix(1,1)=a(1,1);
+    RotationMatrix(1,2)=a(1,2);
+    RotationMatrix(2,0)=a(2,0);
+    RotationMatrix(2,1)=a(2,1);
+    RotationMatrix(2,2)=a(2,2);
 
-    RotationMatrix(0,0)= 1.f - 2.f * ( yy + zz );
-    RotationMatrix(0,1)=     2.f * ( xy - zw );
-    RotationMatrix(0,2)=     2.f * ( xz + yw );
-    RotationMatrix(1,0)=     2.f * ( xy + zw );
-    RotationMatrix(1,1)= 1.f - 2.f * ( xx + zz );
-    RotationMatrix(1,2) =     2.f * ( yz - xw );
-    RotationMatrix(2,0)=     2.f * ( xz - yw );
-    RotationMatrix(2,1) =     2.f * ( yz + xw );
-    RotationMatrix(2,2) = 1.f - 2.f * ( xx + yy );
+//    RotationMatrix(0,0)= 1.f - 2.f * ( yy + zz );
+//    RotationMatrix(0,1)=     2.f * ( xy - zw );
+//    RotationMatrix(0,2)=     2.f * ( xz + yw );
+//    RotationMatrix(1,0)=     2.f * ( xy + zw );
+//    RotationMatrix(1,1)= 1.f - 2.f * ( xx + zz );
+//    RotationMatrix(1,2) =     2.f * ( yz - xw );
+//    RotationMatrix(2,0)=     2.f * ( xz - yw );
+//    RotationMatrix(2,1) =     2.f * ( yz + xw );
+//    RotationMatrix(2,2) = 1.f - 2.f * ( xx + yy );
 }
 void ThreeDWindow::model_view_correction(struct LpmsDevice *m_lpms){
 

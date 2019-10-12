@@ -17,18 +17,18 @@
    <widget class="QTextBrowser" name="textbrowser">
     <property name="geometry">
      <rect>
-      <x>720</x>
-      <y>310</y>
-      <width>191</width>
-      <height>321</height>
+      <x>670</x>
+      <y>280</y>
+      <width>381</width>
+      <height>341</height>
      </rect>
     </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>760</x>
-      <y>270</y>
+      <x>770</x>
+      <y>250</y>
       <width>121</width>
       <height>31</height>
      </rect>
@@ -40,8 +40,8 @@
    <widget class="QLabel" name="Label_WristArmScore">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>250</y>
+      <x>920</x>
+      <y>230</y>
       <width>71</width>
       <height>71</height>
      </rect>
@@ -224,7 +224,7 @@
      <x>0</x>
      <y>0</y>
      <width>1233</width>
-     <height>24</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuwindow">
