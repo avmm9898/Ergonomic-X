@@ -194,7 +194,7 @@ bool ObjFileParser::parse(std::string filename, std::string type)
     }//0=x,1=z,2=y
 
     else if(type=="body"){
-        centerVertex(1) = maxVertex(1);//0=x,1=z,2=y
+        centerVertex(1) = minVertex(1);//0=x,1=z,2=y
     }
 
 
@@ -225,7 +225,8 @@ bool ObjFileParser::parse(std::string filename, std::string type)
 	cout << "[ObjFileParser] Processed vertex normals: " << vertexNormalList.size() << endl;		
 	cout << "[ObjFileParser] Processed faces: " << faceList.size() << endl;	
 	cout << "[ObjFileParser] Center: " << centerVertex(0) << " " << centerVertex(1) << " " << centerVertex(2) << endl;
-	
+    cout << "[ObjFileParser] MAX: " << maxVertex(0) << " " << maxVertex(1) << " " << maxVertex(2) << endl;
+    cout << "[ObjFileParser] MIN: " << minVertex(0) << " " << minVertex(1) << " " << minVertex(2) << endl;
 	fs.close();
 	
 	return f;
@@ -236,19 +237,10 @@ std::vector<ObjFace> ObjFileParser::getFaceList(void)
     return faceList;
 }
 
-std::vector<ObjFace> ObjFileParser::getNewCenterVortex(void)
+
+Eigen::Vector3f ObjFileParser::getCenterVortex(void)
 {
-    centerVertex = (maxVertex + minVertex) * 0.5;
-
-
-    for (unsigned int i=0; i<faceList.size(); i++) {
-        for (unsigned int j=0; j<faceList[i].vertexList.size(); j++) {
-            for (unsigned int k=0; k<3; k++) {
-                faceList[i].vertexList[j](k) = (faceList[i].vertexList[j](k) - centerVertex(k));
-            }
-        }
-    }
-    return faceList;
+    return centerVertex;
 }
 
 Eigen::Vector3f ObjFileParser::getScaledSize(void)

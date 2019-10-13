@@ -59,27 +59,20 @@ public:
     ~ThreeDWindow();
 
 	QPoint lastPos;
-	int xRot;
-	int yRot;
-	int zRot;
-	int xSRot;
-	int ySRot;
-	int zSRot;
-    ObjFileParser caseObj[5];
-	float lpmsCaseScale;
+    float xRot,yRot,zRot;
+
+    ObjFileParser caseObj[10];
+    bool objFileSet[10];
+
     Eigen::Matrix3f IdentityMatrix;
     Eigen::Matrix3f CorrectionRM;    //使用者視角修正的旋轉矩陣
     Eigen::Matrix3f RotationMatrix;  //來自IMU的旋轉矩陣
 
-	Eigen::Vector3f fieldMap[ABSMAXPITCH][ABSMAXROLL][ABSMAXYAW];
-	Eigen::Vector3f hardIronOffset;
-	Eigen::Matrix3f softIronMatrix;
-    bool objFileSet[5];
-	float glob_translate_x;
-	float glob_translate_y;
-	float glob_translate_z;	
+    float glob_translate_x;
+    float glob_translate_y;
+    float glob_translate_z;
 
-	void drawAxes(void);
+    void drawAxes(void);
 
     virtual void initializeGL();
     virtual void paintGL();
@@ -87,7 +80,7 @@ public:
 	void drawTri(Eigen::Vector3f p0, Eigen::Vector3f p1, Eigen::Vector3f p2, bool fill);
 	void drawFloor(void);
     void drawLpmsCase(int n_lpms);
-	void drawBackground(void);	
+    void drawBackground(void);
     void loadObjFile(std::string filename, struct LpmsDevice *m_lpms);
 
 signals:
@@ -95,10 +88,9 @@ signals:
 
 public slots:
 
-	void updateFieldMap(float magField[ABSMAXPITCH][ABSMAXROLL][ABSMAXYAW][3], float hardIronOffset[3], float softIronMatrix[3][3]);
+
     void updateWindow(void);
-	void rotateBy(int xAngle, int yAngle, int zAngle);
-	void rotateSceneBy(int xAngle, int yAngle, int zAngle);
+    void rotateBy(float xAngle, float yAngle, float zAngle);
 	void mousePressEvent(QMouseEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);	
 

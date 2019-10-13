@@ -14,209 +14,147 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QTextBrowser" name="textbrowser">
-    <property name="geometry">
-     <rect>
-      <x>670</x>
-      <y>280</y>
-      <width>381</width>
-      <height>341</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>770</x>
-      <y>250</y>
-      <width>121</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Wrist &amp; Arm Score</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="Label_WristArmScore">
-    <property name="geometry">
-     <rect>
-      <x>920</x>
-      <y>230</y>
-      <width>71</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Adobe Devanagari</family>
-      <pointsize>20</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>0</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="BTN_StartAllLpms">
-    <property name="geometry">
-     <rect>
-      <x>850</x>
-      <y>20</y>
-      <width>80</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Connect All</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="check_rula_1">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>70</y>
-      <width>181</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>shoulder is raised</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="check_rula_2">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>110</y>
-      <width>181</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>upper arm is abducted</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="check_rula_3">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>150</y>
-      <width>271</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>arm is supported or person is leaning</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="load_choose1">
-    <property name="geometry">
-     <rect>
-      <x>680</x>
-      <y>210</y>
-      <width>100</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&lt;2 kg</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="load_choose2">
-    <property name="geometry">
-     <rect>
-      <x>790</x>
-      <y>210</y>
-      <width>100</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>2~10 kg</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="load_choose3">
-    <property name="geometry">
-     <rect>
-      <x>910</x>
-      <y>210</y>
-      <width>100</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&gt;10 kg</string>
-    </property>
-   </widget>
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>60</y>
-      <width>491</width>
-      <height>521</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="ThreeDWindow" name="widget" native="true">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Preferred</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QPushButton" name="BTN_set_origin">
-         <property name="text">
-          <string>Set Origin</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btn_x_plus">
-         <property name="text">
-          <string>X+90</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btn_y_plus">
-         <property name="text">
-          <string>Y+90</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btn_z_plus">
-         <property name="text">
-          <string>Z+90</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </widget>
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetMaximumSize</enum>
+      </property>
+      <item>
+       <widget class="ThreeDWindow" name="widget" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>500</width>
+          <height>500</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="BTN_set_origin">
+          <property name="text">
+           <string>Set Origin</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_x_plus">
+          <property name="text">
+           <string>X+90</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_y_plus">
+          <property name="text">
+           <string>Y+90</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_z_plus">
+          <property name="text">
+           <string>Z+90</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QPushButton" name="BTN_StartAllLpms">
+        <property name="text">
+         <string>Connect All</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QRadioButton" name="load_choose3">
+          <property name="text">
+           <string>&gt;10 kg</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="load_choose2">
+          <property name="text">
+           <string>2~10 kg</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="load_choose1">
+          <property name="text">
+           <string>&lt;2 kg</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="check_rula_2">
+        <property name="text">
+         <string>upper arm is abducted</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="check_rula_3">
+        <property name="text">
+         <string>arm is supported or person is leaning</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="check_rula_1">
+        <property name="text">
+         <string>shoulder is raised</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Wrist &amp; Arm Score</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="Label_WristArmScore">
+          <property name="font">
+           <font>
+            <family>Adobe Devanagari</family>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QTextBrowser" name="textbrowser"/>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -224,7 +162,7 @@
      <x>0</x>
      <y>0</y>
      <width>1233</width>
-     <height>30</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuwindow">

@@ -20,7 +20,6 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
-#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QToolBar>
@@ -43,25 +42,27 @@ public:
     QAction *OpenLeftWrist;
     QAction *OpenBody;
     QWidget *centralWidget;
-    QTextBrowser *textbrowser;
-    QLabel *label;
-    QLabel *Label_WristArmScore;
-    QPushButton *BTN_StartAllLpms;
-    QCheckBox *check_rula_1;
-    QCheckBox *check_rula_2;
-    QCheckBox *check_rula_3;
-    QRadioButton *load_choose1;
-    QRadioButton *load_choose2;
-    QRadioButton *load_choose3;
-    QWidget *verticalLayoutWidget;
+    QHBoxLayout *horizontalLayout_4;
     QVBoxLayout *verticalLayout;
     ThreeDWindow *widget;
-    QSpacerItem *verticalSpacer;
     QHBoxLayout *horizontalLayout;
     QPushButton *BTN_set_origin;
     QPushButton *btn_x_plus;
     QPushButton *btn_y_plus;
     QPushButton *btn_z_plus;
+    QVBoxLayout *verticalLayout_3;
+    QPushButton *BTN_StartAllLpms;
+    QHBoxLayout *horizontalLayout_2;
+    QRadioButton *load_choose3;
+    QRadioButton *load_choose2;
+    QRadioButton *load_choose1;
+    QCheckBox *check_rula_2;
+    QCheckBox *check_rula_3;
+    QCheckBox *check_rula_1;
+    QHBoxLayout *horizontalLayout_3;
+    QLabel *label;
+    QLabel *Label_WristArmScore;
+    QTextBrowser *textbrowser;
     QMenuBar *menuBar;
     QMenu *menuwindow;
     QToolBar *mainToolBar;
@@ -92,81 +93,44 @@ public:
         OpenBody->setObjectName(QString::fromUtf8("OpenBody"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
-        textbrowser = new QTextBrowser(centralWidget);
-        textbrowser->setObjectName(QString::fromUtf8("textbrowser"));
-        textbrowser->setGeometry(QRect(670, 280, 381, 341));
-        label = new QLabel(centralWidget);
-        label->setObjectName(QString::fromUtf8("label"));
-        label->setGeometry(QRect(770, 250, 121, 31));
-        Label_WristArmScore = new QLabel(centralWidget);
-        Label_WristArmScore->setObjectName(QString::fromUtf8("Label_WristArmScore"));
-        Label_WristArmScore->setGeometry(QRect(920, 230, 71, 71));
-        QFont font;
-        font.setFamily(QString::fromUtf8("Adobe Devanagari"));
-        font.setPointSize(20);
-        Label_WristArmScore->setFont(font);
-        BTN_StartAllLpms = new QPushButton(centralWidget);
-        BTN_StartAllLpms->setObjectName(QString::fromUtf8("BTN_StartAllLpms"));
-        BTN_StartAllLpms->setGeometry(QRect(850, 20, 80, 24));
-        check_rula_1 = new QCheckBox(centralWidget);
-        check_rula_1->setObjectName(QString::fromUtf8("check_rula_1"));
-        check_rula_1->setGeometry(QRect(750, 70, 181, 21));
-        check_rula_2 = new QCheckBox(centralWidget);
-        check_rula_2->setObjectName(QString::fromUtf8("check_rula_2"));
-        check_rula_2->setGeometry(QRect(750, 110, 181, 21));
-        check_rula_3 = new QCheckBox(centralWidget);
-        check_rula_3->setObjectName(QString::fromUtf8("check_rula_3"));
-        check_rula_3->setGeometry(QRect(750, 150, 271, 21));
-        load_choose1 = new QRadioButton(centralWidget);
-        load_choose1->setObjectName(QString::fromUtf8("load_choose1"));
-        load_choose1->setGeometry(QRect(680, 210, 100, 21));
-        load_choose2 = new QRadioButton(centralWidget);
-        load_choose2->setObjectName(QString::fromUtf8("load_choose2"));
-        load_choose2->setGeometry(QRect(790, 210, 100, 21));
-        load_choose3 = new QRadioButton(centralWidget);
-        load_choose3->setObjectName(QString::fromUtf8("load_choose3"));
-        load_choose3->setGeometry(QRect(910, 210, 100, 21));
-        verticalLayoutWidget = new QWidget(centralWidget);
-        verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(40, 60, 491, 521));
-        verticalLayout = new QVBoxLayout(verticalLayoutWidget);
+        horizontalLayout_4 = new QHBoxLayout(centralWidget);
+        horizontalLayout_4->setSpacing(6);
+        horizontalLayout_4->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
+        verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(6);
-        verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        verticalLayout->setContentsMargins(0, 0, 0, 0);
-        widget = new ThreeDWindow(verticalLayoutWidget);
+        verticalLayout->setSizeConstraint(QLayout::SetMaximumSize);
+        widget = new ThreeDWindow(centralWidget);
         widget->setObjectName(QString::fromUtf8("widget"));
-        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(widget->sizePolicy().hasHeightForWidth());
         widget->setSizePolicy(sizePolicy);
+        widget->setMinimumSize(QSize(500, 500));
 
         verticalLayout->addWidget(widget);
-
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Preferred);
-
-        verticalLayout->addItem(verticalSpacer);
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        BTN_set_origin = new QPushButton(verticalLayoutWidget);
+        BTN_set_origin = new QPushButton(centralWidget);
         BTN_set_origin->setObjectName(QString::fromUtf8("BTN_set_origin"));
 
         horizontalLayout->addWidget(BTN_set_origin);
 
-        btn_x_plus = new QPushButton(verticalLayoutWidget);
+        btn_x_plus = new QPushButton(centralWidget);
         btn_x_plus->setObjectName(QString::fromUtf8("btn_x_plus"));
 
         horizontalLayout->addWidget(btn_x_plus);
 
-        btn_y_plus = new QPushButton(verticalLayoutWidget);
+        btn_y_plus = new QPushButton(centralWidget);
         btn_y_plus->setObjectName(QString::fromUtf8("btn_y_plus"));
 
         horizontalLayout->addWidget(btn_y_plus);
 
-        btn_z_plus = new QPushButton(verticalLayoutWidget);
+        btn_z_plus = new QPushButton(centralWidget);
         btn_z_plus->setObjectName(QString::fromUtf8("btn_z_plus"));
 
         horizontalLayout->addWidget(btn_z_plus);
@@ -174,10 +138,85 @@ public:
 
         verticalLayout->addLayout(horizontalLayout);
 
+
+        horizontalLayout_4->addLayout(verticalLayout);
+
+        verticalLayout_3 = new QVBoxLayout();
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
+        BTN_StartAllLpms = new QPushButton(centralWidget);
+        BTN_StartAllLpms->setObjectName(QString::fromUtf8("BTN_StartAllLpms"));
+
+        verticalLayout_3->addWidget(BTN_StartAllLpms);
+
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        load_choose3 = new QRadioButton(centralWidget);
+        load_choose3->setObjectName(QString::fromUtf8("load_choose3"));
+
+        horizontalLayout_2->addWidget(load_choose3);
+
+        load_choose2 = new QRadioButton(centralWidget);
+        load_choose2->setObjectName(QString::fromUtf8("load_choose2"));
+
+        horizontalLayout_2->addWidget(load_choose2);
+
+        load_choose1 = new QRadioButton(centralWidget);
+        load_choose1->setObjectName(QString::fromUtf8("load_choose1"));
+
+        horizontalLayout_2->addWidget(load_choose1);
+
+
+        verticalLayout_3->addLayout(horizontalLayout_2);
+
+        check_rula_2 = new QCheckBox(centralWidget);
+        check_rula_2->setObjectName(QString::fromUtf8("check_rula_2"));
+
+        verticalLayout_3->addWidget(check_rula_2);
+
+        check_rula_3 = new QCheckBox(centralWidget);
+        check_rula_3->setObjectName(QString::fromUtf8("check_rula_3"));
+
+        verticalLayout_3->addWidget(check_rula_3);
+
+        check_rula_1 = new QCheckBox(centralWidget);
+        check_rula_1->setObjectName(QString::fromUtf8("check_rula_1"));
+
+        verticalLayout_3->addWidget(check_rula_1);
+
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
+        label = new QLabel(centralWidget);
+        label->setObjectName(QString::fromUtf8("label"));
+
+        horizontalLayout_3->addWidget(label);
+
+        Label_WristArmScore = new QLabel(centralWidget);
+        Label_WristArmScore->setObjectName(QString::fromUtf8("Label_WristArmScore"));
+        QFont font;
+        font.setFamily(QString::fromUtf8("Adobe Devanagari"));
+        font.setPointSize(20);
+        Label_WristArmScore->setFont(font);
+
+        horizontalLayout_3->addWidget(Label_WristArmScore);
+
+
+        verticalLayout_3->addLayout(horizontalLayout_3);
+
+        textbrowser = new QTextBrowser(centralWidget);
+        textbrowser->setObjectName(QString::fromUtf8("textbrowser"));
+
+        verticalLayout_3->addWidget(textbrowser);
+
+
+        horizontalLayout_4->addLayout(verticalLayout_3);
+
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1233, 30));
+        menuBar->setGeometry(QRect(0, 0, 1233, 24));
         menuwindow = new QMenu(menuBar);
         menuwindow->setObjectName(QString::fromUtf8("menuwindow"));
         MainWindow->setMenuBar(menuBar);
@@ -217,19 +256,19 @@ public:
         OpenLeftLowerArm->setText(QApplication::translate("MainWindow", "Left Lower Arm", nullptr));
         OpenLeftWrist->setText(QApplication::translate("MainWindow", "Left Wrist", nullptr));
         OpenBody->setText(QApplication::translate("MainWindow", "Body", nullptr));
-        label->setText(QApplication::translate("MainWindow", "Wrist & Arm Score", nullptr));
-        Label_WristArmScore->setText(QApplication::translate("MainWindow", "0", nullptr));
-        BTN_StartAllLpms->setText(QApplication::translate("MainWindow", "Connect All", nullptr));
-        check_rula_1->setText(QApplication::translate("MainWindow", "shoulder is raised", nullptr));
-        check_rula_2->setText(QApplication::translate("MainWindow", "upper arm is abducted", nullptr));
-        check_rula_3->setText(QApplication::translate("MainWindow", "arm is supported or person is leaning", nullptr));
-        load_choose1->setText(QApplication::translate("MainWindow", "<2 kg", nullptr));
-        load_choose2->setText(QApplication::translate("MainWindow", "2~10 kg", nullptr));
-        load_choose3->setText(QApplication::translate("MainWindow", ">10 kg", nullptr));
         BTN_set_origin->setText(QApplication::translate("MainWindow", "Set Origin", nullptr));
         btn_x_plus->setText(QApplication::translate("MainWindow", "X+90", nullptr));
         btn_y_plus->setText(QApplication::translate("MainWindow", "Y+90", nullptr));
         btn_z_plus->setText(QApplication::translate("MainWindow", "Z+90", nullptr));
+        BTN_StartAllLpms->setText(QApplication::translate("MainWindow", "Connect All", nullptr));
+        load_choose3->setText(QApplication::translate("MainWindow", ">10 kg", nullptr));
+        load_choose2->setText(QApplication::translate("MainWindow", "2~10 kg", nullptr));
+        load_choose1->setText(QApplication::translate("MainWindow", "<2 kg", nullptr));
+        check_rula_2->setText(QApplication::translate("MainWindow", "upper arm is abducted", nullptr));
+        check_rula_3->setText(QApplication::translate("MainWindow", "arm is supported or person is leaning", nullptr));
+        check_rula_1->setText(QApplication::translate("MainWindow", "shoulder is raised", nullptr));
+        label->setText(QApplication::translate("MainWindow", "Wrist & Arm Score", nullptr));
+        Label_WristArmScore->setText(QApplication::translate("MainWindow", "0", nullptr));
         menuwindow->setTitle(QApplication::translate("MainWindow", "window", nullptr));
     } // retranslateUi
 

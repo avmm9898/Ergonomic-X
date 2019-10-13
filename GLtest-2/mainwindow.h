@@ -17,6 +17,8 @@
 namespace Ui {
 class MainWindow;
 }
+
+//宣告在class外面，其他class才能使用此struct
 struct LpmsDevice{
     const char *address=nullptr;
     int id;
@@ -30,7 +32,7 @@ struct LpmsDevice{
     */
 
     LpmsSensorI *function;
-    int viewX=0,viewY=0,viewZ=0;
+    int viewX=0,viewY=0,viewZ=90;
     struct LpmsDevice *head;
     struct LpmsDevice *body;
     LpmsDevice *getme(void){
@@ -50,7 +52,7 @@ public:
     ~MainWindow();
 
     static std::list<LpmsDevice *>lpmsList;
-    std::list<LpmsDevice *>::iterator it;
+
 
 protected:
 

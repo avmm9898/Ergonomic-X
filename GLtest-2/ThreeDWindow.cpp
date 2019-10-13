@@ -45,9 +45,6 @@ ThreeDWindow::ThreeDWindow(QWidget *parent)
       xRot(0),
       yRot(0),
       zRot(0),
-      xSRot(0),
-      ySRot(0),
-      zSRot(0),
       objFileSet{false}
 {
     QTimer *timer = new QTimer(this);
@@ -99,7 +96,7 @@ void ThreeDWindow::initializeGL()
 }
 
 
-
+Eigen::Vector3f temp;
 void ThreeDWindow::paintGL()
 {
 
@@ -113,40 +110,59 @@ void ThreeDWindow::paintGL()
     drawBackground();
 
     glRotatef(xRot / 16.0f, 1.0f, 0.0f, 0.0f);
-    glRotatef(yRot / 16.0f, 0.0f, 1.0f, 0.0f);
+    //glRotatef(yRot / 16.0f, 0.0f, 1.0f, 0.0f);
     glRotatef(zRot / 16.0f, 0.0f, 0.0f, 1.0f);
 
 
-    glRotatef(90, 0.0f, 0.0f, 1.0f);
-    glRotatef(45, 0.0f, 1.0f, 0.0f);
+    //glRotatef(90, 0.0f, 0.0f, 1.0f);
+    //glRotatef(45, 0.0f, 1.0f, 0.0f);
 
     drawAxes();
     drawFloor();
 
     Eigen::Vector3f l;
+    Eigen::Vector3f vertex_head;
+
+    vertex_head[0]=-0.1;
+    vertex_head[1]= 2.55f;
+    vertex_head[2]=0;
+
     std::list<LpmsDevice *>::iterator it;
 
     for(int i=0;i<10;i++){
-        if (objFileSet[i] == false) {
-            //drawPointCube();
-            //l = Eigen::Vector3f(2.4f, 0.9f, 1.4f);
-        }
-        else {
-
+        if (objFileSet[i] == true) {
             for (it = MainWindow::lpmsList.begin(); it != MainWindow::lpmsList.end(); ++it) {
-                 if((*it)->getme()->id==i){
-                     model_view_correction((*it)->getme());
-                     updateRMbyQuat((*it)->getme());
-                 }
-             }
+                if((*it)->getme()->id==i){
+                    model_view_correction((*it)->getme());
+                    updateRMbyQuat((*it)->getme());
 
 
-//            model_view_correction(&MainWindow::LPMS_SEARCH_ID[i]);
-//            updateRMbyQuat(&MainWindow::LPMS_SEARCH_ID[i]);
-            drawLpmsCase(i);
+                    glPushMatrix();
+                    if((*it)->getme()->type=="head"){
+                        // -0.550635 2.97721 -0.011688 (x z y)
+                        glTranslatef(temp[0],  temp[1], temp[2]);
+
+
+                    }
+                    if((*it)->getme()->type=="body"){
+                        // -0.015654 5.64728 0.725933 (x z y)
+                        glTranslatef(0.0f, 0.0f, 0.0f);
+
+                        temp = RotationMatrix * CorrectionRM * vertex_head;
+                    }
+
+
+
+                    drawLpmsCase(i);
+                    glPopMatrix();
+                }
+            }
+
+
             //l = caseObj[i].getScaledSize() * 0.5f + Eigen::Vector3f(0.2f, 0.2f, 0.2f);
 
         }
+
     }
 
 }
@@ -170,29 +186,6 @@ void ThreeDWindow::drawBackground(void)
     glEnable(GL_CULL_FACE);
 }
 
-void ThreeDWindow::updateFieldMap(float magField[ABSMAXPITCH][ABSMAXROLL][ABSMAXYAW][3],
-float hardIronOffset[3], float softIronMatrix[3][3])
-{
-    for (int i=0; i<ABSMAXPITCH; i++) {
-        for (int j=0; j<ABSMAXROLL; j++) {
-            for (int k=0; k<ABSMAXYAW; k++) {
-                for (int l=0; l<3; l++) {
-                    this->fieldMap[i][j][k](l) = magField[i][j][k][l];
-                }
-            }
-        }
-    }
-
-    for (int i=0; i<3; i++) {
-        this->hardIronOffset(i) = hardIronOffset[i];
-    }
-
-    for (int i=0; i<3; i++) {
-        for (int j=0; j<3; j++) {
-            this->softIronMatrix(i, j) = softIronMatrix[i][j];
-        }
-    }
-}
 
 
 void ThreeDWindow::drawLpmsCase(int n_lpms)
@@ -251,12 +244,12 @@ void ThreeDWindow::drawFloor(void)
 {
     glBegin(GL_LINES);
     glColor3f(0.8f, 0.8f, 0.8f);
-    for (float i=-10; i <= 10; i+=0.2f) {
+    for (float i=-10; i <= 10; i+=1.0f) {
         if (i != 0) {
-            glVertex3f(i, 0.0f, -10.0f);
-            glVertex3f(i, 0.0f, 10.0f);
-            glVertex3f(-10.0f, 0.0f, i);
-            glVertex3f(10.0f, 0.0f, i);
+            glVertex3f(i, -10.0f, 0.0f);
+            glVertex3f(i, 10.0f, 0.0f);
+            glVertex3f(-10.0f, i, 0.0f);
+            glVertex3f(10.0f, i, 0.0f);
         }
     }
     glEnd();
@@ -305,7 +298,7 @@ void ThreeDWindow::drawTri(Eigen::Vector3f p0, Eigen::Vector3f p1, Eigen::Vector
 }
 
 
-void ThreeDWindow::rotateBy(int xAngle, int yAngle, int zAngle)
+void ThreeDWindow::rotateBy(float xAngle, float yAngle, float zAngle)
 {
     xRot += xAngle;
     yRot += yAngle;
@@ -313,13 +306,6 @@ void ThreeDWindow::rotateBy(int xAngle, int yAngle, int zAngle)
     update();
 }
 
-void ThreeDWindow::rotateSceneBy(int xAngle, int yAngle, int zAngle)
-{
-    xSRot += xAngle;
-    ySRot += yAngle;
-    zSRot += zAngle;
-    update();
-}
 
 void ThreeDWindow::mousePressEvent(QMouseEvent *event)
 {
@@ -328,15 +314,17 @@ void ThreeDWindow::mousePressEvent(QMouseEvent *event)
 
 void ThreeDWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    int dx = event->x() - lastPos.x();
-    int dy = event->y() - lastPos.y();
+    float dx = event->x() - lastPos.x();
+    float dy = event->y() - lastPos.y();
 
     if (event->buttons() & Qt::LeftButton) {
-        rotateBy(8 * dy, 8 * dx, 0);
-    } else if (event->buttons() & Qt::RightButton) {
-        rotateSceneBy(8 * dy, 8 * dy, 8 * dx);
+        rotateBy(8 * dy, 8 * dy, 8* dx);
     }
-
+    else if (event->buttons() & Qt::RightButton)
+    {
+        glob_translate_x +=dx/100.f;
+        glob_translate_y +=dy/100.f;
+    }
     lastPos = event->pos();
 }
 
@@ -346,31 +334,10 @@ void ThreeDWindow::wheelEvent(QWheelEvent *event)
 }
 void ThreeDWindow::updateRMbyQuat(struct LpmsDevice *m_lpms)
 {
-    /*ps1
-    float qw=m_lpms->quat_ajusted.scalar();
-    float qx=m_lpms->quat_ajusted.x();
-    float qy=m_lpms->quat_ajusted.y();
-    float qz=m_lpms->quat_ajusted.z();
-    */
+
     QMatrix3x3 a;
     a=m_lpms->quat_raw.toRotationMatrix();
-    float qw=m_lpms->quat_raw.scalar();
-    float qx=m_lpms->quat_raw.x();
-    float qy=m_lpms->quat_raw.y();
-    float qz=m_lpms->quat_raw.z();
 
-
-    float xx      = qx * qx;
-    float xy      = qx * qy;
-    float xz      = qx * qz;
-    float xw      = qx * qw;
-
-    float yy      = qy * qy;
-    float yz      = qy * qz;
-    float yw      = qy * qw;
-
-    float zz      = qz * qz;
-    float zw      = qz * qw;
     a=a.transposed();
 
     RotationMatrix(0,0)=a(0,0);
@@ -383,15 +350,37 @@ void ThreeDWindow::updateRMbyQuat(struct LpmsDevice *m_lpms)
     RotationMatrix(2,1)=a(2,1);
     RotationMatrix(2,2)=a(2,2);
 
-//    RotationMatrix(0,0)= 1.f - 2.f * ( yy + zz );
-//    RotationMatrix(0,1)=     2.f * ( xy - zw );
-//    RotationMatrix(0,2)=     2.f * ( xz + yw );
-//    RotationMatrix(1,0)=     2.f * ( xy + zw );
-//    RotationMatrix(1,1)= 1.f - 2.f * ( xx + zz );
-//    RotationMatrix(1,2) =     2.f * ( yz - xw );
-//    RotationMatrix(2,0)=     2.f * ( xz - yw );
-//    RotationMatrix(2,1) =     2.f * ( yz + xw );
-//    RotationMatrix(2,2) = 1.f - 2.f * ( xx + yy );
+    /*ps1
+    float qw=m_lpms->quat_ajusted.scalar();
+    float qx=m_lpms->quat_ajusted.x();
+    float qy=m_lpms->quat_ajusted.y();
+    float qz=m_lpms->quat_ajusted.z();
+    */
+    //    float qw=m_lpms->quat_raw.scalar();
+    //    float qx=m_lpms->quat_raw.x();
+    //    float qy=m_lpms->quat_raw.y();
+    //    float qz=m_lpms->quat_raw.z();
+
+    //    float xx      = qx * qx;
+    //    float xy      = qx * qy;
+    //    float xz      = qx * qz;
+    //    float xw      = qx * qw;
+
+    //    float yy      = qy * qy;
+    //    float yz      = qy * qz;
+    //    float yw      = qy * qw;
+
+    //    float zz      = qz * qz;
+    //    float zw      = qz * qw;
+    //    RotationMatrix(0,0)= 1.f - 2.f * ( yy + zz );
+    //    RotationMatrix(0,1)=     2.f * ( xy - zw );
+    //    RotationMatrix(0,2)=     2.f * ( xz + yw );
+    //    RotationMatrix(1,0)=     2.f * ( xy + zw );
+    //    RotationMatrix(1,1)= 1.f - 2.f * ( xx + zz );
+    //    RotationMatrix(1,2) =     2.f * ( yz - xw );
+    //    RotationMatrix(2,0)=     2.f * ( xz - yw );
+    //    RotationMatrix(2,1) =     2.f * ( yz + xw );
+    //    RotationMatrix(2,2) = 1.f - 2.f * ( xx + yy );
 }
 void ThreeDWindow::model_view_correction(struct LpmsDevice *m_lpms){
 

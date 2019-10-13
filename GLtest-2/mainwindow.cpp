@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
     lpmsList.push_back(&head);
     lpmsList.push_back(&body);
 
+    on_OpenBody_triggered();
+    on_OpenHead_triggered();
 }
 
 MainWindow::~MainWindow()
@@ -50,26 +52,18 @@ void MainWindow::data_display(LpmsDevice *m_lpms){
     m_lpms->quat_ajusted=m_lpms->quat_raw*m_lpms->quat_ajust;
     */
 
-    auto EulerEngle=m_lpms->quat_raw.toEulerAngles();
+    auto EulerEngle=m_lpms->euler_raw;
 
-
-    //QVector3D EulerEngle_t;
-    //EulerEngle_t.setX(m_lpms->.y());
-    //EulerEngle_t.setY(EulerEngle.x());
-    //EulerEngle_t.setZ(EulerEngle.z());
-
-    //    QQuaternion a;
-    //    a.fromEulerAngles(m_lpms->euler_raw);
-    //m_lpms->quat_raw.fromEulerAngles(m_lpms->euler_raw);
 
     /*
-    Here in this QT function, y is roll, x is pitch, z is yaw
+     * When using QQuaternion to euler angles,
+     * y is roll, x is pitch, z is yaw
     */
 
     // y is yaw, z is roll, x is pitch
-     int roll=static_cast<int>(EulerEngle.x());
-      int pitch=static_cast<int>(EulerEngle.y());
-     int yaw=static_cast<int>(EulerEngle.z());
+    int roll=static_cast<int>(EulerEngle.x());
+    int pitch=static_cast<int>(EulerEngle.y());
+    int yaw=static_cast<int>(EulerEngle.z());
 
     //QQuaternion a;
     //a.fromEulerAngles(pitch,yaw,roll);
@@ -103,8 +97,8 @@ void MainWindow::data_receive(LpmsDevice *m_lpms)
         m_lpms->euler_raw.setY(temp.r[1]);
         m_lpms->euler_raw.setZ(temp.r[2]);
 
-       // QQuaternion fromEuler=QQuaternion::fromEulerAngles(-temp.r[1],temp.r[2],temp.r[0]);
-       // m_lpms->quat_raw=fromEuler;
+        // QQuaternion fromEuler=QQuaternion::fromEulerAngles(-temp.r[1],temp.r[2],temp.r[0]);
+        // m_lpms->quat_raw=fromEuler;
 
     }
 }
@@ -140,12 +134,13 @@ void MainWindow::lpms_connect(LpmsDevice *m_lpms)
 
 void MainWindow::timer_loop()
 {
-
+    std::list<LpmsDevice *>::iterator it;
     //get data
-    data_receive(myLpms.head);
-    data_display(myLpms.head);
-    data_receive(myLpms.body);
-    data_display(myLpms.body);
+    for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
+        data_receive(*it);
+        data_display(*it);
+    }
+
     //LPMS_SEARCH_ID[myLpms.head->id]=myLpms.head;
     //LPMS_SEARCH_ID[myLpms.body->id]=myLpms.body;
     //int AScore=rula_calc();
@@ -641,10 +636,10 @@ int MainWindow::rula_calc()
 
 void MainWindow::on_BTN_StartAllLpms_clicked()
 {
-
-    lpms_connect(myLpms.head);
-
-    lpms_connect(myLpms.body);
+    std::list<LpmsDevice *>::iterator it;
+    for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
+        lpms_connect(*it);
+    }
 
 
     dataTimer = new QTimer(this);
@@ -656,9 +651,9 @@ void MainWindow::on_BTN_StartAllLpms_clicked()
 
 void MainWindow::on_BTN_set_origin_clicked()
 {
+    std::list<LpmsDevice *>::iterator it;
     for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
         (*it)->getme()->function->setOrientationOffset(0);
-        //(*it)->getme()->function->setOrientationOffset(1);
     }
 
     /*ps1
