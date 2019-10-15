@@ -20,6 +20,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     myLpms.head = &head;
     myLpms.body = &body;
+    myLpms.rUpperArm=&rUpperArm;
+    myLpms.rLowerArm=&rLowerArm;
+    myLpms.rWrist=&rWrist;
 
     myLpms.head->address="00:04:3E:9B:A2:EF";
     myLpms.head->id=0;
@@ -32,8 +35,8 @@ MainWindow::MainWindow(QWidget *parent) :
     lpmsList.push_back(&head);
     lpmsList.push_back(&body);
 
-    on_OpenBody_triggered();
-    on_OpenHead_triggered();
+    //on_OpenBody_triggered();
+    //on_OpenHead_triggered();
 }
 
 MainWindow::~MainWindow()

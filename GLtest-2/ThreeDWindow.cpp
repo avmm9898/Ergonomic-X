@@ -317,13 +317,13 @@ void ThreeDWindow::mouseMoveEvent(QMouseEvent *event)
     float dx = event->x() - lastPos.x();
     float dy = event->y() - lastPos.y();
 
-    if (event->buttons() & Qt::LeftButton) {
+    if (event->buttons() & Qt::RightButton) {
         rotateBy(8 * dy, 8 * dy, 8* dx);
     }
-    else if (event->buttons() & Qt::RightButton)
+    else if (event->buttons() & Qt::LeftButton)
     {
         glob_translate_x +=dx/100.f;
-        glob_translate_y +=dy/100.f;
+        glob_translate_y +=-dy/100.f;  //方向和視圖相反
     }
     lastPos = event->pos();
 }

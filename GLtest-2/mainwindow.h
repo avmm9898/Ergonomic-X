@@ -35,6 +35,10 @@ struct LpmsDevice{
     int viewX=0,viewY=0,viewZ=90;
     struct LpmsDevice *head;
     struct LpmsDevice *body;
+    struct LpmsDevice *rUpperArm;
+    struct LpmsDevice *rLowerArm;
+    struct LpmsDevice *rWrist;
+
     LpmsDevice *getme(void){
         return this;
     }
@@ -89,7 +93,7 @@ private:
 
     QTimer *dataTimer;
 
-    LpmsDevice myLpms,head,body;
+    LpmsDevice myLpms,head,body,rUpperArm,rLowerArm,rWrist;
 
     int ActiveModelID=0;
 
