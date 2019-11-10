@@ -17,7 +17,7 @@ CXXFLAGS      = -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStri
 INCPATH       = -I. -Iinclude -IC:\Qt\5.9.8\msvc2017_64\include -IC:\Qt\5.9.8\msvc2017_64\include\QtOpenGL -IC:\Qt\5.9.8\msvc2017_64\include\QtWidgets -IC:\Qt\5.9.8\msvc2017_64\include\QtGui -IC:\Qt\5.9.8\msvc2017_64\include\QtANGLE -IC:\Qt\5.9.8\msvc2017_64\include\QtCore -Irelease -I. -IC:\Qt\5.9.8\msvc2017_64\mkspecs\win32-msvc 
 LINKER        = link
 LFLAGS        = /NOLOGO /DYNAMICBASE /NXCOMPAT /INCREMENTAL:NO /SUBSYSTEM:WINDOWS "/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'"
-LIBS          = /LIBPATH:C:\Qt\5.9.8\msvc2017_64\lib C:\Qt\5.9.8\msvc2017_64\lib\qtmain.lib /LIBPATH:C:\openssl\lib /LIBPATH:C:\Utils\my_sql\my_sql\lib /LIBPATH:C:\Utils\postgresql\pgsql\lib shell32.lib Qt5Core.lib opengl32.lib glu32.lib /LIBPATH:C:\Users\avmm9\Documents\github\Qt_LPMS_OpenGL\GLtest-2\lib C:\Users\avmm9\Documents\github\Qt_LPMS_OpenGL\GLtest-2\lib\LpSensor.lib C:\Qt\5.9.8\msvc2017_64\lib\Qt5OpenGL.lib C:\Qt\5.9.8\msvc2017_64\lib\Qt5Widgets.lib C:\Qt\5.9.8\msvc2017_64\lib\Qt5Gui.lib C:\Qt\5.9.8\msvc2017_64\lib\Qt5Core.lib 
+LIBS          = /LIBPATH:C:\Qt\5.9.8\msvc2017_64\lib C:\Qt\5.9.8\msvc2017_64\lib\qtmain.lib /LIBPATH:C:\openssl\lib /LIBPATH:C:\Utils\my_sql\my_sql\lib /LIBPATH:C:\Utils\postgresql\pgsql\lib shell32.lib Qt5Core.lib opengl32.lib glu32.lib /LIBPATH:C:\Users\goodman-home\Documents\GitHub\Qt_LPMS_OpenGL\GLtest-2\lib C:\Users\goodman-home\Documents\GitHub\Qt_LPMS_OpenGL\GLtest-2\lib\LpSensor.lib C:\Qt\5.9.8\msvc2017_64\lib\Qt5OpenGL.lib C:\Qt\5.9.8\msvc2017_64\lib\Qt5Widgets.lib C:\Qt\5.9.8\msvc2017_64\lib\Qt5Gui.lib C:\Qt\5.9.8\msvc2017_64\lib\Qt5Core.lib 
 QMAKE         = C:\Qt\5.9.8\msvc2017_64\bin\qmake.exe
 IDC           = idc
 IDL           = midl
@@ -1501,7 +1501,7 @@ release\moc_ThreeDWindow.cpp: C:\Qt\5.9.8\msvc2017_64\include\QtGui\QtGui \
 		ThreeDWindow.h \
 		release\moc_predefs.h \
 		C:\Qt\5.9.8\msvc2017_64\bin\moc.exe
-	C:\Qt\5.9.8\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include release/moc_predefs.h -IC:/Qt/5.9.8/msvc2017_64/mkspecs/win32-msvc -IC:/Users/avmm9/Documents/github/Qt_LPMS_OpenGL/GLtest-2 -IC:/Users/avmm9/Documents/github/Qt_LPMS_OpenGL/GLtest-2/include -IC:/Qt/5.9.8/msvc2017_64/include -IC:/Qt/5.9.8/msvc2017_64/include/QtOpenGL -IC:/Qt/5.9.8/msvc2017_64/include/QtWidgets -IC:/Qt/5.9.8/msvc2017_64/include/QtGui -IC:/Qt/5.9.8/msvc2017_64/include/QtANGLE -IC:/Qt/5.9.8/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.21.27702\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.21.27702\include" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt" ThreeDWindow.h -o release\moc_ThreeDWindow.cpp
+	C:\Qt\5.9.8\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include release/moc_predefs.h -IC:/Qt/5.9.8/msvc2017_64/mkspecs/win32-msvc -IC:/Users/goodman-home/Documents/GitHub/Qt_LPMS_OpenGL/GLtest-2 -IC:/Users/goodman-home/Documents/GitHub/Qt_LPMS_OpenGL/GLtest-2/include -IC:/Qt/5.9.8/msvc2017_64/include -IC:/Qt/5.9.8/msvc2017_64/include/QtOpenGL -IC:/Qt/5.9.8/msvc2017_64/include/QtWidgets -IC:/Qt/5.9.8/msvc2017_64/include/QtGui -IC:/Qt/5.9.8/msvc2017_64/include/QtANGLE -IC:/Qt/5.9.8/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.21.27702\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.21.27702\include" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt" ThreeDWindow.h -o release\moc_ThreeDWindow.cpp
 
 release\moc_mainwindow.cpp: C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QMainWindow \
 		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qmainwindow.h \
@@ -2843,7 +2843,7 @@ release\moc_mainwindow.cpp: C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QMainWindo
 		mainwindow.h \
 		release\moc_predefs.h \
 		C:\Qt\5.9.8\msvc2017_64\bin\moc.exe
-	C:\Qt\5.9.8\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include release/moc_predefs.h -IC:/Qt/5.9.8/msvc2017_64/mkspecs/win32-msvc -IC:/Users/avmm9/Documents/github/Qt_LPMS_OpenGL/GLtest-2 -IC:/Users/avmm9/Documents/github/Qt_LPMS_OpenGL/GLtest-2/include -IC:/Qt/5.9.8/msvc2017_64/include -IC:/Qt/5.9.8/msvc2017_64/include/QtOpenGL -IC:/Qt/5.9.8/msvc2017_64/include/QtWidgets -IC:/Qt/5.9.8/msvc2017_64/include/QtGui -IC:/Qt/5.9.8/msvc2017_64/include/QtANGLE -IC:/Qt/5.9.8/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.21.27702\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.21.27702\include" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt" mainwindow.h -o release\moc_mainwindow.cpp
+	C:\Qt\5.9.8\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include release/moc_predefs.h -IC:/Qt/5.9.8/msvc2017_64/mkspecs/win32-msvc -IC:/Users/goodman-home/Documents/GitHub/Qt_LPMS_OpenGL/GLtest-2 -IC:/Users/goodman-home/Documents/GitHub/Qt_LPMS_OpenGL/GLtest-2/include -IC:/Qt/5.9.8/msvc2017_64/include -IC:/Qt/5.9.8/msvc2017_64/include/QtOpenGL -IC:/Qt/5.9.8/msvc2017_64/include/QtWidgets -IC:/Qt/5.9.8/msvc2017_64/include/QtGui -IC:/Qt/5.9.8/msvc2017_64/include/QtANGLE -IC:/Qt/5.9.8/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.21.27702\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.21.27702\include" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt" mainwindow.h -o release\moc_mainwindow.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -5649,23 +5649,10 @@ release\ThreeDWindow.obj: ThreeDWindow.cpp C:\Qt\5.9.8\msvc2017_64\include\QtGui
 		C:\Qt\5.9.8\msvc2017_64\include\QtOpenGL\qglshaderprogram.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtOpenGL\qtopenglversion.h \
 		ui_mainwindow.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QAction \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QApplication \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QCheckBox \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QHBoxLayout \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QLabel \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QMainWindow \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QMenu \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QMenuBar \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QPushButton \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QRadioButton \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QStatusBar \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QTextBrowser \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QToolBar \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QVBoxLayout \
-		threedwindow.h \
+		ThreeDWindow.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QOpenGLWidget \
 		mainwindow.h \
+		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QMainWindow \
 		include\LpmsSensorI.h \
 		include\ImuData.h \
 		include\LpmsDefinitions.h \
@@ -5678,7 +5665,6 @@ release\ThreeDWindow.obj: ThreeDWindow.cpp C:\Qt\5.9.8\msvc2017_64\include\QtGui
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QDir \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QStandardPaths \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QSettings \
-		ThreeDWindow.h \
 		ObjFileParser.h \
 		boost\tokenizer.hpp \
 		boost\token_iterator.hpp \
@@ -9355,43 +9341,7 @@ release\mainwindow.obj: mainwindow.cpp mainwindow.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtConcurrent\qtconcurrentrunbase.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtConcurrent\qtconcurrentstoredfunctioncall.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtConcurrent\qtconcurrentversion.h \
-		ui_mainwindow.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QVariant \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QAction \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qaction.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qactiongroup.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QApplication \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qapplication.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qdesktopwidget.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QCheckBox \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qcheckbox.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qabstractbutton.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QHBoxLayout \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qboxlayout.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qlayout.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qlayoutitem.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qgridlayout.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QLabel \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qlabel.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qframe.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QMenu \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qmenu.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QMenuBar \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qmenubar.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QPushButton \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qpushbutton.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QRadioButton \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qradiobutton.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QStatusBar \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qstatusbar.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QTextBrowser \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qtextbrowser.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qtextedit.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qabstractscrollarea.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QToolBar \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\qtoolbar.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QVBoxLayout \
-		threedwindow.h
+		ui_mainwindow.h
 
 release\moc_ThreeDWindow.obj: release\moc_ThreeDWindow.cpp 
 

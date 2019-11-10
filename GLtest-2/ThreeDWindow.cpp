@@ -96,7 +96,7 @@ void ThreeDWindow::initializeGL()
 }
 
 
-Eigen::Vector3f temp;
+Eigen::Vector3f glposition;
 void ThreeDWindow::paintGL()
 {
 
@@ -120,12 +120,26 @@ void ThreeDWindow::paintGL()
     drawAxes();
     drawFloor();
 
-    Eigen::Vector3f l;
     Eigen::Vector3f vertex_head;
-
+    Eigen::Vector3f vertex_rUpperArm,vertex_rLowerArm,vertex_rWrist;
+    Eigen::Vector3f vertex_lUpperArm,vertex_lLowerArm,vertex_lWrist;
     vertex_head[0]=-0.1;
-    vertex_head[1]= 2.55f;
+    vertex_head[1]= 2.52f;
     vertex_head[2]=0;
+
+    vertex_rUpperArm[0]=-0.22; //y
+    vertex_rUpperArm[1]=2.19; //z
+    vertex_rUpperArm[2]=0.7 ; //x
+
+    vertex_lUpperArm[0]=-0.27; //y
+    vertex_lUpperArm[1]=2.19; //z
+    vertex_lUpperArm[2]=-0.75 ; //x
+
+    Eigen::Vector3f end_rUpperArm=caseObj[2].getendVortex();
+    Eigen::Vector3f end_rLowerArm=caseObj[3].getendVortex();
+    Eigen::Vector3f end_lUpperArm=caseObj[5].getendVortex();
+    Eigen::Vector3f end_lLowerArm=caseObj[6].getendVortex();
+
 
     std::list<LpmsDevice *>::iterator it;
 
@@ -136,22 +150,68 @@ void ThreeDWindow::paintGL()
                     model_view_correction((*it)->getme());
                     updateRMbyQuat((*it)->getme());
 
-
                     glPushMatrix();
-                    if((*it)->getme()->type=="head"){
-                        // -0.550635 2.97721 -0.011688 (x z y)
-                        glTranslatef(temp[0],  temp[1], temp[2]);
-
-
-                    }
                     if((*it)->getme()->type=="body"){
-                        // -0.015654 5.64728 0.725933 (x z y)
                         glTranslatef(0.0f, 0.0f, 0.0f);
-
-                        temp = RotationMatrix * CorrectionRM * vertex_head;
+                        BodyRM=RotationMatrix;
+                        BodyCRM=CorrectionRM;
                     }
+                    else if((*it)->getme()->type=="head"){
+                        glposition = BodyRM * BodyCRM * vertex_head;
+                        glTranslatef(glposition[0],  glposition[1], glposition[2]);
+                    }
+                    else if((*it)->getme()->type=="lUpperArm"){
+                        glposition = BodyRM * BodyCRM * vertex_lUpperArm;
+                        glTranslatef(glposition[0],  glposition[1], glposition[2]);
+                        vertex_lLowerArm[0]=glposition[1];
+                        vertex_lLowerArm[1]=glposition[2];
+                        vertex_lLowerArm[2]=glposition[0];
+                        lUpperArmRM=RotationMatrix;
+                        lUpperArmCRM=CorrectionRM;
+                    }
+                    else if((*it)->getme()->type=="lLowerArm"){
+                        glposition = lUpperArmRM * lUpperArmCRM * end_lUpperArm;
+                        vertex_lLowerArm[0]=glposition[1]+vertex_lLowerArm[0];
+                        vertex_lLowerArm[1]=glposition[2]+vertex_lLowerArm[1];
+                        vertex_lLowerArm[2]=glposition[0]+vertex_lLowerArm[2];
+                        glTranslatef(vertex_lLowerArm[2],  vertex_lLowerArm[0], vertex_lLowerArm[1]);
+                        lLowerArmRM=RotationMatrix;
+                        lLowerArmCRM=CorrectionRM;
 
+                    }
+                    else if((*it)->getme()->type=="lWrist"){
+                        glposition = lLowerArmRM * lLowerArmCRM * end_lLowerArm;
+                        vertex_lWrist[0]=glposition[1]+vertex_lLowerArm[0];
+                        vertex_lWrist[1]=glposition[2]+vertex_lLowerArm[1];
+                        vertex_lWrist[2]=glposition[0]+vertex_lLowerArm[2];
+                        glTranslatef(vertex_lWrist[2],  vertex_lWrist[0], vertex_lWrist[1]);
+                    }
+                    else if((*it)->getme()->type=="rUpperArm"){
+                        glposition = BodyRM * BodyCRM * vertex_rUpperArm;
+                        glTranslatef(glposition[0],  glposition[1], glposition[2]);
+                        vertex_rLowerArm[0]=glposition[1];
+                        vertex_rLowerArm[1]=glposition[2];
+                        vertex_rLowerArm[2]=glposition[0];
+                        rUpperArmRM=RotationMatrix;
+                        rUpperArmCRM=CorrectionRM;
+                    }
+                    else if((*it)->getme()->type=="rLowerArm"){
+                        glposition = rUpperArmRM * rUpperArmCRM * end_rUpperArm;
+                        vertex_rLowerArm[0]=glposition[1]+vertex_rLowerArm[0];
+                        vertex_rLowerArm[1]=glposition[2]+vertex_rLowerArm[1];
+                        vertex_rLowerArm[2]=glposition[0]+vertex_rLowerArm[2];
+                        glTranslatef(vertex_rLowerArm[2],  vertex_rLowerArm[0], vertex_rLowerArm[1]);
+                        rLowerArmRM=RotationMatrix;
+                        rLowerArmCRM=CorrectionRM;
 
+                    }
+                    else if((*it)->getme()->type=="rWrist"){
+                        glposition = rLowerArmRM * rLowerArmCRM * end_rLowerArm;
+                        vertex_rWrist[0]=glposition[1]+vertex_rLowerArm[0];
+                        vertex_rWrist[1]=glposition[2]+vertex_rLowerArm[1];
+                        vertex_rWrist[2]=glposition[0]+vertex_rLowerArm[2];
+                        glTranslatef(vertex_rWrist[2],  vertex_rWrist[0], vertex_rWrist[1]);
+                    }
 
                     drawLpmsCase(i);
                     glPopMatrix();

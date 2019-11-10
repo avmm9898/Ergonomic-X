@@ -38,6 +38,9 @@ struct LpmsDevice{
     struct LpmsDevice *rUpperArm;
     struct LpmsDevice *rLowerArm;
     struct LpmsDevice *rWrist;
+    struct LpmsDevice *lUpperArm;
+    struct LpmsDevice *lLowerArm;
+    struct LpmsDevice *lWrist;
 
     LpmsDevice *getme(void){
         return this;
@@ -86,6 +89,12 @@ private slots:
 
     void on_OpenBody_triggered();
 
+    void on_OpenRightUpperArm_triggered();
+
+    void on_OpenRightLowerArm_triggered();
+
+    void on_OpenRightWrist_triggered();
+
 private:
     Ui::MainWindow *ui;
 
@@ -94,6 +103,7 @@ private:
     QTimer *dataTimer;
 
     LpmsDevice myLpms,head,body,rUpperArm,rLowerArm,rWrist;
+    LpmsDevice lUpperArm,lLowerArm,lWrist;
 
     int ActiveModelID=0;
 

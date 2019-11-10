@@ -65,8 +65,9 @@ public:
     bool objFileSet[10];
 
     Eigen::Matrix3f IdentityMatrix;
-    Eigen::Matrix3f CorrectionRM;    //使用者視角修正的旋轉矩陣
-    Eigen::Matrix3f RotationMatrix;  //來自IMU的旋轉矩陣
+    Eigen::Matrix3f CorrectionRM,BodyCRM,rUpperArmCRM,rLowerArmCRM,lUpperArmCRM,lLowerArmCRM;    //使用者視角修正的旋轉矩陣
+    Eigen::Matrix3f RotationMatrix,BodyRM,rUpperArmRM,rLowerArmRM,lUpperArmRM,lLowerArmRM;  //來自IMU的旋轉矩陣
+
 
     float glob_translate_x;
     float glob_translate_y;

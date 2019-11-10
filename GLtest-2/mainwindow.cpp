@@ -23,20 +23,74 @@ MainWindow::MainWindow(QWidget *parent) :
     myLpms.rUpperArm=&rUpperArm;
     myLpms.rLowerArm=&rLowerArm;
     myLpms.rWrist=&rWrist;
-
-    myLpms.head->address="00:04:3E:9B:A2:EF";
-    myLpms.head->id=0;
-    myLpms.head->type="head";
+    myLpms.lUpperArm=&lUpperArm;
+    myLpms.lLowerArm=&lLowerArm;
+    myLpms.lWrist=&lWrist;
 
     myLpms.body->address="00:04:3E:9B:A3:62";
-    myLpms.body->id=1;
+    myLpms.body->id=0;//should be at first to update for the following models updating altitude at the same frame
     myLpms.body->type="body";
+
+    myLpms.head->address="";
+    myLpms.head->id=1;
+    myLpms.head->type="head";
+
+    myLpms.rUpperArm->address="00:04:3E:9B:A2:BE";
+    myLpms.rUpperArm->id=2;
+    myLpms.rUpperArm->type="rUpperArm";
+    myLpms.rUpperArm->viewZ+=90;
+
+    myLpms.rLowerArm->address="00:04:3E:9B:A2:8E";
+    myLpms.rLowerArm->id=3;
+    myLpms.rLowerArm->type="rLowerArm";
+    myLpms.rLowerArm->viewZ+=90;
+
+    myLpms.rWrist->address="00:04:3E:9B:A2:EF";
+    myLpms.rWrist->id=4;
+    myLpms.rWrist->type="rWrist";
+    myLpms.rWrist->viewZ+=90;
+
+    myLpms.lUpperArm->address="";
+    myLpms.lUpperArm->id=5;
+    myLpms.lUpperArm->type="lUpperArm";
+    myLpms.lUpperArm->viewZ-=90;
+
+    myLpms.lLowerArm->address="";
+    myLpms.lLowerArm->id=6;
+    myLpms.lLowerArm->type="lLowerArm";
+    myLpms.lLowerArm->viewZ-=90;
+
+    myLpms.lWrist->address="";
+    myLpms.lWrist->id=7;
+    myLpms.lWrist->type="lWrist";
+    myLpms.lWrist->viewZ-=90;
+
 
     lpmsList.push_back(&head);
     lpmsList.push_back(&body);
+    lpmsList.push_back(&rUpperArm);
+    lpmsList.push_back(&rLowerArm);
+    lpmsList.push_back(&rWrist);
+    lpmsList.push_back(&lUpperArm);
+    lpmsList.push_back(&lLowerArm);
+    lpmsList.push_back(&lWrist);
 
-    //on_OpenBody_triggered();
-    //on_OpenHead_triggered();
+    QString file = "C:/Users/goodman-home/Desktop/body_part/body-1.obj";
+    ui->widget->loadObjFile(file.toStdString(), myLpms.body);
+    file = "C:/Users/goodman-home/Desktop/body_part/head.obj";
+    ui->widget->loadObjFile(file.toStdString(), myLpms.head);
+    file = "C:/Users/goodman-home/Desktop/body_part/R_upper_arm.obj";
+    ui->widget->loadObjFile(file.toStdString(), myLpms.rUpperArm);
+    file = "C:/Users/goodman-home/Desktop/body_part/R_lower_arm.obj";
+    ui->widget->loadObjFile(file.toStdString(), myLpms.rLowerArm);
+    file = "C:/Users/goodman-home/Desktop/body_part/R_wrist.obj";
+    ui->widget->loadObjFile(file.toStdString(), myLpms.rWrist);
+    file = "C:/Users/goodman-home/Desktop/body_part/L_upper_arm.obj";
+    ui->widget->loadObjFile(file.toStdString(), myLpms.lUpperArm);
+    file = "C:/Users/goodman-home/Desktop/body_part/L_lower_arm.obj";
+    ui->widget->loadObjFile(file.toStdString(), myLpms.lLowerArm);
+    file = "C:/Users/goodman-home/Desktop/body_part/L_wrist.obj";
+    ui->widget->loadObjFile(file.toStdString(), myLpms.lWrist);
 }
 
 MainWindow::~MainWindow()
@@ -140,8 +194,22 @@ void MainWindow::timer_loop()
     std::list<LpmsDevice *>::iterator it;
     //get data
     for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
-        data_receive(*it);
-        data_display(*it);
+        if((*it)->type=="head"){
+            (*it)->quat_raw=myLpms.rUpperArm->quat_raw;
+        }
+        else if((*it)->type=="lUpperArm"){
+            (*it)->quat_raw=myLpms.rUpperArm->quat_raw;
+        }
+        else if((*it)->type=="lLowerArm"){
+            (*it)->quat_raw=myLpms.rLowerArm->quat_raw;
+        }
+        else if((*it)->type=="lWrist"){
+            (*it)->quat_raw=myLpms.rWrist->quat_raw;
+        }
+        else{
+            data_receive(*it);
+            data_display(*it);
+        }
     }
 
     //LPMS_SEARCH_ID[myLpms.head->id]=myLpms.head;
@@ -641,7 +709,8 @@ void MainWindow::on_BTN_StartAllLpms_clicked()
 {
     std::list<LpmsDevice *>::iterator it;
     for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
-        lpms_connect(*it);
+        if((*it)->id<=4&&(*it)->id>=1)
+            lpms_connect(*it);
     }
 
 
@@ -656,7 +725,21 @@ void MainWindow::on_BTN_set_origin_clicked()
 {
     std::list<LpmsDevice *>::iterator it;
     for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
-        (*it)->getme()->function->setOrientationOffset(0);
+        if((*it)->type=="head"){
+
+        }
+        else if((*it)->type=="lUpperArm"){
+
+        }
+        else if((*it)->type=="lLowerArm"){
+
+        }
+        else if((*it)->type=="lWrist"){
+
+        }
+        else{
+             (*it)->getme()->function->setOrientationOffset(0);
+        }
     }
 
     /*ps1
@@ -666,35 +749,39 @@ void MainWindow::on_BTN_set_origin_clicked()
 }
 
 void MainWindow::on_btn_x_plus_clicked()
-{
-    if(ActiveModelID==myLpms.head->id)
-        myLpms.head->viewX+=90;
-    else if(ActiveModelID==myLpms.body->id)
-        myLpms.body->viewX+=90;
-
-
+{   
+    std::list<LpmsDevice *>::iterator it;
+    for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
+        if((*it)->getme()->id==ActiveModelID){
+            (*it)->getme()->viewX+=90;
+        }
+    }
 }
 
 void MainWindow::on_btn_y_plus_clicked()
 {
-    if(ActiveModelID==myLpms.head->id)
-        myLpms.head->viewY+=90;
-    else if(ActiveModelID==myLpms.body->id)
-        myLpms.body->viewY+=90;
+    std::list<LpmsDevice *>::iterator it;
+    for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
+        if((*it)->getme()->id==ActiveModelID){
+            (*it)->getme()->viewY+=90;
+        }
+    }
 }
 
 void MainWindow::on_btn_z_plus_clicked()
 {
-    if(ActiveModelID==myLpms.head->id)
-        myLpms.head->viewZ+=90;
-    else if(ActiveModelID==myLpms.body->id)
-        myLpms.body->viewZ+=90;
+    std::list<LpmsDevice *>::iterator it;
+    for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
+        if((*it)->getme()->id==ActiveModelID){
+            (*it)->getme()->viewZ+=90;
+        }
+    }
 }
 
 void MainWindow::on_OpenHead_triggered()
 {
     QString file = QFileDialog::getOpenFileName(this,
-                                                "Open Object",
+                                                "Open Head",
                                                 QStandardPaths::standardLocations(QStandardPaths::DesktopLocation).at(0),
                                                 "*.obj");
     if(QFile(file).exists())
@@ -708,7 +795,7 @@ void MainWindow::on_OpenHead_triggered()
 void MainWindow::on_OpenBody_triggered()
 {
     QString file = QFileDialog::getOpenFileName(this,
-                                                "Open Object",
+                                                "Open Body",
                                                 QStandardPaths::standardLocations(QStandardPaths::DesktopLocation).at(0),
                                                 "*.obj");
 
@@ -728,3 +815,48 @@ Ps1:
     new nethod is to directly call the IMU build-in function to set offset.
 
 **/
+
+void MainWindow::on_OpenRightUpperArm_triggered()
+{
+    QString file = QFileDialog::getOpenFileName(this,
+                                                "Open RightUpperArm",
+                                                QStandardPaths::standardLocations(QStandardPaths::DesktopLocation).at(0),
+                                                "*.obj");
+
+    if(QFile(file).exists())
+    {
+        std::cout << file.toStdString() << std::endl;
+        ui->widget->loadObjFile(file.toStdString(), myLpms.rUpperArm);
+        ActiveModelID=myLpms.rUpperArm->id;
+    }
+}
+
+void MainWindow::on_OpenRightLowerArm_triggered()
+{
+    QString file = QFileDialog::getOpenFileName(this,
+                                                "Open RightLowerArm",
+                                                QStandardPaths::standardLocations(QStandardPaths::DesktopLocation).at(0),
+                                                "*.obj");
+
+    if(QFile(file).exists())
+    {
+        std::cout << file.toStdString() << std::endl;
+        ui->widget->loadObjFile(file.toStdString(), myLpms.rLowerArm);
+        ActiveModelID=myLpms.rLowerArm->id;
+    }
+}
+
+void MainWindow::on_OpenRightWrist_triggered()
+{
+    QString file = QFileDialog::getOpenFileName(this,
+                                                "Open RightWrist",
+                                                QStandardPaths::standardLocations(QStandardPaths::DesktopLocation).at(0),
+                                                "*.obj");
+    qDebug()<<file;
+    if(QFile(file).exists())
+    {
+        std::cout << file.toStdString() << std::endl;
+        ui->widget->loadObjFile(file.toStdString(), myLpms.rWrist);
+        ActiveModelID=myLpms.rWrist->id;
+    }
+}

@@ -42,161 +42,195 @@
 
 bool ObjFileParser::parse(std::string filename, std::string type)
 {
-	bool f;
-	float maxSize;
-	
-	std::vector<Eigen::Vector3f> vertexNormalList;
-	std::vector<Eigen::Vector3f> vertexList;
-	
-	faceList.clear();
-	
-	fs.open(filename.c_str());
-	
-	if (fs.is_open() == true) {
-		f = true;
-		cout << "[ObjFileParser] File " << filename.c_str() <<" opened." << endl;	
-	} else {
-		cout << "[ObjFileParser] Could not open " << filename.c_str() << endl;	
-		return false;
-	}
-	
-	while (fs.is_open() == true && fs.eof() == false) {
-		char s[512];	
-		int tokenCount;
-		Eigen::Vector3f vertex;
-		Eigen::Vector3f vertexNormal;
-		ObjFace face;
-		
-		fs.getline(s, 512);
-		string l(s);
-				
-		boost::char_separator<char> sep(" ");
-		boost::tokenizer< boost::char_separator<char> > tokens(l, sep);
+    bool f;
+    float maxSize;
 
-		int state = OBJ_FILE_NEWLINE;
-		BOOST_FOREACH(string t, tokens) {
-			switch (state) {
-			case OBJ_FILE_NEWLINE:
-				if (t == "#") {
-					state = OBJ_FILE_COMMENT;
-				} else if (t == "vn") {
-					state = OBJ_FILE_VERTEX_NORMAL;
-					tokenCount = 3;
-				} else if (t == "v") {
-					state = OBJ_FILE_VERTEX;
-					tokenCount = 3;
-				} else if (t == "f") {
-					state = OBJ_FILE_FACE;
-					tokenCount = 3;
-				} else {
-					state = OBJ_FILE_UNKNOWN;
-				}
-				break;
-			
-			case OBJ_FILE_COMMENT:
-			case OBJ_FILE_UNKNOWN:
-				break;
+    std::vector<Eigen::Vector3f> vertexNormalList;
+    std::vector<Eigen::Vector3f> vertexList;
 
-			case OBJ_FILE_VERTEX_NORMAL:
-				if (tokenCount == 0) break;
-				
-				--tokenCount;
-				vertexNormal(tokenCount) = boost::lexical_cast<float>(t);
-				break;
-				
-			case OBJ_FILE_VERTEX:
-				if (tokenCount == 0) break;
-				
-				--tokenCount;
-				vertex(tokenCount) = boost::lexical_cast<float>(t);
-				break;				
+    faceList.clear();
 
-			case OBJ_FILE_FACE:
-				if (tokenCount == 0) break;
-				
-				--tokenCount;
-				
-				boost::char_separator<char> sep2("//");
-				boost::tokenizer< boost::char_separator<char> > tokens2(t, sep2);				
-				
-				int faceState = OBJ_FILE_VERTEX_PART;
-				BOOST_FOREACH(string u, tokens2) {
-					int i;
-				
-					switch (faceState) {
-					case OBJ_FILE_VERTEX_PART:
-						i = boost::lexical_cast<int>(u);
-						try {
-							face.vertexList.push_back(vertexList.at(i-1)); 
-						} catch (std::out_of_range e) {
-							cout << e.what() << endl;
-						}
-						faceState = OBJ_FILE_NORMAL_PART;
-						break;
-						
-					case OBJ_FILE_NORMAL_PART:
-						i = boost::lexical_cast<int>(u);
-						try {
-							face.faceNormal = vertexNormalList.at(i-1); 
-						} catch (std::out_of_range e) {
-							cout << e.what() << endl;
-						}
-						faceState = OBJ_FILE_UNKNOWN;
-						break;
-					}
-				}
-				break;
-			}
-		}
-			
-		switch (state) {
-		case OBJ_FILE_VERTEX_NORMAL:
-			if (tokenCount > 0) break;
-			vertexNormalList.push_back(vertexNormal);
-			break;
-							
-		case OBJ_FILE_VERTEX:
-			if (tokenCount > 0) break;
-			vertexList.push_back(vertex);
-			break;
-					
-		case OBJ_FILE_FACE:
-			if (tokenCount > 0) break;
-			faceList.push_back(face);
-			break;
-		}
-	}
+    fs.open(filename.c_str());
 
-	/* if (vertexList.size() == 0 || vertexList.size() > 5000) {
-		cout << "[ObjFileParser] Invalid number of vertices" << endl;	
-		return false;
-	} */
-	
-	maxVertex << -9999, -9999, -9999;
-	minVertex << 9999, 9999, 9999;
-	
-	for (unsigned int i=0; i < vertexList.size(); i++) {
-		for (unsigned int j=0; j < 3; j++) {
-			if (vertexList[i](j) > maxVertex(j)) maxVertex(j) = vertexList[i](j);
-			if (vertexList[i](j) < minVertex(j)) minVertex(j) = vertexList[i](j);
-		}
-	}
+    if (fs.is_open() == true) {
+        f = true;
+        cout << "[ObjFileParser] File " << filename.c_str() <<" opened." << endl;
+    } else {
+        cout << "[ObjFileParser] Could not open " << filename.c_str() << endl;
+        return false;
+    }
+
+    while (fs.is_open() == true && fs.eof() == false) {
+        char s[512];
+        int tokenCount;
+        Eigen::Vector3f vertex;
+        Eigen::Vector3f vertexNormal;
+        ObjFace face;
+
+        fs.getline(s, 512);
+        string l(s);
+
+        boost::char_separator<char> sep(" ");
+        boost::tokenizer< boost::char_separator<char> > tokens(l, sep);
+
+        int state = OBJ_FILE_NEWLINE;
+        BOOST_FOREACH(string t, tokens) {
+            switch (state) {
+            case OBJ_FILE_NEWLINE:
+                if (t == "#") {
+                    state = OBJ_FILE_COMMENT;
+                } else if (t == "vn") {
+                    state = OBJ_FILE_VERTEX_NORMAL;
+                    tokenCount = 3;
+                } else if (t == "v") {
+                    state = OBJ_FILE_VERTEX;
+                    tokenCount = 3;
+                } else if (t == "f") {
+                    state = OBJ_FILE_FACE;
+                    tokenCount = 3;
+                } else {
+                    state = OBJ_FILE_UNKNOWN;
+                }
+                break;
+
+            case OBJ_FILE_COMMENT:
+            case OBJ_FILE_UNKNOWN:
+                break;
+
+            case OBJ_FILE_VERTEX_NORMAL:
+                if (tokenCount == 0) break;
+
+                --tokenCount;
+                vertexNormal(tokenCount) = boost::lexical_cast<float>(t);
+                break;
+
+            case OBJ_FILE_VERTEX:
+                if (tokenCount == 0) break;
+
+                --tokenCount;
+                vertex(tokenCount) = boost::lexical_cast<float>(t);
+                break;
+
+            case OBJ_FILE_FACE:
+                if (tokenCount == 0) break;
+
+                --tokenCount;
+
+                boost::char_separator<char> sep2("//");
+                boost::tokenizer< boost::char_separator<char> > tokens2(t, sep2);
+
+                int faceState = OBJ_FILE_VERTEX_PART;
+                BOOST_FOREACH(string u, tokens2) {
+                    int i;
+
+                    switch (faceState) {
+                    case OBJ_FILE_VERTEX_PART:
+                        i = boost::lexical_cast<int>(u);
+                        try {
+                        face.vertexList.push_back(vertexList.at(i-1));
+                    } catch (std::out_of_range e) {
+                            cout << e.what() << endl;
+                        }
+                        faceState = OBJ_FILE_NORMAL_PART;
+                        break;
+
+                    case OBJ_FILE_NORMAL_PART:
+                        i = boost::lexical_cast<int>(u);
+                        try {
+                        face.faceNormal = vertexNormalList.at(i-1);
+                    } catch (std::out_of_range e) {
+                            cout << e.what() << endl;
+                        }
+                        faceState = OBJ_FILE_UNKNOWN;
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+
+        switch (state) {
+        case OBJ_FILE_VERTEX_NORMAL:
+            if (tokenCount > 0) break;
+            vertexNormalList.push_back(vertexNormal);
+            break;
+
+        case OBJ_FILE_VERTEX:
+            if (tokenCount > 0) break;
+            vertexList.push_back(vertex);
+            break;
+
+        case OBJ_FILE_FACE:
+            if (tokenCount > 0) break;
+            faceList.push_back(face);
+            break;
+        }
+    }
+
+    /* if (vertexList.size() == 0 || vertexList.size() > 5000) {
+        cout << "[ObjFileParser] Invalid number of vertices" << endl;
+        return false;
+    } */
+
+    maxVertex << -9999, -9999, -9999;
+    minVertex << 9999, 9999, 9999;
+
+    for (unsigned int i=0; i < vertexList.size(); i++) {
+        for (unsigned int j=0; j < 3; j++) {
+            if (vertexList[i](j) > maxVertex(j)) maxVertex(j) = vertexList[i](j);
+            if (vertexList[i](j) < minVertex(j)) minVertex(j) = vertexList[i](j);
+        }
+    }
     /*
-	maxSize = 0;
-	for (unsigned int j=0; j < 3; j++) {
-		if ((maxVertex(j) - minVertex(j)) > maxSize) maxSize = (maxVertex(j) - minVertex(j));
+    maxSize = 0;
+    for (unsigned int j=0; j < 3; j++) {
+        if ((maxVertex(j) - minVertex(j)) > maxSize) maxSize = (maxVertex(j) - minVertex(j));
     }*/
 
     centerVertex = (maxVertex + minVertex) * 0.5;
-
+    endVertex(0)=0;
+    endVertex(1)=0;
+    endVertex(2)=0;
     if(type=="head"){
         centerVertex(1) = 5.5f;
+        //centerVertex(1)=abs(maxVertex(1)-minVertex(1))-0.2;
     }//0=x,1=z,2=y
 
     else if(type=="body"){
-        centerVertex(1) = minVertex(1);//0=x,1=z,2=y
+        centerVertex(1) = minVertex(1);//0=y,1=z,2=x
+    }
+    else if(type=="rUpperArm"){
+        centerVertex(2) = minVertex(2)+0.1;//0=y,1=z,2=x
+        endVertex(2)=abs(maxVertex(2)-minVertex(2))-0.2;
+        endVertex(0)=-0.125;
+    }
+    else if(type=="rLowerArm"){
+        centerVertex(2) = minVertex(2)+0.1;//0=y,1=z,2=x when multiply rotation matrix
+        endVertex(2)=abs(maxVertex(2)-minVertex(2))-0.2;
+        endVertex(1)=-0.05;
+        endVertex(0)=-0.05;
+    }
+    else if(type=="rWrist"){
+        centerVertex(2) = minVertex(2)+0.1;//0=y,1=z,2=x when multiply rotation matrix
+        endVertex(2)=abs(maxVertex(2)-minVertex(2));
     }
 
+    //for left hand, x value is negetive, the x compensate value should be oppisite
+    else if(type=="lUpperArm"){
+        centerVertex(2) = maxVertex(2)-0.1;//0=y,1=z,2=x
+        endVertex(2)=-(abs(maxVertex(2)-minVertex(2))-0.2);
+        endVertex(0)=-0.125;
+    }
+    else if(type=="lLowerArm"){
+        centerVertex(2) = maxVertex(2)-0.1;//0=y,1=z,2=x when multiply rotation matrix
+        endVertex(2)=-(abs(maxVertex(2)-minVertex(2))-0.1);
+        endVertex(1)=-0.05;
+        endVertex(0)=-0.1;
+    }
+    else if(type=="lWrist"){
+        centerVertex(2) = maxVertex(2)-0.1;//0=y,1=z,2=x when multiply rotation matrix
+        endVertex(2)=-(abs(maxVertex(2)-minVertex(2)));
+    }
 
 
 
@@ -209,27 +243,27 @@ bool ObjFileParser::parse(std::string filename, std::string type)
     }
 
     /*
-	for (unsigned int i=0; i<faceList.size(); i++) {				
-		for (unsigned int j=0; j<faceList[i].vertexList.size(); j++) {
-			for (unsigned int k=0; k<3; k++) {
-				faceList[i].vertexList[j](k) = (faceList[i].vertexList[j](k) - centerVertex(k)) / maxSize * 4.0f;
-			}
-		}
-	}
+    for (unsigned int i=0; i<faceList.size(); i++) {
+        for (unsigned int j=0; j<faceList[i].vertexList.size(); j++) {
+            for (unsigned int k=0; k<3; k++) {
+                faceList[i].vertexList[j](k) = (faceList[i].vertexList[j](k) - centerVertex(k)) / maxSize * 4.0f;
+            }
+        }
+    }
 
-	for (unsigned int j=0; j < 3; j++) {
-		scaledSize(j) = (maxVertex(j) - minVertex(j)) / maxSize * 4.0f;
+    for (unsigned int j=0; j < 3; j++) {
+        scaledSize(j) = (maxVertex(j) - minVertex(j)) / maxSize * 4.0f;
     }*/
-	
-	cout << "[ObjFileParser] Processed vertices: " << vertexList.size() << endl;	
-	cout << "[ObjFileParser] Processed vertex normals: " << vertexNormalList.size() << endl;		
-	cout << "[ObjFileParser] Processed faces: " << faceList.size() << endl;	
-	cout << "[ObjFileParser] Center: " << centerVertex(0) << " " << centerVertex(1) << " " << centerVertex(2) << endl;
+
+    cout << "[ObjFileParser] Processed vertices: " << vertexList.size() << endl;
+    cout << "[ObjFileParser] Processed vertex normals: " << vertexNormalList.size() << endl;
+    cout << "[ObjFileParser] Processed faces: " << faceList.size() << endl;
+    cout << "[ObjFileParser] Center: " << centerVertex(0) << " " << centerVertex(1) << " " << centerVertex(2) << endl;
     cout << "[ObjFileParser] MAX: " << maxVertex(0) << " " << maxVertex(1) << " " << maxVertex(2) << endl;
     cout << "[ObjFileParser] MIN: " << minVertex(0) << " " << minVertex(1) << " " << minVertex(2) << endl;
-	fs.close();
-	
-	return f;
+    fs.close();
+
+    return f;
 }
 
 std::vector<ObjFace> ObjFileParser::getFaceList(void)
@@ -238,12 +272,12 @@ std::vector<ObjFace> ObjFileParser::getFaceList(void)
 }
 
 
-Eigen::Vector3f ObjFileParser::getCenterVortex(void)
+Eigen::Vector3f ObjFileParser::getendVortex(void)
 {
-    return centerVertex;
+    return endVertex;
 }
 
 Eigen::Vector3f ObjFileParser::getScaledSize(void)
 {
-	return scaledSize;
+    return scaledSize;
 }
