@@ -41,6 +41,10 @@ struct LpmsDevice{
     struct LpmsDevice *lUpperArm;
     struct LpmsDevice *lLowerArm;
     struct LpmsDevice *lWrist;
+    struct LpmsDevice *rUpperLeg;
+    struct LpmsDevice *rLowerLeg;
+    struct LpmsDevice *lUpperLeg;
+    struct LpmsDevice *lLowerLeg;
 
     LpmsDevice *getme(void){
         return this;
@@ -95,6 +99,14 @@ private slots:
 
     void on_OpenRightWrist_triggered();
 
+    void on_actionLeft_Upper_Leg_triggered();
+
+    void on_actionLeft_Lower_Leg_triggered();
+
+    void on_actionRight_Upper_Leg_triggered();
+
+    void on_actionRight_Lower_Leg_triggered();
+
 private:
     Ui::MainWindow *ui;
 
@@ -104,6 +116,7 @@ private:
 
     LpmsDevice myLpms,head,body,rUpperArm,rLowerArm,rWrist;
     LpmsDevice lUpperArm,lLowerArm,lWrist;
+    LpmsDevice lUpperLeg,lLowerLeg,rUpperLeg,rLowerLeg;
 
     int ActiveModelID=0;
 

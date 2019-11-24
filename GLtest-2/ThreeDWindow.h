@@ -39,6 +39,7 @@
 #include "ImuData.h"
 #include "ObjFileParser.h"
 #include "LpmsDefinitions.h"
+#include <GL/GLU.h>
 
 #include <string>
 #include <iostream>
@@ -61,12 +62,12 @@ public:
 	QPoint lastPos;
     float xRot,yRot,zRot;
 
-    ObjFileParser caseObj[10];
-    bool objFileSet[10];
+    ObjFileParser caseObj[12];
+    bool objFileSet[12];
 
     Eigen::Matrix3f IdentityMatrix;
-    Eigen::Matrix3f CorrectionRM,BodyCRM,rUpperArmCRM,rLowerArmCRM,lUpperArmCRM,lLowerArmCRM;    //使用者視角修正的旋轉矩陣
-    Eigen::Matrix3f RotationMatrix,BodyRM,rUpperArmRM,rLowerArmRM,lUpperArmRM,lLowerArmRM;  //來自IMU的旋轉矩陣
+    Eigen::Matrix3f CorrectionRM,BodyCRM,rUpperArmCRM,rLowerArmCRM,lUpperArmCRM,lLowerArmCRM,rUpperLegCRM,lUpperLegCRM;    //使用者視角修正的旋轉矩陣
+    Eigen::Matrix3f RotationMatrix,BodyRM,rUpperArmRM,rLowerArmRM,lUpperArmRM,lLowerArmRM,rUpperLegRM,lUpperLegRM;  //來自IMU的旋轉矩陣
 
 
     float glob_translate_x;
@@ -83,13 +84,7 @@ public:
     void drawLpmsCase(int n_lpms);
     void drawBackground(void);
     void loadObjFile(std::string filename, struct LpmsDevice *m_lpms);
-
-signals:
-
-
 public slots:
-
-
     void updateWindow(void);
     void rotateBy(float xAngle, float yAngle, float zAngle);
 	void mousePressEvent(QMouseEvent *event);
@@ -99,6 +94,7 @@ public slots:
     void updateRMbyQuat(struct LpmsDevice *m_lpms);
     void model_view_correction(struct LpmsDevice *m_lpms);
 private:
+
 
 };
 

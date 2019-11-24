@@ -27,6 +27,12 @@ MainWindow::MainWindow(QWidget *parent) :
     myLpms.lLowerArm=&lLowerArm;
     myLpms.lWrist=&lWrist;
 
+    myLpms.rUpperLeg=&rUpperLeg;
+    myLpms.rLowerLeg=&rLowerLeg;
+    myLpms.lUpperLeg=&lUpperLeg;
+    myLpms.lLowerLeg=&lLowerLeg;
+
+
     myLpms.body->address="00:04:3E:9B:A3:62";
     myLpms.body->id=0;//should be at first to update for the following models updating altitude at the same frame
     myLpms.body->type="body";
@@ -65,6 +71,26 @@ MainWindow::MainWindow(QWidget *parent) :
     myLpms.lWrist->type="lWrist";
     myLpms.lWrist->viewZ-=90;
 
+    myLpms.rUpperLeg->address="";
+    myLpms.rUpperLeg->id=8;
+    myLpms.rUpperLeg->type="rUpperLeg";
+
+
+    myLpms.rLowerLeg->address="";
+    myLpms.rLowerLeg->id=9;
+    myLpms.rLowerLeg->type="rLowerLeg";
+
+
+    myLpms.lUpperLeg->address="";
+    myLpms.lUpperLeg->id=10;
+    myLpms.lUpperLeg->type="lUpperLeg";
+
+
+    myLpms.lLowerLeg->address="";
+    myLpms.lLowerLeg->id=11;
+    myLpms.lLowerLeg->type="lLowerLeg";
+
+
 
     lpmsList.push_back(&head);
     lpmsList.push_back(&body);
@@ -74,6 +100,11 @@ MainWindow::MainWindow(QWidget *parent) :
     lpmsList.push_back(&lUpperArm);
     lpmsList.push_back(&lLowerArm);
     lpmsList.push_back(&lWrist);
+    lpmsList.push_back(&rUpperLeg);
+    lpmsList.push_back(&rLowerLeg);
+    lpmsList.push_back(&lUpperLeg);
+    lpmsList.push_back(&lLowerLeg);
+
 
     QString file = "C:/Users/goodman-home/Desktop/body_part/body-1.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.body);
@@ -91,6 +122,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->widget->loadObjFile(file.toStdString(), myLpms.lLowerArm);
     file = "C:/Users/goodman-home/Desktop/body_part/L_wrist.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.lWrist);
+    file = "C:/Users/goodman-home/Desktop/body_part/L_lower_leg.obj";
+    ui->widget->loadObjFile(file.toStdString(), myLpms.lLowerLeg);
+    file = "C:/Users/goodman-home/Desktop/body_part/L_upper_leg.obj";
+    ui->widget->loadObjFile(file.toStdString(), myLpms.lUpperLeg);
+    file = "C:/Users/goodman-home/Desktop/body_part/R_lower_leg.obj";
+    ui->widget->loadObjFile(file.toStdString(), myLpms.rLowerLeg);
+    file = "C:/Users/goodman-home/Desktop/body_part/R_upper_leg.obj";
+    ui->widget->loadObjFile(file.toStdString(), myLpms.rUpperLeg);
 }
 
 MainWindow::~MainWindow()
@@ -173,7 +212,7 @@ void MainWindow::lpms_connect(LpmsDevice *m_lpms)
     m_lpms->function=manager->addSensor(DEVICE_LPMS_B, m_lpms->address);
     m_lpms->function->setConfigurationPrm(PRM_ACC_RANGE, SELECT_ACC_RANGE_2G);
 
-    m_lpms->function->setConfigurationPrm(PRM_ACC_RANGE, SELECT_STREAM_FREQ_50HZ);
+    m_lpms->function->setConfigurationPrm(PRM_ACC_RANGE, SELECT_STREAM_FREQ_25HZ);
     int hi;
     m_lpms->function->getConfigurationPrm(PRM_ACC_RANGE, &hi);
     while(1){
@@ -206,72 +245,78 @@ void MainWindow::timer_loop()
         else if((*it)->type=="lWrist"){
             (*it)->quat_raw=myLpms.rWrist->quat_raw;
         }
+        else if((*it)->type=="rUpperLeg"){
+            (*it)->quat_raw=myLpms.rUpperArm->quat_raw;
+        }
+        else if((*it)->type=="rLowerLeg"){
+            (*it)->quat_raw=myLpms.rLowerArm->quat_raw;
+        }
+        else if((*it)->type=="lUpperLeg"){
+            (*it)->quat_raw=myLpms.rUpperArm->quat_raw;
+        }
+        else if((*it)->type=="lLowerLeg"){
+            (*it)->quat_raw=myLpms.rLowerArm->quat_raw;
+        }
         else{
             data_receive(*it);
-            data_display(*it);
+            //data_display(*it);
         }
     }
+    rula_calc();
 
-    //LPMS_SEARCH_ID[myLpms.head->id]=myLpms.head;
-    //LPMS_SEARCH_ID[myLpms.body->id]=myLpms.body;
-    //int AScore=rula_calc();
-    //ui->Label_WristArmScore->setText(QString::number(AScore));
+    ui->Label_WristArmScore->setText(QString::number(rula_calc()));
 
 }
 
 int MainWindow::rula_calc()
 {
-
-    auto EulerEngleUpArm=myLpms.head->quat_raw.toEulerAngles();
-    auto EulerEngleLowArm=myLpms.head->quat_raw.toEulerAngles();
-    auto EulerEngleWrist=myLpms.head->quat_raw.toEulerAngles();
-    auto EulerEngleHead=myLpms.head->quat_raw.toEulerAngles();
-    auto EulerEngleTrunk=myLpms.body->quat_raw.toEulerAngles();
+    auto EulerEngleUpArm=myLpms.rUpperArm->euler_raw;
+    auto EulerEngleLowArm=myLpms.rLowerArm->euler_raw;
+    auto EulerEngleWrist=myLpms.rWrist->euler_raw;
+    auto EulerEngleHead=myLpms.head->euler_raw;
+    auto EulerEngleTrunk=myLpms.body->euler_raw;
 
     //(int) is old-style cast
-    int UpperArmPos_roll=static_cast<int>(EulerEngleUpArm.y())+90;//roll
-    int UpperArmPos_pitch=static_cast<int>(EulerEngleUpArm.x());//pitch
+    int UpperArm_roll=static_cast<int>(EulerEngleUpArm.x())+90;//roll
+    int UpperArm_pitch=static_cast<int>(EulerEngleUpArm.y());//pitch
     //int UpperArmPos_yaw=static_cast<int>(EulerEngleUpArm.z());
-    int LowerArmPos_roll=static_cast<int>(EulerEngleLowArm.y())+90;//roll
-    int LowerArmPos_pitch=static_cast<int>(EulerEngleLowArm.x());//pitch
-    int LowerArmPos_yaw=static_cast<int>(EulerEngleLowArm.z());
-    int WristPos_roll=static_cast<int>(EulerEngleWrist.y())+90;
-    int WristPos_pitch=static_cast<int>(EulerEngleWrist.x());
-    int WristPos_yaw=static_cast<int>(EulerEngleWrist.z());//z, if wrist is bent from the midline
-    int NeckPos_roll=static_cast<int>(EulerEngleHead.y())+90;//roll
-    int TrunkPos_roll=static_cast<int>(EulerEngleTrunk.y())+90;
-    int TrunkPos_yaw=static_cast<int>(EulerEngleTrunk.z());
+    int LowerArm_roll=static_cast<int>(EulerEngleLowArm.x())+90;//roll
+    int LowerArm_pitch=static_cast<int>(EulerEngleLowArm.y());//pitch
+    int LowerArm_yaw=static_cast<int>(EulerEngleLowArm.z());
+    int Wrist_roll=static_cast<int>(EulerEngleWrist.x())+90;
+    int Wrist_pitch=static_cast<int>(EulerEngleWrist.y());
+    int Wrist_yaw=static_cast<int>(EulerEngleWrist.z());//z, if wrist is bent from the midline
+    int Neck_roll=static_cast<int>(EulerEngleHead.x())+90;//roll
+    int Trunk_roll=static_cast<int>(EulerEngleTrunk.x())+90;
+    int Trunk_yaw=static_cast<int>(EulerEngleTrunk.z());
     int WristTwistScore=0;
     int UpperArmScore=0;
     int LowerArmScore=0;
     int WristScore=0;
 
-    ui->textbrowser->append("UpperArmPos_roll: "+QString::number(UpperArmPos_roll));
-    ui->textbrowser->append("UpperArmPos_pitch: "+QString::number(UpperArmPos_pitch));
-    ui->textbrowser->append("LowerArmPos_roll: "+QString::number(LowerArmPos_roll));
-    ui->textbrowser->append("LowerArmPos_pitch: "+QString::number(LowerArmPos_pitch));
-    ui->textbrowser->append("LowerArmPos_yaw: "+QString::number(LowerArmPos_yaw));
-    ui->textbrowser->append("WristPos_roll: "+QString::number(WristPos_roll));
-    ui->textbrowser->append("WristPos_pitch: "+QString::number(WristPos_pitch));
-    ui->textbrowser->append("WristPos_yaw: "+QString::number(WristPos_yaw));
+    ui->textbrowser->append("UpperArm_roll: "+QString::number(UpperArm_roll));
+    ui->textbrowser->append("UpperArm_pitch: "+QString::number(UpperArm_pitch));
+    ui->textbrowser->append("LowerArm_roll: "+QString::number(LowerArm_roll));
+    ui->textbrowser->append("LowerArm_pitch: "+QString::number(LowerArm_pitch));
+    ui->textbrowser->append("LowerArm_yaw: "+QString::number(LowerArm_yaw));
+    ui->textbrowser->append("Wrist_roll: "+QString::number(Wrist_roll));
+    ui->textbrowser->append("Wrist_pitch: "+QString::number(Wrist_pitch));
+    ui->textbrowser->append("Wrist_yaw: "+QString::number(Wrist_yaw));
 
 
 
 
     //step1 test upper arm
-    if(UpperArmPos_roll<20 && UpperArmPos_roll>-20){
+    if(UpperArm_roll<20 && UpperArm_roll>-20){
         UpperArmScore=1;
     }
-    else if (UpperArmPos_roll<=-20) {
+    else if (UpperArm_roll>=20 && UpperArm_roll<45) {
         UpperArmScore=2;
     }
-    else if (UpperArmPos_roll>=20 && UpperArmPos_roll<45) {
+    else if (UpperArm_roll>=45 && UpperArm_roll<90) {
         UpperArmScore=3;
     }
-    else if (UpperArmPos_roll>=45 && UpperArmPos_roll<90) {
-        UpperArmScore=3;
-    }
-    else if (UpperArmPos_roll>=90 && UpperArmPos_roll<180) {
+    else if (UpperArm_roll>=90 && UpperArm_roll<180) {
         UpperArmScore=4;
     }
     if(ui->check_rula_1->isChecked()){
@@ -285,431 +330,78 @@ int MainWindow::rula_calc()
     }
     ui->textbrowser->append(QString::number(UpperArmScore));
     //step2 test lower arm
-    if(LowerArmPos_roll<120 && UpperArmPos_roll>80){
+    if(LowerArm_roll<120 && LowerArm_roll>80){
         LowerArmScore=1;
     }
-    else if ((LowerArmPos_roll<=80 && LowerArmPos_roll>0 )||(LowerArmPos_roll<180 && LowerArmPos_roll>=120)) {
+    else if ((LowerArm_roll<=80 && LowerArm_roll>0 )||(LowerArm_roll<180 && LowerArm_roll>=120)) {
         LowerArmScore=2;
     }
-    if (LowerArmPos_yaw-TrunkPos_yaw >10) {
+    if (abs(LowerArm_yaw-Trunk_yaw) >5) {
         LowerArmScore+=1;
     }
     ui->textbrowser->append(QString::number(LowerArmScore));
     //step3 test wrist
-    if(abs(WristPos_roll-LowerArmPos_roll)<=5){
+    if(abs(Wrist_roll-LowerArm_roll)<=5){
         WristScore=1;
     }
-    else if (abs(WristPos_roll-LowerArmPos_roll)>5 && abs(WristPos_roll-LowerArmPos_roll)<=15) {
+    else if (abs(Wrist_roll-LowerArm_roll)>5 && abs(Wrist_roll-LowerArm_roll)<=15) {
         WristScore=2;
     }
-    else if (abs(WristPos_roll-LowerArmPos_roll)>15) {
+    else if (abs(Wrist_roll-LowerArm_roll)>15) {
         WristScore=3;
     }
-    if(abs(WristPos_yaw-LowerArmPos_yaw)>3){
+    if(abs(Wrist_yaw-LowerArm_yaw)>3){
         WristScore+=1;
     }
     ui->textbrowser->append(QString::number(WristScore));
     //step4 test wrist twist
-    if(abs(WristPos_pitch-UpperArmPos_pitch)<20){
+    if(abs(Wrist_pitch-UpperArm_pitch)<10){
         WristTwistScore=1;
     }
-    else if (abs(WristPos_pitch-LowerArmPos_pitch)>=20 && abs(WristPos_pitch-LowerArmPos_pitch)<180) {
+    else if (abs(Wrist_pitch-LowerArm_pitch)>=10 && abs(Wrist_pitch-LowerArm_pitch)<180) {
         WristTwistScore=2;
     }
 
     //table A
-    int PosScoreA=0;
 
-    switch (UpperArmScore) {
-    case 1:
-        switch (LowerArmScore) {
-        case 1:
-            switch (WristScore) {
-            case 1:
-                if(WristTwistScore==1)
-                    PosScoreA=1;
-                else if (WristTwistScore==2)
-                    PosScoreA=2;
-                break;
-            case 2:
-                PosScoreA=2;
-                break;
-            case 3:
-                if(WristTwistScore==1)
-                    PosScoreA=2;
-                else if (WristTwistScore==2)
-                    PosScoreA=3;
-                break;
-            case 4:
-                PosScoreA=3;
-                break;
-            }
-            break;
-        case 2:
-            switch (WristScore) {
-            case 1:
-                PosScoreA=2;
-                break;
-            case 2:
-                PosScoreA=2;
-                break;
-            case 3:
-                PosScoreA=3;
-                break;
-            case 4:
-                PosScoreA=3;
-                break;
-            }
-            break;
-        case 3:
-            switch (WristScore) {
-            case 1:
-                if(WristTwistScore==1)
-                    PosScoreA=2;
-                else if (WristTwistScore==2)
-                    PosScoreA=3;
-                break;
-            case 2:
-                if(WristTwistScore==1)
-                    PosScoreA=3;
-                else if (WristTwistScore==2)
-                    PosScoreA=3;
-                break;
-            case 3:
-                if(WristTwistScore==1)
-                    PosScoreA=3;
-                else if (WristTwistScore==2)
-                    PosScoreA=3;
-                break;
-            case 4:
-                if(WristTwistScore==1)
-                    PosScoreA=4;
-                else if (WristTwistScore==2)
-                    PosScoreA=4;
-                break;
-            }
-            break;
+    int tableA[18][8]={
+        {1,2,2,2,2,3,3,3},
+        {2,2,2,2,3,3,3,3},
+        {2,3,3,3,3,3,4,4},
+        {2,3,3,3,3,4,4,4},
+        {3,3,3,3,3,4,4,4},
+        {3,4,4,4,4,4,5,5},
+        {3,3,4,4,4,4,5,5},
+        {3,4,4,4,4,4,5,5},
+        {4,4,4,4,4,5,5,5},
+        {4,4,4,4,4,5,5,5},
+        {4,4,4,4,4,5,5,5},
+        {4,4,4,5,5,5,6,6},
+        {5,5,5,5,5,6,6,7},
+        {5,6,6,6,6,7,7,7},
+        {6,6,6,7,7,7,7,8},
+        {7,7,7,7,7,8,8,9},
+        {8,8,8,8,8,9,9,9},
+        {9,9,9,9,9,9,9,9},
+    };
 
-        }
-        break;
-    case 2:
-        switch (LowerArmScore) {
-        case 1:
-            switch (WristScore) {
-            case 1:
-                if(WristTwistScore==1)
-                    PosScoreA=2;
-                else if (WristTwistScore==2)
-                    PosScoreA=3;
-                break;
-            case 2:
-                PosScoreA=3;
-                break;
-            case 3:
-                if(WristTwistScore==1)
-                    PosScoreA=3;
-                else if (WristTwistScore==2)
-                    PosScoreA=4;
-                break;
-            case 4:
-                PosScoreA=4;
-                break;
-            }
-            break;
-        case 2:
-            switch (WristScore) {
-            case 1:
-                PosScoreA=3;
-                break;
-            case 2:
-                PosScoreA=3;
-                break;
-            case 3:
-                if(WristTwistScore==1)
-                    PosScoreA=3;
-                else if (WristTwistScore==2)
-                    PosScoreA=4;
-                break;
-            case 4:
-                PosScoreA=4;
-                break;
-            }
-            break;
-        case 3:
-            switch (WristScore) {
-            case 1:
-                if(WristTwistScore==1)
-                    PosScoreA=3;
-                else if (WristTwistScore==2)
-                    PosScoreA=4;
-                break;
-            case 2:
-                PosScoreA=4;
-                break;
-            case 3:
-                PosScoreA=4;
-                break;
-            case 4:
-                PosScoreA=5;
-                break;
-            }
-            break;
-
-        }
-        break;
-    case 3:
-        switch (LowerArmScore) {
-        case 1:
-            switch (WristScore) {
-            case 1:
-                if(WristTwistScore==1)
-                    PosScoreA=3;
-                else if (WristTwistScore==2)
-                    PosScoreA=3;
-                break;
-            case 2:
-                PosScoreA=4;
-                break;
-            case 3:
-                PosScoreA=4;
-                break;
-            case 4:
-                PosScoreA=5;
-                break;
-            }
-            break;
-        case 2:
-            switch (WristScore) {
-            case 1:
-                if(WristTwistScore==1)
-                    PosScoreA=3;
-                else if (WristTwistScore==2)
-                    PosScoreA=4;
-                break;
-            case 2:
-                PosScoreA=4;
-                break;
-            case 3:
-                PosScoreA=4;
-                break;
-            case 4:
-                PosScoreA=5;
-                break;
-            }
-            break;
-        case 3:
-            switch (WristScore) {
-            case 1:
-                PosScoreA=4;
-                break;
-            case 2:
-                PosScoreA=4;
-                break;
-            case 3:
-                if(WristTwistScore==1)
-                    PosScoreA=4;
-                else if (WristTwistScore==2)
-                    PosScoreA=5;
-                break;
-            case 4:
-                PosScoreA=5;
-                break;
-            }
-            break;
-
-        }
-        break;
-    case 4:
-        switch (LowerArmScore) {
-        case 1:
-            switch (WristScore) {
-            case 1:
-                PosScoreA=4;
-                break;
-            case 2:
-                PosScoreA=4;
-                break;
-            case 3:
-                if(WristTwistScore==1)
-                    PosScoreA=4;
-                else if (WristTwistScore==2)
-                    PosScoreA=5;
-                break;
-            case 4:
-                PosScoreA=5;
-                break;
-            }
-            break;
-        case 2:
-            switch (WristScore) {
-            case 1:
-                PosScoreA=4;
-                break;
-            case 2:
-                PosScoreA=4;
-                break;
-            case 3:
-                if(WristTwistScore==1)
-                    PosScoreA=4;
-                else if (WristTwistScore==2)
-                    PosScoreA=5;
-                break;
-            case 4:
-                PosScoreA=5;
-                break;
-            }
-            break;
-        case 3:
-            switch (WristScore) {
-            case 1:
-                PosScoreA=4;
-                break;
-            case 2:
-                if(WristTwistScore==1)
-                    PosScoreA=4;
-                else if (WristTwistScore==2)
-                    PosScoreA=5;
-                break;
-            case 3:
-                PosScoreA=5;
-                break;
-            case 4:
-                PosScoreA=6;
-                break;
-            }
-            break;
-
-        }
-        break;
-    case 5:
-        switch (LowerArmScore) {
-        case 1:
-            switch (WristScore) {
-            case 1:
-                PosScoreA=5;
-                break;
-            case 2:
-                PosScoreA=5;
-                break;
-            case 3:
-                if(WristTwistScore==1)
-                    PosScoreA=5;
-                else if (WristTwistScore==2)
-                    PosScoreA=6;
-                break;
-            case 4:
-                if(WristTwistScore==1)
-                    PosScoreA=6;
-                else if (WristTwistScore==2)
-                    PosScoreA=7;
-                break;
-            }
-            break;
-        case 2:
-            switch (WristScore) {
-            case 1:
-                if(WristTwistScore==1)
-                    PosScoreA=5;
-                else if (WristTwistScore==2)
-                    PosScoreA=6;
-                break;
-            case 2:
-                PosScoreA=6;
-                break;
-            case 3:
-                if(WristTwistScore==1)
-                    PosScoreA=6;
-                else if (WristTwistScore==2)
-                    PosScoreA=7;
-                break;
-            case 4:
-                PosScoreA=7;
-                break;
-            }
-            break;
-        case 3:
-            switch (WristScore) {
-            case 1:
-                PosScoreA=6;
-                break;
-            case 2:
-                if(WristTwistScore==1)
-                    PosScoreA=6;
-                else if (WristTwistScore==2)
-                    PosScoreA=7;
-                break;
-            case 3:
-                PosScoreA=7;
-                break;
-            case 4:
-                if(WristTwistScore==1)
-                    PosScoreA=7;
-                else if (WristTwistScore==2)
-                    PosScoreA=8;
-                break;
-            }
-            break;
-
-        }
-        break;
-    case 6:
-        switch (LowerArmScore) {
-        case 1:
-            switch (WristScore) {
-            case 1:
-                PosScoreA=7;
-                break;
-            case 2:
-                PosScoreA=7;
-                break;
-            case 3:
-                if(WristTwistScore==1)
-                    PosScoreA=7;
-                else if (WristTwistScore==2)
-                    PosScoreA=8;
-                break;
-            case 4:
-                if(WristTwistScore==1)
-                    PosScoreA=8;
-                else if (WristTwistScore==2)
-                    PosScoreA=9;
-                break;
-            }
-            break;
-        case 2:
-            switch (WristScore) {
-            case 1:
-                PosScoreA=8;
-                break;
-            case 2:
-                PosScoreA=8;
-                break;
-            case 3:
-                if(WristTwistScore==1)
-                    PosScoreA=8;
-                else if (WristTwistScore==2)
-                    PosScoreA=9;
-                break;
-            case 4:
-                PosScoreA=9;
-                break;
-            }
-            break;
-        case 3:
-            PosScoreA=9;
-            break;
-        }
-        break;
-    }
-
-    return PosScoreA;
+    int tableA_y=(UpperArmScore-1)*3+(LowerArmScore-1);
+    int tableA_x=(WristScore-1)*2+(WristTwistScore-1);
+    int tableAScore=tableA[tableA_y][tableA_x]
+            +int(ui->load_choose2->isChecked())*2
+            +int(ui->load_choose3->isChecked())*3
+            +int(ui->load_choose4->isChecked())*4
+            +int(ui->check_rula_4->isChecked());
+    return tableAScore;
 }
 
 void MainWindow::on_BTN_StartAllLpms_clicked()
 {
     std::list<LpmsDevice *>::iterator it;
     for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
-        if((*it)->id<=4&&(*it)->id>=1)
+        if((*it)->id<=4&&(*it)->id>=2)
+            lpms_connect(*it);
+        if((*it)->id==0)
             lpms_connect(*it);
     }
 
@@ -726,19 +418,23 @@ void MainWindow::on_BTN_set_origin_clicked()
     std::list<LpmsDevice *>::iterator it;
     for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
         if((*it)->type=="head"){
-
         }
         else if((*it)->type=="lUpperArm"){
-
         }
         else if((*it)->type=="lLowerArm"){
-
         }
         else if((*it)->type=="lWrist"){
-
+        }
+        else if((*it)->type=="rUpperLeg"){
+        }
+        else if((*it)->type=="rLowerLeg"){
+        }
+        else if((*it)->type=="lUpperLeg"){
+        }
+        else if((*it)->type=="lLowerLeg"){
         }
         else{
-             (*it)->getme()->function->setOrientationOffset(0);
+            (*it)->getme()->function->setOrientationOffset(0);
         }
     }
 
@@ -858,5 +554,65 @@ void MainWindow::on_OpenRightWrist_triggered()
         std::cout << file.toStdString() << std::endl;
         ui->widget->loadObjFile(file.toStdString(), myLpms.rWrist);
         ActiveModelID=myLpms.rWrist->id;
+    }
+}
+
+void MainWindow::on_actionLeft_Upper_Leg_triggered()
+{
+    QString file = QFileDialog::getOpenFileName(this,
+                                                "Open LeftUpperLeg",
+                                                QStandardPaths::standardLocations(QStandardPaths::DesktopLocation).at(0),
+                                                "*.obj");
+    qDebug()<<file;
+    if(QFile(file).exists())
+    {
+        std::cout << file.toStdString() << std::endl;
+        ui->widget->loadObjFile(file.toStdString(), myLpms.lUpperLeg);
+        ActiveModelID=myLpms.lUpperLeg->id;
+    }
+}
+
+void MainWindow::on_actionLeft_Lower_Leg_triggered()
+{
+    QString file = QFileDialog::getOpenFileName(this,
+                                                "Open LeftLowerLeg",
+                                                QStandardPaths::standardLocations(QStandardPaths::DesktopLocation).at(0),
+                                                "*.obj");
+    qDebug()<<file;
+    if(QFile(file).exists())
+    {
+        std::cout << file.toStdString() << std::endl;
+        ui->widget->loadObjFile(file.toStdString(), myLpms.lLowerLeg);
+        ActiveModelID=myLpms.lLowerLeg->id;
+    }
+}
+
+void MainWindow::on_actionRight_Upper_Leg_triggered()
+{
+    QString file = QFileDialog::getOpenFileName(this,
+                                                "Open RightUpperLeg",
+                                                QStandardPaths::standardLocations(QStandardPaths::DesktopLocation).at(0),
+                                                "*.obj");
+    qDebug()<<file;
+    if(QFile(file).exists())
+    {
+        std::cout << file.toStdString() << std::endl;
+        ui->widget->loadObjFile(file.toStdString(), myLpms.rUpperLeg);
+        ActiveModelID=myLpms.rUpperLeg->id;
+    }
+}
+
+void MainWindow::on_actionRight_Lower_Leg_triggered()
+{
+    QString file = QFileDialog::getOpenFileName(this,
+                                                "Open RightLowerLeg",
+                                                QStandardPaths::standardLocations(QStandardPaths::DesktopLocation).at(0),
+                                                "*.obj");
+    qDebug()<<file;
+    if(QFile(file).exists())
+    {
+        std::cout << file.toStdString() << std::endl;
+        ui->widget->loadObjFile(file.toStdString(), myLpms.rLowerLeg);
+        ActiveModelID=myLpms.rLowerLeg->id;
     }
 }

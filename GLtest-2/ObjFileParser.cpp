@@ -197,7 +197,7 @@ bool ObjFileParser::parse(std::string filename, std::string type)
     }//0=x,1=z,2=y
 
     else if(type=="body"){
-        centerVertex(1) = minVertex(1);//0=y,1=z,2=x
+        centerVertex(1) = minVertex(1)+0.3;//0=y,1=z,2=x
     }
     else if(type=="rUpperArm"){
         centerVertex(2) = minVertex(2)+0.1;//0=y,1=z,2=x
@@ -230,6 +230,28 @@ bool ObjFileParser::parse(std::string filename, std::string type)
     else if(type=="lWrist"){
         centerVertex(2) = maxVertex(2)-0.1;//0=y,1=z,2=x when multiply rotation matrix
         endVertex(2)=-(abs(maxVertex(2)-minVertex(2)));
+    }
+    else if(type=="rUpperLeg"){
+        centerVertex(1) = maxVertex(1)-0.3;//0=y,1=z,2=x when multiply rotation matrix
+        endVertex(0)+=-0.05;
+        endVertex(1)=-abs(maxVertex(1)-minVertex(1)-0.3);
+        endVertex(2)+=-0.07;
+    }
+    else if(type=="rLowerLeg"){
+        centerVertex(1) = maxVertex(1)-0.2;//0=y,1=z,2=x when multiply rotation matrix
+        centerVertex(0)+=-0.21;
+        centerVertex(2)+=0.0;
+    }
+    else if(type=="lUpperLeg"){
+        centerVertex(1) = maxVertex(1)-0.3;//0=y,1=z,2=x when multiply rotation matrix
+        endVertex(0)+=-0.05;
+        endVertex(1)=-abs(maxVertex(1)-minVertex(1)-0.24);
+        endVertex(2)+=0.07;
+    }
+    else if(type=="lLowerLeg"){
+        centerVertex(1) = maxVertex(1)-0.2;//0=y,1=z,2=x when multiply rotation matrix
+        centerVertex(0)+=-0.21;
+        centerVertex(2)+=-0.0;
     }
 
 

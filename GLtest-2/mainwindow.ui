@@ -82,27 +82,41 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QRadioButton" name="load_choose3">
-          <property name="text">
-           <string>&gt;10 kg</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="load_choose2">
-          <property name="text">
-           <string>2~10 kg</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QRadioButton" name="load_choose1">
           <property name="text">
            <string>&lt;2 kg</string>
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QRadioButton" name="load_choose2">
+          <property name="text">
+           <string>2~10 kg intermittent</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="load_choose3">
+          <property name="text">
+           <string>2~10 kg repeated</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="load_choose4">
+          <property name="text">
+           <string>&gt;10 kg</string>
+          </property>
+         </widget>
+        </item>
        </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="check_rula_1">
+        <property name="text">
+         <string>shoulder is raised</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QCheckBox" name="check_rula_2">
@@ -119,9 +133,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="check_rula_1">
+       <widget class="QCheckBox" name="check_rula_4">
         <property name="text">
-         <string>shoulder is raised</string>
+         <string>hold &gt; 10 mins or 4 times/min</string>
         </property>
        </widget>
       </item>
@@ -162,7 +176,7 @@
      <x>0</x>
      <y>0</y>
      <width>1233</width>
-     <height>24</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuwindow">
@@ -179,6 +193,10 @@
     <addaction name="OpenLeftLowerArm"/>
     <addaction name="OpenLeftWrist"/>
     <addaction name="OpenBody"/>
+    <addaction name="actionLeft_Upper_Leg"/>
+    <addaction name="actionLeft_Lower_Leg"/>
+    <addaction name="actionRight_Upper_Leg"/>
+    <addaction name="actionRight_Lower_Leg"/>
    </widget>
    <addaction name="menuwindow"/>
   </widget>
@@ -234,6 +252,26 @@
   <action name="OpenBody">
    <property name="text">
     <string>Body</string>
+   </property>
+  </action>
+  <action name="actionLeft_Upper_Leg">
+   <property name="text">
+    <string>Left Upper Leg</string>
+   </property>
+  </action>
+  <action name="actionLeft_Lower_Leg">
+   <property name="text">
+    <string>Left Lower Leg</string>
+   </property>
+  </action>
+  <action name="actionRight_Upper_Leg">
+   <property name="text">
+    <string>Right Upper Leg</string>
+   </property>
+  </action>
+  <action name="actionRight_Lower_Leg">
+   <property name="text">
+    <string>Right Lower Leg</string>
    </property>
   </action>
  </widget>

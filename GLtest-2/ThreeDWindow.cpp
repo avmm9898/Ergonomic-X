@@ -49,7 +49,7 @@ ThreeDWindow::ThreeDWindow(QWidget *parent)
 {
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateWindow()));
-    timer->start(50);
+    timer->start(0);
 
 
     IdentityMatrix = Eigen::Matrix3f::Identity();
@@ -92,6 +92,7 @@ void ThreeDWindow::initializeGL()
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
     glEnable(GL_COLOR_MATERIAL);
 
+
     glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 }
 
@@ -107,43 +108,55 @@ void ThreeDWindow::paintGL()
 
     glTranslatef(0.0f, 0.0f, -20.0f);
 
-    drawBackground();
+    //drawBackground();
 
     glRotatef(xRot / 16.0f, 1.0f, 0.0f, 0.0f);
     //glRotatef(yRot / 16.0f, 0.0f, 1.0f, 0.0f);
     glRotatef(zRot / 16.0f, 0.0f, 0.0f, 1.0f);
 
 
-    //glRotatef(90, 0.0f, 0.0f, 1.0f);
-    //glRotatef(45, 0.0f, 1.0f, 0.0f);
-
     drawAxes();
-    drawFloor();
+    //drawFloor();
 
     Eigen::Vector3f vertex_head;
     Eigen::Vector3f vertex_rUpperArm,vertex_rLowerArm,vertex_rWrist;
     Eigen::Vector3f vertex_lUpperArm,vertex_lLowerArm,vertex_lWrist;
+    Eigen::Vector3f vertex_lUpperLeg,vertex_rUpperLeg,vertex_lLowerLeg,vertex_rLowerLeg;
+
+    //these are the parts connected to body directly
     vertex_head[0]=-0.1;
-    vertex_head[1]= 2.52f;
+    vertex_head[1]= 2.22f;
     vertex_head[2]=0;
 
     vertex_rUpperArm[0]=-0.22; //y
-    vertex_rUpperArm[1]=2.19; //z
+    vertex_rUpperArm[1]=1.89; //z
     vertex_rUpperArm[2]=0.7 ; //x
 
     vertex_lUpperArm[0]=-0.27; //y
-    vertex_lUpperArm[1]=2.19; //z
+    vertex_lUpperArm[1]=1.89; //z
     vertex_lUpperArm[2]=-0.75 ; //x
+
+    vertex_rUpperLeg[0]=-0.12; //y
+    vertex_rUpperLeg[1]=0; //z
+    vertex_rUpperLeg[2]=0.3 ; //x
+
+    vertex_lUpperLeg[0]=-0.16; //y
+    vertex_lUpperLeg[1]=0; //z
+    vertex_lUpperLeg[2]=-0.3 ; //x
+    //
+
 
     Eigen::Vector3f end_rUpperArm=caseObj[2].getendVortex();
     Eigen::Vector3f end_rLowerArm=caseObj[3].getendVortex();
     Eigen::Vector3f end_lUpperArm=caseObj[5].getendVortex();
     Eigen::Vector3f end_lLowerArm=caseObj[6].getendVortex();
+    Eigen::Vector3f end_rUpperLeg=caseObj[8].getendVortex();
+    Eigen::Vector3f end_lUpperLeg=caseObj[10].getendVortex();
 
 
     std::list<LpmsDevice *>::iterator it;
-
-    for(int i=0;i<10;i++){
+    //loop 12 models
+    for(int i=0;i<12;i++){
         if (objFileSet[i] == true) {
             for (it = MainWindow::lpmsList.begin(); it != MainWindow::lpmsList.end(); ++it) {
                 if((*it)->getme()->id==i){
@@ -212,6 +225,39 @@ void ThreeDWindow::paintGL()
                         vertex_rWrist[2]=glposition[0]+vertex_rLowerArm[2];
                         glTranslatef(vertex_rWrist[2],  vertex_rWrist[0], vertex_rWrist[1]);
                     }
+                    else if((*it)->getme()->type=="rUpperLeg"){
+                        glposition = BodyRM * BodyCRM * vertex_rUpperLeg;
+                        glTranslatef(glposition[0],  glposition[1], glposition[2]);
+                        vertex_rLowerLeg[0]=glposition[1];
+                        vertex_rLowerLeg[1]=glposition[2];
+                        vertex_rLowerLeg[2]=glposition[0];
+                        rUpperLegRM=RotationMatrix;
+                        rUpperLegCRM=CorrectionRM;
+                    }
+                    else if((*it)->getme()->type=="rLowerLeg"){
+                        glposition = rUpperLegRM * rUpperLegCRM * end_rUpperLeg;
+                        vertex_rLowerLeg[0]=glposition[1]+vertex_rLowerLeg[0];
+                        vertex_rLowerLeg[1]=glposition[2]+vertex_rLowerLeg[1];
+                        vertex_rLowerLeg[2]=glposition[0]+vertex_rLowerLeg[2];
+                        glTranslatef(vertex_rLowerLeg[2],  vertex_rLowerLeg[0], vertex_rLowerLeg[1]);
+                    }
+                    else if((*it)->getme()->type=="lUpperLeg"){
+
+                        glposition = BodyRM * BodyCRM * vertex_lUpperLeg;
+                        glTranslatef(glposition[0],  glposition[1], glposition[2]);
+                        vertex_lLowerLeg[0]=glposition[1];
+                        vertex_lLowerLeg[1]=glposition[2];
+                        vertex_lLowerLeg[2]=glposition[0];
+                        lUpperLegRM=RotationMatrix;
+                        lUpperLegCRM=CorrectionRM;
+                    }
+                    else if((*it)->getme()->type=="lLowerLeg"){
+                        glposition = lUpperLegRM * lUpperLegCRM * end_lUpperLeg;
+                        vertex_lLowerLeg[0]=glposition[1]+vertex_lLowerLeg[0];
+                        vertex_lLowerLeg[1]=glposition[2]+vertex_lLowerLeg[1];
+                        vertex_lLowerLeg[2]=glposition[0]+vertex_lLowerLeg[2];
+                        glTranslatef(vertex_lLowerLeg[2],  vertex_lLowerLeg[0], vertex_lLowerLeg[1]);
+                    }
 
                     drawLpmsCase(i);
                     glPopMatrix();
@@ -233,11 +279,11 @@ void ThreeDWindow::drawBackground(void)
     glDisable(GL_LIGHTING);
 
     glBegin(GL_QUADS);
-    glColor3f((GLfloat) 0.8, (GLfloat) 0.8, (GLfloat) 1.0);
+    glColor3f((GLfloat) 1, (GLfloat) 1, (GLfloat) 1.0);
     glVertex3f(-50.0, 50.0, -50.0);
     glVertex3f(-50.0, -50.0, -50.0);
 
-    glColor3f((GLfloat) 0.2, (GLfloat) 0.2, (GLfloat) 1.0);
+    glColor3f((GLfloat) 1, (GLfloat) 1, (GLfloat) 1.0);
     glVertex3f(50.0, -50.0, -50.0);
     glVertex3f(50.0, 50.0, -50.0);
     glEnd();
@@ -256,7 +302,8 @@ void ThreeDWindow::drawLpmsCase(int n_lpms)
             Eigen::AngleAxisf(0 * d2r, Eigen::Vector3f::UnitZ());
 
     std::vector<ObjFace> faceList = caseObj[n_lpms].getFaceList();
-
+    //glColor3f((GLfloat) 0.9, (GLfloat) 0.9, (GLfloat) 0.9);
+    glColor3f((GLfloat) 184/255, (GLfloat) 151/255, (GLfloat) 128/255);
     for (unsigned int i=0; i<faceList.size(); i++) {
 
         drawTri(RotationMatrix * CorrectionRM * faceList[i].vertexList[2],
@@ -266,10 +313,6 @@ void ThreeDWindow::drawLpmsCase(int n_lpms)
                 RotationMatrix * CorrectionRM * faceList[i].vertexList[1],
                 RotationMatrix * CorrectionRM * faceList[i].vertexList[2], true);
     }
-
-
-    glColor3f((GLfloat) 0.9, (GLfloat) 0.9, (GLfloat) 0.9);
-
 
 }
 
@@ -304,12 +347,12 @@ void ThreeDWindow::drawFloor(void)
 {
     glBegin(GL_LINES);
     glColor3f(0.8f, 0.8f, 0.8f);
-    for (float i=-10; i <= 10; i+=1.0f) {
+    for (float i=-5; i <= 5; i+=1.0f) {
         if (i != 0) {
-            glVertex3f(i, -10.0f, 0.0f);
-            glVertex3f(i, 10.0f, 0.0f);
-            glVertex3f(-10.0f, i, 0.0f);
-            glVertex3f(10.0f, i, 0.0f);
+            glVertex3f(i, -5.0f, 0.0f);
+            glVertex3f(i, 5.0f, 0.0f);
+            glVertex3f(-5.0f, i, 0.0f);
+            glVertex3f(5.0f, i, 0.0f);
         }
     }
     glEnd();
