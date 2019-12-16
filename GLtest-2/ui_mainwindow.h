@@ -67,6 +67,7 @@ public:
     QCheckBox *check_rula_2;
     QCheckBox *check_rula_3;
     QCheckBox *check_rula_4;
+    QCheckBox *check_rula_5;
     QHBoxLayout *horizontalLayout_3;
     QLabel *label;
     QLabel *Label_WristArmScore;
@@ -211,6 +212,11 @@ public:
 
         verticalLayout_3->addWidget(check_rula_4);
 
+        check_rula_5 = new QCheckBox(centralWidget);
+        check_rula_5->setObjectName(QStringLiteral("check_rula_5"));
+
+        verticalLayout_3->addWidget(check_rula_5);
+
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setSpacing(6);
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
@@ -242,7 +248,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1233, 25));
+        menuBar->setGeometry(QRect(0, 0, 1233, 24));
         menuwindow = new QMenu(menuBar);
         menuwindow->setObjectName(QStringLiteral("menuwindow"));
         MainWindow->setMenuBar(menuBar);
@@ -303,7 +309,8 @@ public:
         check_rula_2->setText(QApplication::translate("MainWindow", "upper arm is abducted", Q_NULLPTR));
         check_rula_3->setText(QApplication::translate("MainWindow", "arm is supported or person is leaning", Q_NULLPTR));
         check_rula_4->setText(QApplication::translate("MainWindow", "hold > 10 mins or 4 times/min", Q_NULLPTR));
-        label->setText(QApplication::translate("MainWindow", "Wrist & Arm Score", Q_NULLPTR));
+        check_rula_5->setText(QApplication::translate("MainWindow", "the legs are supported", Q_NULLPTR));
+        label->setText(QApplication::translate("MainWindow", "RULA Score", Q_NULLPTR));
         Label_WristArmScore->setText(QApplication::translate("MainWindow", "0", Q_NULLPTR));
         menuwindow->setTitle(QApplication::translate("MainWindow", "window", Q_NULLPTR));
     } // retranslateUi

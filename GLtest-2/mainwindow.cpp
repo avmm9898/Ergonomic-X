@@ -32,7 +32,6 @@ MainWindow::MainWindow(QWidget *parent) :
     myLpms.lUpperLeg=&lUpperLeg;
     myLpms.lLowerLeg=&lLowerLeg;
 
-
     myLpms.body->address="00:04:3E:9B:A3:62";
     myLpms.body->id=0;//should be at first to update for the following models updating altitude at the same frame
     myLpms.body->type="body";
@@ -75,22 +74,17 @@ MainWindow::MainWindow(QWidget *parent) :
     myLpms.rUpperLeg->id=8;
     myLpms.rUpperLeg->type="rUpperLeg";
 
-
     myLpms.rLowerLeg->address="";
     myLpms.rLowerLeg->id=9;
     myLpms.rLowerLeg->type="rLowerLeg";
-
 
     myLpms.lUpperLeg->address="";
     myLpms.lUpperLeg->id=10;
     myLpms.lUpperLeg->type="lUpperLeg";
 
-
     myLpms.lLowerLeg->address="";
     myLpms.lLowerLeg->id=11;
     myLpms.lLowerLeg->type="lLowerLeg";
-
-
 
     lpmsList.push_back(&head);
     lpmsList.push_back(&body);
@@ -105,30 +99,30 @@ MainWindow::MainWindow(QWidget *parent) :
     lpmsList.push_back(&lUpperLeg);
     lpmsList.push_back(&lLowerLeg);
 
-
-    QString file = "C:/Users/goodman-home/Desktop/body_part/body-1.obj";
+    QString modelfolder="C:/body_part/";
+    QString file = modelfolder+"body-1.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.body);
-    file = "C:/Users/goodman-home/Desktop/body_part/head.obj";
+    file = modelfolder+"head.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.head);
-    file = "C:/Users/goodman-home/Desktop/body_part/R_upper_arm.obj";
+    file = modelfolder+"R_upper_arm.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.rUpperArm);
-    file = "C:/Users/goodman-home/Desktop/body_part/R_lower_arm.obj";
+    file = modelfolder+"R_lower_arm.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.rLowerArm);
-    file = "C:/Users/goodman-home/Desktop/body_part/R_wrist.obj";
+    file = modelfolder+"R_wrist.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.rWrist);
-    file = "C:/Users/goodman-home/Desktop/body_part/L_upper_arm.obj";
+    file = modelfolder+"L_upper_arm.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.lUpperArm);
-    file = "C:/Users/goodman-home/Desktop/body_part/L_lower_arm.obj";
+    file = modelfolder+"L_lower_arm.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.lLowerArm);
-    file = "C:/Users/goodman-home/Desktop/body_part/L_wrist.obj";
+    file = modelfolder+"L_wrist.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.lWrist);
-    file = "C:/Users/goodman-home/Desktop/body_part/L_lower_leg.obj";
+    file = modelfolder+"L_lower_leg.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.lLowerLeg);
-    file = "C:/Users/goodman-home/Desktop/body_part/L_upper_leg.obj";
+    file = modelfolder+"L_upper_leg.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.lUpperLeg);
-    file = "C:/Users/goodman-home/Desktop/body_part/R_lower_leg.obj";
+    file = modelfolder+"R_lower_leg.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.rLowerLeg);
-    file = "C:/Users/goodman-home/Desktop/body_part/R_upper_leg.obj";
+    file = modelfolder+"R_upper_leg.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.rUpperLeg);
 }
 
@@ -235,27 +229,35 @@ void MainWindow::timer_loop()
     for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
         if((*it)->type=="head"){
             (*it)->quat_raw=myLpms.rUpperArm->quat_raw;
+            (*it)->euler_raw=myLpms.rUpperArm->euler_raw;
         }
         else if((*it)->type=="lUpperArm"){
             (*it)->quat_raw=myLpms.rUpperArm->quat_raw;
+            (*it)->euler_raw=myLpms.rUpperArm->euler_raw;
         }
         else if((*it)->type=="lLowerArm"){
             (*it)->quat_raw=myLpms.rLowerArm->quat_raw;
+            (*it)->euler_raw=myLpms.rLowerArm->euler_raw;
         }
         else if((*it)->type=="lWrist"){
             (*it)->quat_raw=myLpms.rWrist->quat_raw;
+            (*it)->euler_raw=myLpms.lWrist->euler_raw;
         }
         else if((*it)->type=="rUpperLeg"){
             (*it)->quat_raw=myLpms.rUpperArm->quat_raw;
+            (*it)->euler_raw=myLpms.rUpperArm->euler_raw;
         }
         else if((*it)->type=="rLowerLeg"){
             (*it)->quat_raw=myLpms.rLowerArm->quat_raw;
+            (*it)->euler_raw=myLpms.rLowerArm->euler_raw;
         }
         else if((*it)->type=="lUpperLeg"){
             (*it)->quat_raw=myLpms.rUpperArm->quat_raw;
+            (*it)->euler_raw=myLpms.lUpperLeg->euler_raw;
         }
         else if((*it)->type=="lLowerLeg"){
             (*it)->quat_raw=myLpms.rLowerArm->quat_raw;
+            (*it)->euler_raw=myLpms.rLowerArm->euler_raw;
         }
         else{
             data_receive(*it);
@@ -275,6 +277,7 @@ int MainWindow::rula_calc()
     auto EulerEngleWrist=myLpms.rWrist->euler_raw;
     auto EulerEngleHead=myLpms.head->euler_raw;
     auto EulerEngleTrunk=myLpms.body->euler_raw;
+    auto EulerEngleLeg=myLpms.rUpperLeg->euler_raw;
 
     //(int) is old-style cast
     int UpperArm_roll=static_cast<int>(EulerEngleUpArm.x())+90;//roll
@@ -287,12 +290,22 @@ int MainWindow::rula_calc()
     int Wrist_pitch=static_cast<int>(EulerEngleWrist.y());
     int Wrist_yaw=static_cast<int>(EulerEngleWrist.z());//z, if wrist is bent from the midline
     int Neck_roll=static_cast<int>(EulerEngleHead.x())+90;//roll
+    int Neck_pitch=static_cast<int>(EulerEngleHead.y());
+    int Neck_yaw=static_cast<int>(EulerEngleHead.z());
     int Trunk_roll=static_cast<int>(EulerEngleTrunk.x())+90;
+    int Trunk_pitch=static_cast<int>(EulerEngleTrunk.y());
     int Trunk_yaw=static_cast<int>(EulerEngleTrunk.z());
+    int Leg_roll=static_cast<int>(EulerEngleLeg.x())+90;
+    int Leg_pitch=static_cast<int>(EulerEngleLeg.y());
+    int Leg_yaw=static_cast<int>(EulerEngleLeg.z());
+
     int WristTwistScore=0;
     int UpperArmScore=0;
     int LowerArmScore=0;
     int WristScore=0;
+    int NeckScore=0;
+    int TrunkScore=0;
+    int LegScore=0;
 
     ui->textbrowser->append("UpperArm_roll: "+QString::number(UpperArm_roll));
     ui->textbrowser->append("UpperArm_pitch: "+QString::number(UpperArm_pitch));
@@ -302,9 +315,8 @@ int MainWindow::rula_calc()
     ui->textbrowser->append("Wrist_roll: "+QString::number(Wrist_roll));
     ui->textbrowser->append("Wrist_pitch: "+QString::number(Wrist_pitch));
     ui->textbrowser->append("Wrist_yaw: "+QString::number(Wrist_yaw));
-
-
-
+    ui->textbrowser->append("Neck_roll: "+QString::number(Neck_roll));
+    ui->textbrowser->append("Trunk_roll: "+QString::number(Trunk_roll));
 
     //step1 test upper arm
     if(UpperArm_roll<20 && UpperArm_roll>-20){
@@ -328,7 +340,7 @@ int MainWindow::rula_calc()
     if(ui->check_rula_3->isChecked()){
         UpperArmScore-=1;
     }
-    ui->textbrowser->append(QString::number(UpperArmScore));
+
     //step2 test lower arm
     if(LowerArm_roll<120 && LowerArm_roll>80){
         LowerArmScore=1;
@@ -339,7 +351,7 @@ int MainWindow::rula_calc()
     if (abs(LowerArm_yaw-Trunk_yaw) >5) {
         LowerArmScore+=1;
     }
-    ui->textbrowser->append(QString::number(LowerArmScore));
+
     //step3 test wrist
     if(abs(Wrist_roll-LowerArm_roll)<=5){
         WristScore=1;
@@ -353,7 +365,7 @@ int MainWindow::rula_calc()
     if(abs(Wrist_yaw-LowerArm_yaw)>3){
         WristScore+=1;
     }
-    ui->textbrowser->append(QString::number(WristScore));
+
     //step4 test wrist twist
     if(abs(Wrist_pitch-UpperArm_pitch)<10){
         WristTwistScore=1;
@@ -388,11 +400,86 @@ int MainWindow::rula_calc()
     int tableA_y=(UpperArmScore-1)*3+(LowerArmScore-1);
     int tableA_x=(WristScore-1)*2+(WristTwistScore-1);
     int tableAScore=tableA[tableA_y][tableA_x]
-            +int(ui->load_choose2->isChecked())*2
-            +int(ui->load_choose3->isChecked())*3
-            +int(ui->load_choose4->isChecked())*4
+            +int(ui->load_choose2->isChecked())*1
+            +int(ui->load_choose3->isChecked())*2
+            +int(ui->load_choose4->isChecked())*3
             +int(ui->check_rula_4->isChecked());
-    return tableAScore;
+
+    //step9 Neck score
+    if(Neck_roll>170&&Neck_roll<=180){
+        NeckScore=1;
+    }
+    else if(Neck_roll>160&&Neck_roll<=170){
+        NeckScore=2;
+    }
+    else if(Neck_roll<=160 && Neck_roll>0){
+        NeckScore=3;
+    }
+    else if(Neck_roll>180){
+        NeckScore=4;
+    }
+    if(abs(Neck_yaw-Trunk_yaw)>5)
+        NeckScore+=1;
+    if(abs(Neck_pitch)>5)
+        NeckScore+=1;
+
+    //step10 Trunk score
+    if(Trunk_roll==0){
+        TrunkScore=1;
+    }
+    else if(Trunk_roll>160&&Trunk_roll<180){
+        TrunkScore=2;
+    }
+    else if(Trunk_roll>120 && Trunk_roll<=160){
+        TrunkScore=3;
+    }
+    else if(Trunk_roll<=120){
+        TrunkScore=4;
+    }
+    if(abs(Trunk_yaw-Leg_yaw)>5)
+        TrunkScore+=1;
+    if(abs(Trunk_pitch)>5)
+        TrunkScore+=1;
+
+    //step11 Leg score
+    if(ui->check_rula_5->isChecked())
+        LegScore=1;
+    else
+        LegScore=2;
+
+    int tabelB[6][12]={
+        {1,3,2,3,3,4,5,5,6,6,7,7},
+        {2,3,2,3,4,5,5,5,6,7,7,7},
+        {3,3,3,4,4,5,5,6,6,7,7,7},
+        {5,5,5,6,6,7,7,7,7,7,8,8},
+        {7,7,7,7,7,8,8,8,8,8,8,8},
+        {8,8,8,8,8,8,8,9,9,9,9,9},
+    };
+
+    int tableB_y=(NeckScore-1);
+    int tableB_x=(TrunkScore-1)*2+(LegScore-1);
+    int tableBScore=tabelB[tableB_y][tableB_x]
+            +int(ui->load_choose2->isChecked())*1
+            +int(ui->load_choose3->isChecked())*2
+            +int(ui->load_choose4->isChecked())*3;
+
+    int tableC[8][7]={
+        {1,2,3,3,4,5,5},
+        {2,2,3,4,4,5,5},
+        {3,3,3,4,4,5,6},
+        {3,3,3,4,5,6,6},
+        {4,4,4,5,6,7,7},
+        {4,4,5,6,6,7,7},
+        {5,5,6,6,7,7,7},
+        {5,5,6,7,7,7,7}
+    };
+    int tableCScore=tableC[tableAScore][tableBScore];
+
+    ui->textbrowser->append(QString::number(tableAScore));
+    ui->textbrowser->append(QString::number(tableBScore));
+    ui->textbrowser->append(QString::number(tableCScore));
+
+    return tableCScore;
 }
 
 void MainWindow::on_BTN_StartAllLpms_clicked()
@@ -407,7 +494,7 @@ void MainWindow::on_BTN_StartAllLpms_clicked()
 
 
     dataTimer = new QTimer(this);
-    dataTimer->start(20);
+    dataTimer->start(50);
     connect(dataTimer,SIGNAL(timeout()),this,SLOT(timer_loop()));
 
 }
