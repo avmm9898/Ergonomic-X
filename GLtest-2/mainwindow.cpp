@@ -32,11 +32,11 @@ MainWindow::MainWindow(QWidget *parent) :
     myLpms.lUpperLeg=&lUpperLeg;
     myLpms.lLowerLeg=&lLowerLeg;
 
-    myLpms.body->address="00:04:3E:9B:A3:62";
+    myLpms.body->address="00:04:3E:9B:A2:8E";
     myLpms.body->id=0;//should be at first to update for the following models updating altitude at the same frame
     myLpms.body->type="body";
 
-    myLpms.head->address="";
+    myLpms.head->address="00:04:3E:4B:33:67";
     myLpms.head->id=1;
     myLpms.head->type="head";
 
@@ -45,44 +45,44 @@ MainWindow::MainWindow(QWidget *parent) :
     myLpms.rUpperArm->type="rUpperArm";
     myLpms.rUpperArm->viewZ+=90;
 
-    myLpms.rLowerArm->address="00:04:3E:9B:A2:8E";
+    myLpms.rLowerArm->address="00:04:3E:9B:A3:62";
     myLpms.rLowerArm->id=3;
     myLpms.rLowerArm->type="rLowerArm";
     myLpms.rLowerArm->viewZ+=90;
 
-    myLpms.rWrist->address="00:04:3E:9B:A2:EF";
+    myLpms.rWrist->address="00:04:3E:4B:33:AE";
     myLpms.rWrist->id=4;
     myLpms.rWrist->type="rWrist";
     myLpms.rWrist->viewZ+=90;
 
-    myLpms.lUpperArm->address="";
+    myLpms.lUpperArm->address="00:04:3E:4B:33:E6";
     myLpms.lUpperArm->id=5;
     myLpms.lUpperArm->type="lUpperArm";
     myLpms.lUpperArm->viewZ-=90;
 
-    myLpms.lLowerArm->address="";
+    myLpms.lLowerArm->address="00:04:3E:4B:33:F2";
     myLpms.lLowerArm->id=6;
     myLpms.lLowerArm->type="lLowerArm";
     myLpms.lLowerArm->viewZ-=90;
 
-    myLpms.lWrist->address="";
+    myLpms.lWrist->address="00:04:3E:9B:A2:EF";
     myLpms.lWrist->id=7;
     myLpms.lWrist->type="lWrist";
     myLpms.lWrist->viewZ-=90;
 
-    myLpms.rUpperLeg->address="";
+    myLpms.rUpperLeg->address="00:04:3E:4B:33:98";
     myLpms.rUpperLeg->id=8;
     myLpms.rUpperLeg->type="rUpperLeg";
 
-    myLpms.rLowerLeg->address="";
+    myLpms.rLowerLeg->address="00:04:3E:4B:33:37";
     myLpms.rLowerLeg->id=9;
     myLpms.rLowerLeg->type="rLowerLeg";
 
-    myLpms.lUpperLeg->address="";
+    myLpms.lUpperLeg->address="00:04:3E:9B:A3:74";
     myLpms.lUpperLeg->id=10;
     myLpms.lUpperLeg->type="lUpperLeg";
 
-    myLpms.lLowerLeg->address="";
+    myLpms.lLowerLeg->address="00:04:3E:9F:E1:2A";
     myLpms.lLowerLeg->id=11;
     myLpms.lLowerLeg->type="lLowerLeg";
 
@@ -227,42 +227,15 @@ void MainWindow::timer_loop()
     std::list<LpmsDevice *>::iterator it;
     //get data
     for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
-        if((*it)->type=="head"){
-            (*it)->quat_raw=myLpms.rUpperArm->quat_raw;
-            (*it)->euler_raw=myLpms.rUpperArm->euler_raw;
-        }
-        else if((*it)->type=="lUpperArm"){
-            (*it)->quat_raw=myLpms.rUpperArm->quat_raw;
-            (*it)->euler_raw=myLpms.rUpperArm->euler_raw;
-        }
-        else if((*it)->type=="lLowerArm"){
-            (*it)->quat_raw=myLpms.rLowerArm->quat_raw;
-            (*it)->euler_raw=myLpms.rLowerArm->euler_raw;
-        }
-        else if((*it)->type=="lWrist"){
-            (*it)->quat_raw=myLpms.rWrist->quat_raw;
-            (*it)->euler_raw=myLpms.lWrist->euler_raw;
-        }
-        else if((*it)->type=="rUpperLeg"){
-            (*it)->quat_raw=myLpms.rUpperArm->quat_raw;
-            (*it)->euler_raw=myLpms.rUpperArm->euler_raw;
-        }
-        else if((*it)->type=="rLowerLeg"){
-            (*it)->quat_raw=myLpms.rLowerArm->quat_raw;
-            (*it)->euler_raw=myLpms.rLowerArm->euler_raw;
-        }
-        else if((*it)->type=="lUpperLeg"){
-            (*it)->quat_raw=myLpms.rUpperArm->quat_raw;
-            (*it)->euler_raw=myLpms.lUpperLeg->euler_raw;
-        }
-        else if((*it)->type=="lLowerLeg"){
-            (*it)->quat_raw=myLpms.rLowerArm->quat_raw;
-            (*it)->euler_raw=myLpms.rLowerArm->euler_raw;
-        }
-        else{
+        //        if((*it)->type=="head"){
+        //            (*it)->quat_raw=myLpms.rUpperArm->quat_raw;
+        //            (*it)->euler_raw=myLpms.rUpperArm->euler_raw;
+        //        }
+
+        if((*it)->id>=0&&(*it)->id<=7&&(*it)->id!=1)
             data_receive(*it);
-            //data_display(*it);
-        }
+        //data_display(*it);
+
     }
     rula_calc();
 
@@ -486,9 +459,10 @@ void MainWindow::on_BTN_StartAllLpms_clicked()
 {
     std::list<LpmsDevice *>::iterator it;
     for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
-        if((*it)->id<=4&&(*it)->id>=2)
-            lpms_connect(*it);
-        if((*it)->id==0)
+        //        if((*it)->id<=4&&(*it)->id>=2)
+        //            lpms_connect(*it);
+        //        if((*it)->id==0)
+        if((*it)->id>=0&&(*it)->id<=7&&(*it)->id!=1)
             lpms_connect(*it);
     }
 
@@ -504,25 +478,26 @@ void MainWindow::on_BTN_set_origin_clicked()
 {
     std::list<LpmsDevice *>::iterator it;
     for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
-        if((*it)->type=="head"){
-        }
-        else if((*it)->type=="lUpperArm"){
-        }
-        else if((*it)->type=="lLowerArm"){
-        }
-        else if((*it)->type=="lWrist"){
-        }
-        else if((*it)->type=="rUpperLeg"){
-        }
-        else if((*it)->type=="rLowerLeg"){
-        }
-        else if((*it)->type=="lUpperLeg"){
-        }
-        else if((*it)->type=="lLowerLeg"){
-        }
-        else{
-            (*it)->getme()->function->setOrientationOffset(0);
-        }
+        //        if((*it)->type=="head"){
+        //        }
+        //        else if((*it)->type=="lUpperArm"){
+        //        }
+        //        else if((*it)->type=="lLowerArm"){
+        //        }
+        //        else if((*it)->type=="lWrist"){
+        //        }
+        //        else if((*it)->type=="rUpperLeg"){
+        //        }
+        //        else if((*it)->type=="rLowerLeg"){
+        //        }
+        //        else if((*it)->type=="lUpperLeg"){
+        //        }
+        //        else if((*it)->type=="lLowerLeg"){
+        //        }
+        //        else{
+        if((*it)->id>=0&&(*it)->id<=7&&(*it)->id!=1)
+        (*it)->getme()->function->setOrientationOffset(0);
+        //        }
     }
 
     /*ps1
