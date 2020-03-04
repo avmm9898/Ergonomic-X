@@ -6,6 +6,7 @@
 #include <LpmsSensorI.h>
 #include <LpmsSensorManagerI.h>
 #include <QTimer>
+#include <QtMath>
 #include <QString>
 #include <QQuaternion>
 #include <QFileDialog>

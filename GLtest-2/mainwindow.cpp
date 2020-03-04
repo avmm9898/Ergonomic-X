@@ -44,45 +44,52 @@ MainWindow::MainWindow(QWidget *parent) :
     myLpms.rUpperArm->id=2;
     myLpms.rUpperArm->type="rUpperArm";
     myLpms.rUpperArm->viewZ+=90;
+    myLpms.rUpperArm->viewX-=90;
+
 
     myLpms.rLowerArm->address="00:04:3E:9B:A3:62";
     myLpms.rLowerArm->id=3;
     myLpms.rLowerArm->type="rLowerArm";
     myLpms.rLowerArm->viewZ+=90;
+    myLpms.rLowerArm->viewX-=90;
 
-    myLpms.rWrist->address="00:04:3E:4B:33:AE";
+    myLpms.rWrist->address="";
     myLpms.rWrist->id=4;
     myLpms.rWrist->type="rWrist";
     myLpms.rWrist->viewZ+=90;
+    myLpms.rWrist->viewX-=90;
 
-    myLpms.lUpperArm->address="00:04:3E:4B:33:E6";
+    myLpms.lUpperArm->address="";
     myLpms.lUpperArm->id=5;
     myLpms.lUpperArm->type="lUpperArm";
     myLpms.lUpperArm->viewZ-=90;
+    myLpms.lUpperArm->viewX-=90;
 
-    myLpms.lLowerArm->address="00:04:3E:4B:33:F2";
+    myLpms.lLowerArm->address="";
     myLpms.lLowerArm->id=6;
     myLpms.lLowerArm->type="lLowerArm";
     myLpms.lLowerArm->viewZ-=90;
+    myLpms.lLowerArm->viewX-=90;
 
-    myLpms.lWrist->address="00:04:3E:9B:A2:EF";
+    myLpms.lWrist->address="";
     myLpms.lWrist->id=7;
     myLpms.lWrist->type="lWrist";
     myLpms.lWrist->viewZ-=90;
+    myLpms.lWrist->viewX-=90;
 
     myLpms.rUpperLeg->address="00:04:3E:4B:33:98";
     myLpms.rUpperLeg->id=8;
     myLpms.rUpperLeg->type="rUpperLeg";
 
-    myLpms.rLowerLeg->address="00:04:3E:4B:33:37";
+    myLpms.rLowerLeg->address="";
     myLpms.rLowerLeg->id=9;
     myLpms.rLowerLeg->type="rLowerLeg";
 
-    myLpms.lUpperLeg->address="00:04:3E:9B:A3:74";
+    myLpms.lUpperLeg->address="";
     myLpms.lUpperLeg->id=10;
     myLpms.lUpperLeg->type="lUpperLeg";
 
-    myLpms.lLowerLeg->address="00:04:3E:9F:E1:2A";
+    myLpms.lLowerLeg->address="";
     myLpms.lLowerLeg->id=11;
     myLpms.lLowerLeg->type="lLowerLeg";
 
@@ -165,9 +172,6 @@ void MainWindow::data_display(LpmsDevice *m_lpms){
 
 }
 
-
-
-
 void MainWindow::data_receive(LpmsDevice *m_lpms)
 {
 
@@ -183,9 +187,15 @@ void MainWindow::data_receive(LpmsDevice *m_lpms)
         m_lpms->quat_raw.setY(temp.q[2]);
         m_lpms->quat_raw.setZ(temp.q[3]);
 
+
+        if(temp.r[0]<0){
+            temp.r[0]=360+temp.r[0];
+        }
+
         m_lpms->euler_raw.setX(temp.r[0]);
         m_lpms->euler_raw.setY(temp.r[1]);
         m_lpms->euler_raw.setZ(temp.r[2]);
+
 
         // QQuaternion fromEuler=QQuaternion::fromEulerAngles(-temp.r[1],temp.r[2],temp.r[0]);
         // m_lpms->quat_raw=fromEuler;
@@ -221,23 +231,60 @@ void MainWindow::lpms_connect(LpmsDevice *m_lpms)
 
 }
 
-
 void MainWindow::timer_loop()
 {
     std::list<LpmsDevice *>::iterator it;
+
+    QVector3D temp;  //for 少量的IMU用來測試RULA, REBA等分數
     //get data
     for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
-        //        if((*it)->type=="head"){
-        //            (*it)->quat_raw=myLpms.rUpperArm->quat_raw;
-        //            (*it)->euler_raw=myLpms.rUpperArm->euler_raw;
-        //        }
+        if((*it)->type=="lUpperArm"){
 
-        if((*it)->id>=0&&(*it)->id<=7&&(*it)->id!=1)
+           temp.setX(myLpms.rUpperArm->quat_raw.toEulerAngles().x());
+           temp.setY(-myLpms.rUpperArm->quat_raw.toEulerAngles().y());
+           temp.setZ(-myLpms.rUpperArm->quat_raw.toEulerAngles().z());
+           (*it)->quat_raw=QQuaternion::fromEulerAngles(temp);
+
+        }
+        else if((*it)->type=="lLowerArm"){
+            temp.setX(myLpms.rLowerArm->quat_raw.toEulerAngles().x());
+            temp.setY(-myLpms.rLowerArm->quat_raw.toEulerAngles().y());
+            temp.setZ(-myLpms.rLowerArm->quat_raw.toEulerAngles().z());
+            (*it)->quat_raw=QQuaternion::fromEulerAngles(temp);
+        }
+        else if((*it)->type=="rWrist"){
+            (*it)->quat_raw=myLpms.rLowerArm->quat_raw;
+        }
+        else if((*it)->type=="lWrist"){
+            temp.setX(myLpms.rWrist->quat_raw.toEulerAngles().x());
+            temp.setY(-myLpms.rWrist->quat_raw.toEulerAngles().y());
+            temp.setZ(-myLpms.rWrist->quat_raw.toEulerAngles().z());
+            (*it)->quat_raw=QQuaternion::fromEulerAngles(temp);
+        }
+        else if((*it)->type=="lUpperLeg"){
+            temp.setX(myLpms.rUpperLeg->quat_raw.toEulerAngles().x());
+            temp.setY(-myLpms.rUpperLeg->quat_raw.toEulerAngles().y());
+            temp.setZ(-myLpms.rUpperLeg->quat_raw.toEulerAngles().z());
+            (*it)->quat_raw=QQuaternion::fromEulerAngles(temp);
+        }
+        else if((*it)->type=="rLowerLeg"){
+            temp.setX(-myLpms.rUpperLeg->quat_raw.toEulerAngles().x());
+            temp.setY(myLpms.rUpperLeg->quat_raw.toEulerAngles().y());
+            temp.setZ(myLpms.rUpperLeg->quat_raw.toEulerAngles().z());
+            (*it)->quat_raw=QQuaternion::fromEulerAngles(temp);
+        }
+        else if((*it)->type=="lLowerLeg"){
+            temp.setX(myLpms.rLowerLeg->quat_raw.toEulerAngles().x());
+            temp.setY(-myLpms.rLowerLeg->quat_raw.toEulerAngles().y());
+            temp.setZ(-myLpms.rLowerLeg->quat_raw.toEulerAngles().z());
+            (*it)->quat_raw=QQuaternion::fromEulerAngles(temp);
+        }
+        else{
             data_receive(*it);
-        //data_display(*it);
-
+            data_display(*it);
+        }
     }
-    rula_calc();
+    //rula_calc();
 
     ui->Label_WristArmScore->setText(QString::number(rula_calc()));
 
@@ -247,28 +294,29 @@ int MainWindow::rula_calc()
 {
     auto EulerEngleUpArm=myLpms.rUpperArm->euler_raw;
     auto EulerEngleLowArm=myLpms.rLowerArm->euler_raw;
-    auto EulerEngleWrist=myLpms.rWrist->euler_raw;
+    auto EulerEngleWrist=myLpms.rLowerArm->euler_raw;
     auto EulerEngleHead=myLpms.head->euler_raw;
     auto EulerEngleTrunk=myLpms.body->euler_raw;
     auto EulerEngleLeg=myLpms.rUpperLeg->euler_raw;
 
+
     //(int) is old-style cast
-    int UpperArm_roll=static_cast<int>(EulerEngleUpArm.x())+90;//roll
+    int UpperArm_roll=static_cast<int>(EulerEngleUpArm.x());//roll
     int UpperArm_pitch=static_cast<int>(EulerEngleUpArm.y());//pitch
     //int UpperArmPos_yaw=static_cast<int>(EulerEngleUpArm.z());
-    int LowerArm_roll=static_cast<int>(EulerEngleLowArm.x())+90;//roll
+    int LowerArm_roll=static_cast<int>(EulerEngleLowArm.x());//roll
     int LowerArm_pitch=static_cast<int>(EulerEngleLowArm.y());//pitch
     int LowerArm_yaw=static_cast<int>(EulerEngleLowArm.z());
-    int Wrist_roll=static_cast<int>(EulerEngleWrist.x())+90;
+    int Wrist_roll=static_cast<int>(EulerEngleWrist.x());
     int Wrist_pitch=static_cast<int>(EulerEngleWrist.y());
     int Wrist_yaw=static_cast<int>(EulerEngleWrist.z());//z, if wrist is bent from the midline
-    int Neck_roll=static_cast<int>(EulerEngleHead.x())+90;//roll
+    int Neck_roll=static_cast<int>(EulerEngleHead.x());//roll
     int Neck_pitch=static_cast<int>(EulerEngleHead.y());
     int Neck_yaw=static_cast<int>(EulerEngleHead.z());
-    int Trunk_roll=static_cast<int>(EulerEngleTrunk.x())+90;
+    int Trunk_roll=static_cast<int>(EulerEngleTrunk.x());
     int Trunk_pitch=static_cast<int>(EulerEngleTrunk.y());
     int Trunk_yaw=static_cast<int>(EulerEngleTrunk.z());
-    int Leg_roll=static_cast<int>(EulerEngleLeg.x())+90;
+    int Leg_roll=static_cast<int>(EulerEngleLeg.x());
     int Leg_pitch=static_cast<int>(EulerEngleLeg.y());
     int Leg_yaw=static_cast<int>(EulerEngleLeg.z());
 
@@ -280,16 +328,16 @@ int MainWindow::rula_calc()
     int TrunkScore=0;
     int LegScore=0;
 
-    ui->textbrowser->append("UpperArm_roll: "+QString::number(UpperArm_roll));
-    ui->textbrowser->append("UpperArm_pitch: "+QString::number(UpperArm_pitch));
-    ui->textbrowser->append("LowerArm_roll: "+QString::number(LowerArm_roll));
-    ui->textbrowser->append("LowerArm_pitch: "+QString::number(LowerArm_pitch));
-    ui->textbrowser->append("LowerArm_yaw: "+QString::number(LowerArm_yaw));
-    ui->textbrowser->append("Wrist_roll: "+QString::number(Wrist_roll));
-    ui->textbrowser->append("Wrist_pitch: "+QString::number(Wrist_pitch));
-    ui->textbrowser->append("Wrist_yaw: "+QString::number(Wrist_yaw));
-    ui->textbrowser->append("Neck_roll: "+QString::number(Neck_roll));
-    ui->textbrowser->append("Trunk_roll: "+QString::number(Trunk_roll));
+//    ui->textbrowser->append("UpperArm_roll: "+QString::number(UpperArm_roll));
+//    ui->textbrowser->append("UpperArm_pitch: "+QString::number(UpperArm_pitch));
+//    ui->textbrowser->append("LowerArm_roll: "+QString::number(LowerArm_roll));
+//    ui->textbrowser->append("LowerArm_pitch: "+QString::number(LowerArm_pitch));
+//    ui->textbrowser->append("LowerArm_yaw: "+QString::number(LowerArm_yaw));
+//    ui->textbrowser->append("Wrist_roll: "+QString::number(Wrist_roll));
+//    ui->textbrowser->append("Wrist_pitch: "+QString::number(Wrist_pitch));
+//    ui->textbrowser->append("Wrist_yaw: "+QString::number(Wrist_yaw));
+//    ui->textbrowser->append("Neck_roll: "+QString::number(Neck_roll));
+//    ui->textbrowser->append("Trunk_roll: "+QString::number(Trunk_roll));
 
     //step1 test upper arm
     if(UpperArm_roll<20 && UpperArm_roll>-20){
@@ -304,6 +352,7 @@ int MainWindow::rula_calc()
     else if (UpperArm_roll>=90 && UpperArm_roll<180) {
         UpperArmScore=4;
     }
+    else UpperArmScore=1;
     if(ui->check_rula_1->isChecked()){
         UpperArmScore+=1;
     }
@@ -321,6 +370,7 @@ int MainWindow::rula_calc()
     else if ((LowerArm_roll<=80 && LowerArm_roll>0 )||(LowerArm_roll<180 && LowerArm_roll>=120)) {
         LowerArmScore=2;
     }
+    else LowerArmScore=1;
     if (abs(LowerArm_yaw-Trunk_yaw) >5) {
         LowerArmScore+=1;
     }
@@ -335,17 +385,19 @@ int MainWindow::rula_calc()
     else if (abs(Wrist_roll-LowerArm_roll)>15) {
         WristScore=3;
     }
+    else WristScore=1;
     if(abs(Wrist_yaw-LowerArm_yaw)>3){
         WristScore+=1;
     }
 
     //step4 test wrist twist
-    if(abs(Wrist_pitch-UpperArm_pitch)<10){
+    if(abs(Wrist_pitch-LowerArm_pitch)<10){
         WristTwistScore=1;
     }
     else if (abs(Wrist_pitch-LowerArm_pitch)>=10 && abs(Wrist_pitch-LowerArm_pitch)<180) {
         WristTwistScore=2;
     }
+    else WristTwistScore=1;
 
     //table A
 
@@ -379,18 +431,19 @@ int MainWindow::rula_calc()
             +int(ui->check_rula_4->isChecked());
 
     //step9 Neck score
-    if(Neck_roll>170&&Neck_roll<=180){
+    if(Neck_roll<360&&Neck_roll>=350){
         NeckScore=1;
     }
-    else if(Neck_roll>160&&Neck_roll<=170){
+    else if(Neck_roll<350&&Neck_roll>=340){
         NeckScore=2;
     }
-    else if(Neck_roll<=160 && Neck_roll>0){
+    else if(Neck_roll<340 && Neck_roll>=180){
         NeckScore=3;
     }
-    else if(Neck_roll>180){
+    else if(Neck_roll<180 && Neck_roll>5){
         NeckScore=4;
     }
+    else NeckScore=1;
     if(abs(Neck_yaw-Trunk_yaw)>5)
         NeckScore+=1;
     if(abs(Neck_pitch)>5)
@@ -400,15 +453,17 @@ int MainWindow::rula_calc()
     if(Trunk_roll==0){
         TrunkScore=1;
     }
-    else if(Trunk_roll>160&&Trunk_roll<180){
+    else if(Trunk_roll<360&&Trunk_roll>=340){
         TrunkScore=2;
     }
-    else if(Trunk_roll>120 && Trunk_roll<=160){
+    else if(Trunk_roll<340 && Trunk_roll>=300){
         TrunkScore=3;
     }
-    else if(Trunk_roll<=120){
+    else if(Trunk_roll<300 && Trunk_roll>=180){
         TrunkScore=4;
     }
+    else TrunkScore=1;
+
     if(abs(Trunk_yaw-Leg_yaw)>5)
         TrunkScore+=1;
     if(abs(Trunk_pitch)>5)
@@ -459,45 +514,53 @@ void MainWindow::on_BTN_StartAllLpms_clicked()
 {
     std::list<LpmsDevice *>::iterator it;
     for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
-        //        if((*it)->id<=4&&(*it)->id>=2)
-        //            lpms_connect(*it);
-        //        if((*it)->id==0)
-        if((*it)->id>=0&&(*it)->id<=7&&(*it)->id!=1)
+        if((*it)->type=="lUpperArm"){
+        }
+        else if((*it)->type=="lLowerArm"){
+        }
+        else if((*it)->type=="rWrist"){
+        }
+        else if((*it)->type=="lWrist"){
+        }
+        else if((*it)->type=="lUpperLeg"){
+        }
+        else if((*it)->type=="rLowerLeg"){
+        }
+        else if((*it)->type=="lLowerLeg"){
+        }
+        else{
             lpms_connect(*it);
+        }
     }
 
 
     dataTimer = new QTimer(this);
-    dataTimer->start(50);
+    dataTimer->start(20);
     connect(dataTimer,SIGNAL(timeout()),this,SLOT(timer_loop()));
 
 }
-
 
 void MainWindow::on_BTN_set_origin_clicked()
 {
     std::list<LpmsDevice *>::iterator it;
     for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
-        //        if((*it)->type=="head"){
-        //        }
-        //        else if((*it)->type=="lUpperArm"){
-        //        }
-        //        else if((*it)->type=="lLowerArm"){
-        //        }
-        //        else if((*it)->type=="lWrist"){
-        //        }
-        //        else if((*it)->type=="rUpperLeg"){
-        //        }
-        //        else if((*it)->type=="rLowerLeg"){
-        //        }
-        //        else if((*it)->type=="lUpperLeg"){
-        //        }
-        //        else if((*it)->type=="lLowerLeg"){
-        //        }
-        //        else{
-        if((*it)->id>=0&&(*it)->id<=7&&(*it)->id!=1)
-        (*it)->getme()->function->setOrientationOffset(0);
-        //        }
+        if((*it)->type=="lUpperArm"){
+        }
+        else if((*it)->type=="lLowerArm"){
+        }
+        else if((*it)->type=="rWrist"){
+        }
+        else if((*it)->type=="lWrist"){
+        }
+        else if((*it)->type=="lUpperLeg"){
+        }
+        else if((*it)->type=="rLowerLeg"){
+        }
+        else if((*it)->type=="lLowerLeg"){
+        }
+        else{
+            (*it)->getme()->function->setOrientationOffset(0);
+        }
     }
 
     /*ps1
