@@ -16,7 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->textbrowser->setText("Ready to start.");
     //Gets a LpmsSensorManager instance0
     manager = LpmsSensorManagerFactory();
-    ui->Label_WristArmScore->setText("0");
+    ui->Label_Score->setText("Waiting for connection");
+    ui->groupBox->hide();
 
     myLpms.head = &head;
     myLpms.body = &body;
@@ -167,7 +168,7 @@ void MainWindow::data_display(LpmsDevice *m_lpms){
     //m_lpms->quat_raw=a;
     //QString text1=QString("roll1=%1 \npitch1=%2 \nyaw1=%3").arg(m_lpms->euler_raw.x()).arg(m_lpms->euler_raw.y()).arg(m_lpms->euler_raw.z());
     //ui->textbrowser->append(text1);
-    QString text=QString("roll=%1 \npitch=%2 \nyaw=%3").arg(roll).arg(pitch).arg(yaw);
+    QString text=QString( QString::fromStdString(m_lpms->type)+" roll=%1 pitch=%2 yaw=%3").arg(roll).arg(pitch).arg(yaw);
     ui->textbrowser->append(text);
 
 }
@@ -240,10 +241,10 @@ void MainWindow::timer_loop()
     for (it = lpmsList.begin(); it != lpmsList.end(); ++it) {
         if((*it)->type=="lUpperArm"){
 
-           temp.setX(myLpms.rUpperArm->quat_raw.toEulerAngles().x());
-           temp.setY(-myLpms.rUpperArm->quat_raw.toEulerAngles().y());
-           temp.setZ(-myLpms.rUpperArm->quat_raw.toEulerAngles().z());
-           (*it)->quat_raw=QQuaternion::fromEulerAngles(temp);
+            temp.setX(myLpms.rUpperArm->quat_raw.toEulerAngles().x());
+            temp.setY(-myLpms.rUpperArm->quat_raw.toEulerAngles().y());
+            temp.setZ(-myLpms.rUpperArm->quat_raw.toEulerAngles().z());
+            (*it)->quat_raw=QQuaternion::fromEulerAngles(temp);
 
         }
         else if((*it)->type=="lLowerArm"){
@@ -285,19 +286,30 @@ void MainWindow::timer_loop()
         }
     }
     //rula_calc();
+    if(ui->tabWidget->currentIndex()==0){
+        ui->label->setText("RULA Score");
+        ui->Label_Score->setText(QString::number(rula_calc()));
+    }
+    else if(ui->tabWidget->currentIndex()==1){
+        ui->label->setText("REBA Score");
+        ui->Label_Score->setText(QString::number(reba_calc()));
+    }
+    else if(ui->tabWidget->currentIndex()==2){
+        ui->label->setText("AWBA Score");
+    }
 
-    ui->Label_WristArmScore->setText(QString::number(rula_calc()));
+
 
 }
 
 int MainWindow::rula_calc()
 {
-    auto EulerEngleUpArm=myLpms.rUpperArm->euler_raw;
-    auto EulerEngleLowArm=myLpms.rLowerArm->euler_raw;
-    auto EulerEngleWrist=myLpms.rLowerArm->euler_raw;
-    auto EulerEngleHead=myLpms.head->euler_raw;
-    auto EulerEngleTrunk=myLpms.body->euler_raw;
-    auto EulerEngleLeg=myLpms.rUpperLeg->euler_raw;
+    QVector3D EulerEngleUpArm=myLpms.rUpperArm->euler_raw;
+    QVector3D EulerEngleLowArm=myLpms.rLowerArm->euler_raw;
+    QVector3D EulerEngleWrist=myLpms.rLowerArm->euler_raw;
+    QVector3D EulerEngleHead=myLpms.head->euler_raw;
+    QVector3D EulerEngleTrunk=myLpms.body->euler_raw;
+    QVector3D EulerEngleLeg=myLpms.rUpperLeg->euler_raw;
 
 
     //(int) is old-style cast
@@ -328,16 +340,16 @@ int MainWindow::rula_calc()
     int TrunkScore=0;
     int LegScore=0;
 
-//    ui->textbrowser->append("UpperArm_roll: "+QString::number(UpperArm_roll));
-//    ui->textbrowser->append("UpperArm_pitch: "+QString::number(UpperArm_pitch));
-//    ui->textbrowser->append("LowerArm_roll: "+QString::number(LowerArm_roll));
-//    ui->textbrowser->append("LowerArm_pitch: "+QString::number(LowerArm_pitch));
-//    ui->textbrowser->append("LowerArm_yaw: "+QString::number(LowerArm_yaw));
-//    ui->textbrowser->append("Wrist_roll: "+QString::number(Wrist_roll));
-//    ui->textbrowser->append("Wrist_pitch: "+QString::number(Wrist_pitch));
-//    ui->textbrowser->append("Wrist_yaw: "+QString::number(Wrist_yaw));
-//    ui->textbrowser->append("Neck_roll: "+QString::number(Neck_roll));
-//    ui->textbrowser->append("Trunk_roll: "+QString::number(Trunk_roll));
+    //    ui->textbrowser->append("UpperArm_roll: "+QString::number(UpperArm_roll));
+    //    ui->textbrowser->append("UpperArm_pitch: "+QString::number(UpperArm_pitch));
+    //    ui->textbrowser->append("LowerArm_roll: "+QString::number(LowerArm_roll));
+    //    ui->textbrowser->append("LowerArm_pitch: "+QString::number(LowerArm_pitch));
+    //    ui->textbrowser->append("LowerArm_yaw: "+QString::number(LowerArm_yaw));
+    //    ui->textbrowser->append("Wrist_roll: "+QString::number(Wrist_roll));
+    //    ui->textbrowser->append("Wrist_pitch: "+QString::number(Wrist_pitch));
+    //    ui->textbrowser->append("Wrist_yaw: "+QString::number(Wrist_yaw));
+    //    ui->textbrowser->append("Neck_roll: "+QString::number(Neck_roll));
+    //    ui->textbrowser->append("Trunk_roll: "+QString::number(Trunk_roll));
 
     //step1 test upper arm
     if(UpperArm_roll<20 && UpperArm_roll>-20){
@@ -360,14 +372,15 @@ int MainWindow::rula_calc()
         UpperArmScore+=1;
     }
     if(ui->check_rula_3->isChecked()){
-        UpperArmScore-=1;
+        if(UpperArm_roll!=1)
+            UpperArmScore-=1;
     }
 
     //step2 test lower arm
-    if(LowerArm_roll<120 && LowerArm_roll>80){
+    if(LowerArm_roll<100 && LowerArm_roll>60){
         LowerArmScore=1;
     }
-    else if ((LowerArm_roll<=80 && LowerArm_roll>0 )||(LowerArm_roll<180 && LowerArm_roll>=120)) {
+    else if ((LowerArm_roll<=60 && LowerArm_roll>0 )||(LowerArm_roll<180 && LowerArm_roll>=100)) {
         LowerArmScore=2;
     }
     else LowerArmScore=1;
@@ -424,11 +437,20 @@ int MainWindow::rula_calc()
 
     int tableA_y=(UpperArmScore-1)*3+(LowerArmScore-1);
     int tableA_x=(WristScore-1)*2+(WristTwistScore-1);
-    int tableAScore=tableA[tableA_y][tableA_x]
-            +int(ui->load_choose2->isChecked())*1
-            +int(ui->load_choose3->isChecked())*2
-            +int(ui->load_choose4->isChecked())*3
-            +int(ui->check_rula_4->isChecked());
+    int tableAScore=tableA[tableA_y][tableA_x];
+    if(ui->load_choose2->isChecked()){
+        tableAScore+=1;
+        if(ui->check_rula_4->isChecked())
+            tableAScore+=1;
+    }
+    else if(ui->load_choose3->isChecked()){
+        tableAScore+=3;
+    }
+    if (ui->check_rula_4->isChecked()){
+        tableAScore+=1;
+    }
+
+
 
     //step9 Neck score
     if(Neck_roll<360&&Neck_roll>=350){
@@ -464,8 +486,6 @@ int MainWindow::rula_calc()
     }
     else TrunkScore=1;
 
-    if(abs(Trunk_yaw-Leg_yaw)>5)
-        TrunkScore+=1;
     if(abs(Trunk_pitch)>5)
         TrunkScore+=1;
 
@@ -486,10 +506,19 @@ int MainWindow::rula_calc()
 
     int tableB_y=(NeckScore-1);
     int tableB_x=(TrunkScore-1)*2+(LegScore-1);
-    int tableBScore=tabelB[tableB_y][tableB_x]
-            +int(ui->load_choose2->isChecked())*1
-            +int(ui->load_choose3->isChecked())*2
-            +int(ui->load_choose4->isChecked())*3;
+    int tableBScore=tabelB[tableB_y][tableB_x];
+    if(ui->load_choose2->isChecked()){
+        tableBScore+=1;
+        if(ui->check_rula_4->isChecked())
+            tableBScore+=1;
+    }
+    else if(ui->load_choose3->isChecked()){
+        tableBScore+=3;
+    }
+    if (ui->check_rula_4->isChecked()){
+        tableBScore+=1;
+    }
+
 
     int tableC[8][7]={
         {1,2,3,3,4,5,5},
@@ -501,13 +530,184 @@ int MainWindow::rula_calc()
         {5,5,6,6,7,7,7},
         {5,5,6,7,7,7,7}
     };
-    int tableCScore=tableC[tableAScore][tableBScore];
+    int tableCScore=tableC[tableAScore-1][tableBScore-1];
 
     ui->textbrowser->append(QString::number(tableAScore));
     ui->textbrowser->append(QString::number(tableBScore));
     ui->textbrowser->append(QString::number(tableCScore));
 
     return tableCScore;
+}
+
+int MainWindow::reba_calc()
+{
+    QVector3D EulerEngleUpArm=myLpms.rUpperArm->euler_raw;
+    QVector3D EulerEngleLowArm=myLpms.rLowerArm->euler_raw;
+    QVector3D EulerEngleWrist=myLpms.rLowerArm->euler_raw;
+    QVector3D EulerEngleHead=myLpms.head->euler_raw;
+    QVector3D EulerEngleTrunk=myLpms.body->euler_raw;
+    QVector3D EulerEngleLeg=myLpms.rUpperLeg->euler_raw;
+
+    //(int) is old-style cast
+    int UpperArm_roll=static_cast<int>(EulerEngleUpArm.x());//roll
+    int UpperArm_pitch=static_cast<int>(EulerEngleUpArm.y());//pitch
+    //int UpperArmPos_yaw=static_cast<int>(EulerEngleUpArm.z());
+    int LowerArm_roll=static_cast<int>(EulerEngleLowArm.x());//roll
+    int LowerArm_pitch=static_cast<int>(EulerEngleLowArm.y());//pitch
+    int LowerArm_yaw=static_cast<int>(EulerEngleLowArm.z());
+    int Wrist_roll=static_cast<int>(EulerEngleWrist.x());
+    int Wrist_pitch=static_cast<int>(EulerEngleWrist.y());
+    int Wrist_yaw=static_cast<int>(EulerEngleWrist.z());//z, if wrist is bent from the midline
+    int Neck_roll=static_cast<int>(EulerEngleHead.x());
+    int Neck_pitch=static_cast<int>(EulerEngleHead.y());
+    int Neck_yaw=static_cast<int>(EulerEngleHead.z());
+    int Trunk_roll=static_cast<int>(EulerEngleTrunk.x());
+    int Trunk_pitch=static_cast<int>(EulerEngleTrunk.y());
+    int Trunk_yaw=static_cast<int>(EulerEngleTrunk.z());
+    int Leg_roll=static_cast<int>(EulerEngleLeg.x());
+    int Leg_pitch=static_cast<int>(EulerEngleLeg.y());
+    int Leg_yaw=static_cast<int>(EulerEngleLeg.z());
+
+    int WristTwistScore=0;
+    int UpperArmScore=0;
+    int LowerArmScore=0;
+    int WristScore=0;
+    int NeckScore=0;
+    int TrunkScore=0;
+    int LegScore=0;
+
+    //step1. Locate Neck Position
+    if(Neck_roll>340 && Neck_roll<=350)
+        NeckScore=1;
+    else if(Neck_roll>180 && Neck_roll<=340)
+        NeckScore=2;
+    else if(Neck_roll>10 && Neck_roll<=180)
+        NeckScore=2;
+    else
+        NeckScore=1;
+    if(abs(Neck_yaw-Trunk_yaw)>5)
+        NeckScore+=1;
+    if(abs(Neck_pitch)>5)
+        NeckScore+=1;
+    //step2. Locate Trunk Position
+    if(Trunk_roll==0){
+        TrunkScore=1;
+    }
+    else if(Trunk_roll<360&&Trunk_roll>=340){
+        TrunkScore=2;
+    }
+    else if(Trunk_roll<340 && Trunk_roll>=300){
+        TrunkScore=3;
+    }
+    else if(Trunk_roll<300 && Trunk_roll>=180){
+        TrunkScore=4;
+    }
+    else if(Trunk_roll>0 && Trunk_roll<180){
+        TrunkScore=2;
+    }
+    else TrunkScore=1;
+
+    if(abs(Trunk_pitch)>5)
+        TrunkScore+=1;
+
+    //step3. Leg score
+    if(Leg_roll>30 && Leg_roll<=60)
+        LegScore=2;
+    else if(Leg_roll>60 && Leg_roll<300)
+        LegScore=3;
+    else
+        LegScore=1;
+    //step3. table A
+    int tableA[5][12]={
+        {1,2,3,4,1,2,3,4,3,3,5,6},
+        {2,3,4,5,3,4,5,6,4,5,6,7},
+        {2,4,5,6,4,5,6,7,5,6,7,8},
+        {3,5,6,7,5,6,7,8,6,7,8,9},
+        {4,6,7,8,6,7,8,9,7,8,9,9},
+    };
+
+    int tableAScore=tableA[TrunkScore-1][(NeckScore-1)*4+LegScore-1];
+
+    //step5. force
+    int ScoreA=tableAScore+int(ui->reba_weight2->isChecked())*1+int(ui->reba_weight3->isChecked())*2;
+
+    //step7. upper arm
+    if(UpperArm_roll<20 && (UpperArm_roll-360)>-20){
+        UpperArmScore=1;
+    }
+    else if ((UpperArm_roll>=20 && UpperArm_roll<45) || (UpperArm_roll<=340 && UpperArm_roll>180)) {
+        UpperArmScore=2;
+    }
+    else if (UpperArm_roll>=45 && UpperArm_roll<90) {
+        UpperArmScore=3;
+    }
+    else if (UpperArm_roll>=90 && UpperArm_roll<180) {
+        UpperArmScore=4;
+    }
+    else UpperArmScore=1;
+
+
+    if(ui->check_reba_1->isChecked()){
+        UpperArmScore+=1;
+    }
+    if(ui->check_reba_2->isChecked()){
+        UpperArmScore+=1;
+    }
+    if(ui->check_reba_3->isChecked()){
+        if(UpperArm_roll!=1)
+            UpperArmScore-=1;
+    }
+
+    //step8. test lower arm
+    if(LowerArm_roll<100 && LowerArm_roll>60){
+        LowerArmScore=1;
+    }
+    else if ((LowerArm_roll<=60 && LowerArm_roll>0 )||(LowerArm_roll<180 && LowerArm_roll>=100)) {
+        LowerArmScore=2;
+    }
+    else LowerArmScore=1;
+
+    //step9.Wrist
+    WristScore=2;
+    //step11, 12
+    int tableB[6][6]={
+        {1,2,2,1,2,3},
+        {1,2,3,2,3,4},
+        {3,4,5,4,5,5},
+        {6,7,8,7,8,8},
+        {7,8,8,8,9,9}
+    };
+
+    int ScoreB=tableB[UpperArmScore-1][(LowerArmScore-1)*3+WristScore-1]
+            +int(ui->Cp2->isChecked())
+            +int(ui->Cp3->isChecked())*2
+            +int(ui->Cp4->isChecked())*3;
+
+    int tableC[12][12]={
+        {1,1,1,2,3,3,4,5,6,7,7,7},
+        {1,2,2,3,4,4,5,6,6,7,7,8},
+        {2,3,3,3,4,5,6,7,7,8,8,8},
+        {3,4,4,4,5,6,7,8,8,9,9,9},
+        {4,4,4,5,6,7,8,8,9,9,9,9},
+        {6,6,6,7,8,8,9,9,10,10,10,10},
+        {7,7,7,8,9,9,910,10,11,11,11},
+        {8,8,8,9,10,10,10,10,10,11,11,11},
+        {9,9,9,10,10,10,11,11,11,12,12,12},
+        {10,10,10,11,11,11,11,12,12,12,12,12},
+        {11,11,11,11,12,12,12,12,12,12,12,12},
+        {12,12,12,12,12,12,12,12,12,12,12,12},
+    };
+
+    int ScoreC=tableC[ScoreA-1][ScoreB-1]
+            +int(ui->check_reba_act1->isChecked())
+            +int(ui->check_reba_act2->isChecked())
+            +int(ui->check_reba_act2->isChecked());
+    return ScoreC;
+}
+
+int MainWindow::awba_calc()
+{
+    return 0;
 }
 
 void MainWindow::on_BTN_StartAllLpms_clicked()

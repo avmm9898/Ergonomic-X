@@ -81,6 +81,8 @@ private slots:
     void data_receive(LpmsDevice *);
     void lpms_connect(LpmsDevice *);
     int rula_calc();
+    int reba_calc();
+    int awba_calc();
     void timer_loop();
     void on_BTN_set_origin_clicked();
 

@@ -492,6 +492,7 @@ debug\moc_ThreeDWindow.cpp: C:\Qt\5.9.8\msvc2017_64\include\QtGui\QtGui \
 		include\LpmsSensorManagerI.h \
 		include\DeviceListItem.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QTimer \
+		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QtMath \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QString \
 		C:\Qt\5.9.8\msvc2017_64\include\QtGui\QQuaternion \
 		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QFileDialog \
@@ -1615,6 +1616,8 @@ debug\moc_mainwindow.cpp: C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QMainWindow 
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QTimer \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qtimer.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qbasictimer.h \
+		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QtMath \
+		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qmath.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QString \
 		C:\Qt\5.9.8\msvc2017_64\include\QtGui\QQuaternion \
 		C:\Qt\5.9.8\msvc2017_64\include\QtGui\qquaternion.h \
@@ -1690,7 +1693,6 @@ debug\moc_mainwindow.cpp: C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QMainWindow 
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qlinkedlist.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qlockfile.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qloggingcategory.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qmath.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qmessageauthenticationcode.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qmetaobject.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qmimedata.h \
@@ -3184,6 +3186,7 @@ ui_mainwindow.h: mainwindow.ui \
 		include\LpmsSensorManagerI.h \
 		include\DeviceListItem.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QTimer \
+		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QtMath \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QString \
 		C:\Qt\5.9.8\msvc2017_64\include\QtGui\QQuaternion \
 		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QFileDialog \
@@ -5659,6 +5662,7 @@ debug\ThreeDWindow.obj: ThreeDWindow.cpp C:\Qt\5.9.8\msvc2017_64\include\QtGui\Q
 		include\LpmsSensorManagerI.h \
 		include\DeviceListItem.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QTimer \
+		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QtMath \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QString \
 		C:\Qt\5.9.8\msvc2017_64\include\QtGui\QQuaternion \
 		C:\Qt\5.9.8\msvc2017_64\include\QtWidgets\QFileDialog \
@@ -6776,6 +6780,8 @@ debug\main.obj: main.cpp mainwindow.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QTimer \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qtimer.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qbasictimer.h \
+		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QtMath \
+		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qmath.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QString \
 		C:\Qt\5.9.8\msvc2017_64\include\QtGui\QQuaternion \
 		C:\Qt\5.9.8\msvc2017_64\include\QtGui\qquaternion.h \
@@ -6851,7 +6857,6 @@ debug\main.obj: main.cpp mainwindow.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qlinkedlist.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qlockfile.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qloggingcategory.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qmath.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qmessageauthenticationcode.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qmetaobject.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qmimedata.h \
@@ -8117,6 +8122,8 @@ debug\mainwindow.obj: mainwindow.cpp mainwindow.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QTimer \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qtimer.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qbasictimer.h \
+		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QtMath \
+		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qmath.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\QString \
 		C:\Qt\5.9.8\msvc2017_64\include\QtGui\QQuaternion \
 		C:\Qt\5.9.8\msvc2017_64\include\QtGui\qquaternion.h \
@@ -8192,7 +8199,6 @@ debug\mainwindow.obj: mainwindow.cpp mainwindow.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qlinkedlist.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qlockfile.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qloggingcategory.h \
-		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qmath.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qmessageauthenticationcode.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qmetaobject.h \
 		C:\Qt\5.9.8\msvc2017_64\include\QtCore\qmimedata.h \
