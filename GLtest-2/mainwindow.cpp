@@ -725,23 +725,47 @@ int MainWindow::awba_calc()
 
     int AULAScore=0;
     //step AULA
-    if((UpperArm_roll>=0 || UpperArm_roll>350) && UpperArm_roll<45){
-        if((LowerArm_roll>=0 || UpperArm_roll>350) && LowerArm_roll<45)
+    if(Trunk_roll<5||Trunk_roll>355){
+        if( UpperArm_roll>350 || UpperArm_roll<45){
             AULAScore=1;
-        else if(LowerArm_roll>=45 && LowerArm_roll<3)
+        }
+        else if(UpperArm_roll>=45 && UpperArm_roll<90){
+            AULAScore=2;
+        }
+        else if(UpperArm_roll>=90 && UpperArm_roll<125){
+            AULAScore=3;
+        }
+        else{
+            AULAScore=4;
+        }
     }
-    else if(UpperArm_roll>=0 && UpperArm_roll<45){
-
+    else if(Trunk_roll<=315 &&Trunk_roll>275){
+        if(LowerArm_roll>355 || LowerArm_roll<45){
+            AULAScore=2;
+        }
+        else {
+            AULAScore=3;
+        }
     }
-    else if(UpperArm_roll>=0 && UpperArm_roll<45){
-
+    else if(Trunk_roll<=275 &&Trunk_roll>180){
+        AULAScore=2;
     }
-    else if(UpperArm_roll>=0 && UpperArm_roll<45){
+    //undefined
+    else
+        return 0;
 
+    //ALLA step
+    int ALLAScore=0;
+    if(Leg_roll<3||Leg_roll>357){
+        ALLAScore=2;
     }
+    else if(Leg_roll<30&&Leg_roll>=3)
+        ALLAScore=3;
+    else if(Leg_roll<100&&Leg_roll>=30)
+        ALLAScore=4;
+    else if(Leg_roll>=100)
+        ALLAScore=3;
 
-
-    return 0;
 }
 
 void MainWindow::on_BTN_StartAllLpms_clicked()
