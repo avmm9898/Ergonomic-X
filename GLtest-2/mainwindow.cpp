@@ -296,6 +296,7 @@ void MainWindow::timer_loop()
     }
     else if(ui->tabWidget->currentIndex()==2){
         ui->label->setText("AWBA Score");
+        ui->Label_Score->setText(QString::number(awba_calc()));
     }
 
 
@@ -765,7 +766,14 @@ int MainWindow::awba_calc()
         ALLAScore=4;
     else if(Leg_roll>=100)
         ALLAScore=3;
-
+    int AWBAtable[4][4]{
+        {4,4,4,3},
+        {4,3,3,3},
+        {4,3,2,2},
+        {3,3,2,1}
+    };
+    int AWBAScore=AWBAtable[4-ALLAScore][4-AULAScore];
+    return AWBAScore;
 }
 
 void MainWindow::on_BTN_StartAllLpms_clicked()
