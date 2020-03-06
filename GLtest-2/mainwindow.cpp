@@ -707,6 +707,40 @@ int MainWindow::reba_calc()
 
 int MainWindow::awba_calc()
 {
+    QVector3D EulerEngleUpArm=myLpms.rUpperArm->euler_raw;
+    QVector3D EulerEngleLowArm=myLpms.rLowerArm->euler_raw;
+    QVector3D EulerEngleWrist=myLpms.rLowerArm->euler_raw;
+    QVector3D EulerEngleHead=myLpms.head->euler_raw;
+    QVector3D EulerEngleTrunk=myLpms.body->euler_raw;
+    QVector3D EulerEngleLeg=myLpms.rUpperLeg->euler_raw;
+
+    //(int) is old-style cast
+    int UpperArm_roll=static_cast<int>(EulerEngleUpArm.x());//roll
+    int LowerArm_roll=static_cast<int>(EulerEngleLowArm.x());//roll
+    int Wrist_roll=static_cast<int>(EulerEngleWrist.x());
+    int Neck_roll=static_cast<int>(EulerEngleHead.x());
+    int Trunk_roll=static_cast<int>(EulerEngleTrunk.x());
+    int Leg_roll=static_cast<int>(EulerEngleLeg.x());
+
+
+    int AULAScore=0;
+    //step AULA
+    if((UpperArm_roll>=0 || UpperArm_roll>350) && UpperArm_roll<45){
+        if((LowerArm_roll>=0 || UpperArm_roll>350) && LowerArm_roll<45)
+            AULAScore=1;
+        else if(LowerArm_roll>=45 && LowerArm_roll<3)
+    }
+    else if(UpperArm_roll>=0 && UpperArm_roll<45){
+
+    }
+    else if(UpperArm_roll>=0 && UpperArm_roll<45){
+
+    }
+    else if(UpperArm_roll>=0 && UpperArm_roll<45){
+
+    }
+
+
     return 0;
 }
 
