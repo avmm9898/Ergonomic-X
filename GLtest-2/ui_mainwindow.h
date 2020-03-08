@@ -25,6 +25,8 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
+#include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTextBrowser>
@@ -53,6 +55,15 @@ public:
     QAction *actionRight_Lower_Leg;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
+    QGridLayout *gridLayout_2;
+    ThreeDWindow *widget;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *BTN_set_origin;
+    QPushButton *BTN_StartAllLpms;
+    QGroupBox *groupBox;
+    QPushButton *btn_x_plus;
+    QPushButton *btn_y_plus;
+    QPushButton *btn_z_plus;
     QVBoxLayout *verticalLayout_3;
     QTabWidget *tabWidget;
     QWidget *tab;
@@ -94,21 +105,21 @@ public:
     QCheckBox *check_reba_act2;
     QCheckBox *check_reba_act3;
     QWidget *tab_3;
+    QVBoxLayout *verticalLayout_5;
+    QGroupBox *groupBox_4;
+    QVBoxLayout *verticalLayout_6;
+    QHBoxLayout *horizontalLayout_3;
+    QLabel *label_4;
+    QSpinBox *awba_duration;
+    QSpacerItem *verticalSpacer_2;
+    QCheckBox *awba_config1;
+    QSpacerItem *verticalSpacer;
     QWidget *tab_4;
     QTextBrowser *textbrowser;
     QHBoxLayout *horizontalLayout_4;
     QHBoxLayout *horizontalLayout_5;
     QLabel *label;
     QLabel *Label_Score;
-    QGridLayout *gridLayout_2;
-    ThreeDWindow *widget;
-    QHBoxLayout *horizontalLayout;
-    QPushButton *BTN_set_origin;
-    QPushButton *BTN_StartAllLpms;
-    QGroupBox *groupBox;
-    QPushButton *btn_x_plus;
-    QPushButton *btn_y_plus;
-    QPushButton *btn_z_plus;
     QMenuBar *menuBar;
     QMenu *menuwindow;
     QToolBar *mainToolBar;
@@ -118,12 +129,17 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1163, 723);
+        MainWindow->resize(1532, 849);
+        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
+        MainWindow->setSizePolicy(sizePolicy);
         MainWindow->setStyleSheet(QStringLiteral(""));
         actionclose = new QAction(MainWindow);
         actionclose->setObjectName(QStringLiteral("actionclose"));
         QFont font;
-        font.setFamily(QStringLiteral("Adobe Devanagari"));
+        font.setFamily(QString::fromUtf8("\345\276\256\350\273\237\346\255\243\351\273\221\351\253\224"));
         font.setPointSize(10);
         actionclose->setFont(font);
         OpenHead = new QAction(MainWindow);
@@ -156,300 +172,17 @@ public:
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        verticalLayout_3 = new QVBoxLayout();
-        verticalLayout_3->setSpacing(6);
-        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        verticalLayout_3->setContentsMargins(-1, -1, 0, -1);
-        tabWidget = new QTabWidget(centralWidget);
-        tabWidget->setObjectName(QStringLiteral("tabWidget"));
-        QFont font1;
-        font1.setFamily(QStringLiteral("Adobe Devanagari"));
-        font1.setPointSize(14);
-        tabWidget->setFont(font1);
-        tab = new QWidget();
-        tab->setObjectName(QStringLiteral("tab"));
-        formLayout = new QFormLayout(tab);
-        formLayout->setSpacing(6);
-        formLayout->setContentsMargins(11, 11, 11, 11);
-        formLayout->setObjectName(QStringLiteral("formLayout"));
-        gridLayout_4 = new QGridLayout();
-        gridLayout_4->setSpacing(6);
-        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setSpacing(6);
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-
-        gridLayout_4->addLayout(horizontalLayout_2, 1, 0, 1, 1);
-
-        verticalLayout_2 = new QVBoxLayout();
-        verticalLayout_2->setSpacing(6);
-        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        label_3 = new QLabel(tab);
-        label_3->setObjectName(QStringLiteral("label_3"));
-        QFont font2;
-        font2.setFamily(QStringLiteral("Adobe Devanagari"));
-        font2.setPointSize(16);
-        label_3->setFont(font2);
-
-        verticalLayout_2->addWidget(label_3);
-
-        check_rula_1 = new QCheckBox(tab);
-        check_rula_1->setObjectName(QStringLiteral("check_rula_1"));
-        QFont font3;
-        font3.setFamily(QStringLiteral("Adobe Devanagari"));
-        font3.setPointSize(12);
-        check_rula_1->setFont(font3);
-
-        verticalLayout_2->addWidget(check_rula_1);
-
-        check_rula_2 = new QCheckBox(tab);
-        check_rula_2->setObjectName(QStringLiteral("check_rula_2"));
-        check_rula_2->setFont(font3);
-
-        verticalLayout_2->addWidget(check_rula_2);
-
-        check_rula_3 = new QCheckBox(tab);
-        check_rula_3->setObjectName(QStringLiteral("check_rula_3"));
-        check_rula_3->setFont(font3);
-
-        verticalLayout_2->addWidget(check_rula_3);
-
-        label_8 = new QLabel(tab);
-        label_8->setObjectName(QStringLiteral("label_8"));
-
-        verticalLayout_2->addWidget(label_8);
-
-        check_rula_4 = new QCheckBox(tab);
-        check_rula_4->setObjectName(QStringLiteral("check_rula_4"));
-        check_rula_4->setFont(font3);
-
-        verticalLayout_2->addWidget(check_rula_4);
-
-        check_rula_5 = new QCheckBox(tab);
-        check_rula_5->setObjectName(QStringLiteral("check_rula_5"));
-        check_rula_5->setFont(font3);
-
-        verticalLayout_2->addWidget(check_rula_5);
-
-        label_2 = new QLabel(tab);
-        label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setFont(font2);
-
-        verticalLayout_2->addWidget(label_2);
-
-        load_choose1 = new QRadioButton(tab);
-        load_choose1->setObjectName(QStringLiteral("load_choose1"));
-        load_choose1->setFont(font3);
-
-        verticalLayout_2->addWidget(load_choose1);
-
-        load_choose2 = new QRadioButton(tab);
-        load_choose2->setObjectName(QStringLiteral("load_choose2"));
-        load_choose2->setFont(font3);
-
-        verticalLayout_2->addWidget(load_choose2);
-
-        load_choose3 = new QRadioButton(tab);
-        load_choose3->setObjectName(QStringLiteral("load_choose3"));
-        load_choose3->setFont(font3);
-
-        verticalLayout_2->addWidget(load_choose3);
-
-
-        gridLayout_4->addLayout(verticalLayout_2, 0, 0, 1, 1);
-
-
-        formLayout->setLayout(0, QFormLayout::LabelRole, gridLayout_4);
-
-        tabWidget->addTab(tab, QString());
-        tab_2 = new QWidget();
-        tab_2->setObjectName(QStringLiteral("tab_2"));
-        formLayout_2 = new QFormLayout(tab_2);
-        formLayout_2->setSpacing(6);
-        formLayout_2->setContentsMargins(11, 11, 11, 11);
-        formLayout_2->setObjectName(QStringLiteral("formLayout_2"));
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setSpacing(6);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        groupBox_2 = new QGroupBox(tab_2);
-        groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
-        verticalLayout_4 = new QVBoxLayout(groupBox_2);
-        verticalLayout_4->setSpacing(6);
-        verticalLayout_4->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
-        reba_weight1 = new QRadioButton(groupBox_2);
-        reba_weight1->setObjectName(QStringLiteral("reba_weight1"));
-        QFont font4;
-        font4.setPointSize(12);
-        reba_weight1->setFont(font4);
-
-        verticalLayout_4->addWidget(reba_weight1);
-
-        reba_weight2 = new QRadioButton(groupBox_2);
-        reba_weight2->setObjectName(QStringLiteral("reba_weight2"));
-        reba_weight2->setFont(font4);
-
-        verticalLayout_4->addWidget(reba_weight2);
-
-        reba_weight3 = new QRadioButton(groupBox_2);
-        reba_weight3->setObjectName(QStringLiteral("reba_weight3"));
-        reba_weight3->setFont(font4);
-
-        verticalLayout_4->addWidget(reba_weight3);
-
-
-        verticalLayout->addWidget(groupBox_2);
-
-        label_5 = new QLabel(tab_2);
-        label_5->setObjectName(QStringLiteral("label_5"));
-        label_5->setFont(font2);
-
-        verticalLayout->addWidget(label_5);
-
-        check_reba_1 = new QCheckBox(tab_2);
-        check_reba_1->setObjectName(QStringLiteral("check_reba_1"));
-        check_reba_1->setFont(font4);
-
-        verticalLayout->addWidget(check_reba_1);
-
-        check_reba_2 = new QCheckBox(tab_2);
-        check_reba_2->setObjectName(QStringLiteral("check_reba_2"));
-        check_reba_2->setFont(font4);
-
-        verticalLayout->addWidget(check_reba_2);
-
-        check_reba_3 = new QCheckBox(tab_2);
-        check_reba_3->setObjectName(QStringLiteral("check_reba_3"));
-        check_reba_3->setFont(font4);
-
-        verticalLayout->addWidget(check_reba_3);
-
-        groupBox_3 = new QGroupBox(tab_2);
-        groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
-        formLayout_4 = new QFormLayout(groupBox_3);
-        formLayout_4->setSpacing(6);
-        formLayout_4->setContentsMargins(11, 11, 11, 11);
-        formLayout_4->setObjectName(QStringLiteral("formLayout_4"));
-        Cp4 = new QRadioButton(groupBox_3);
-        Cp4->setObjectName(QStringLiteral("Cp4"));
-        Cp4->setFont(font4);
-
-        formLayout_4->setWidget(5, QFormLayout::LabelRole, Cp4);
-
-        Cp1 = new QRadioButton(groupBox_3);
-        Cp1->setObjectName(QStringLiteral("Cp1"));
-        Cp1->setFont(font4);
-
-        formLayout_4->setWidget(0, QFormLayout::LabelRole, Cp1);
-
-        Cp2 = new QRadioButton(groupBox_3);
-        Cp2->setObjectName(QStringLiteral("Cp2"));
-        Cp2->setFont(font4);
-
-        formLayout_4->setWidget(1, QFormLayout::LabelRole, Cp2);
-
-        Cp3 = new QRadioButton(groupBox_3);
-        Cp3->setObjectName(QStringLiteral("Cp3"));
-        Cp3->setFont(font4);
-
-        formLayout_4->setWidget(2, QFormLayout::LabelRole, Cp3);
-
-
-        verticalLayout->addWidget(groupBox_3);
-
-        label_7 = new QLabel(tab_2);
-        label_7->setObjectName(QStringLiteral("label_7"));
-        label_7->setFont(font2);
-
-        verticalLayout->addWidget(label_7);
-
-        check_reba_act1 = new QCheckBox(tab_2);
-        check_reba_act1->setObjectName(QStringLiteral("check_reba_act1"));
-        check_reba_act1->setFont(font4);
-
-        verticalLayout->addWidget(check_reba_act1);
-
-        check_reba_act2 = new QCheckBox(tab_2);
-        check_reba_act2->setObjectName(QStringLiteral("check_reba_act2"));
-        check_reba_act2->setFont(font4);
-
-        verticalLayout->addWidget(check_reba_act2);
-
-        check_reba_act3 = new QCheckBox(tab_2);
-        check_reba_act3->setObjectName(QStringLiteral("check_reba_act3"));
-        check_reba_act3->setFont(font4);
-
-        verticalLayout->addWidget(check_reba_act3);
-
-
-        formLayout_2->setLayout(0, QFormLayout::SpanningRole, verticalLayout);
-
-        tabWidget->addTab(tab_2, QString());
-        tab_3 = new QWidget();
-        tab_3->setObjectName(QStringLiteral("tab_3"));
-        tabWidget->addTab(tab_3, QString());
-        tab_4 = new QWidget();
-        tab_4->setObjectName(QStringLiteral("tab_4"));
-        textbrowser = new QTextBrowser(tab_4);
-        textbrowser->setObjectName(QStringLiteral("textbrowser"));
-        textbrowser->setGeometry(QRect(50, 60, 349, 446));
-        tabWidget->addTab(tab_4, QString());
-
-        verticalLayout_3->addWidget(tabWidget);
-
-        horizontalLayout_4 = new QHBoxLayout();
-        horizontalLayout_4->setSpacing(6);
-        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
-        horizontalLayout_4->setContentsMargins(-1, 0, -1, -1);
-        horizontalLayout_5 = new QHBoxLayout();
-        horizontalLayout_5->setSpacing(6);
-        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
-        horizontalLayout_5->setContentsMargins(-1, 20, -1, -1);
-        label = new QLabel(centralWidget);
-        label->setObjectName(QStringLiteral("label"));
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
-        label->setSizePolicy(sizePolicy);
-        label->setFont(font2);
-
-        horizontalLayout_5->addWidget(label);
-
-        Label_Score = new QLabel(centralWidget);
-        Label_Score->setObjectName(QStringLiteral("Label_Score"));
-        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Minimum);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(Label_Score->sizePolicy().hasHeightForWidth());
-        Label_Score->setSizePolicy(sizePolicy1);
-        QFont font5;
-        font5.setFamily(QStringLiteral("Adobe Devanagari"));
-        font5.setPointSize(18);
-        Label_Score->setFont(font5);
-
-        horizontalLayout_5->addWidget(Label_Score);
-
-
-        horizontalLayout_4->addLayout(horizontalLayout_5);
-
-
-        verticalLayout_3->addLayout(horizontalLayout_4);
-
-
-        gridLayout->addLayout(verticalLayout_3, 0, 4, 1, 1);
-
         gridLayout_2 = new QGridLayout();
         gridLayout_2->setSpacing(6);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         gridLayout_2->setSizeConstraint(QLayout::SetMaximumSize);
         widget = new ThreeDWindow(centralWidget);
         widget->setObjectName(QStringLiteral("widget"));
-        QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(widget->sizePolicy().hasHeightForWidth());
-        widget->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(widget->sizePolicy().hasHeightForWidth());
+        widget->setSizePolicy(sizePolicy1);
         widget->setMinimumSize(QSize(500, 500));
 
         gridLayout_2->addWidget(widget, 0, 0, 1, 1);
@@ -488,10 +221,346 @@ public:
 
         gridLayout->addLayout(gridLayout_2, 0, 0, 1, 1);
 
+        verticalLayout_3 = new QVBoxLayout();
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        verticalLayout_3->setContentsMargins(-1, -1, 0, -1);
+        tabWidget = new QTabWidget(centralWidget);
+        tabWidget->setObjectName(QStringLiteral("tabWidget"));
+        tabWidget->setFont(font);
+        tab = new QWidget();
+        tab->setObjectName(QStringLiteral("tab"));
+        formLayout = new QFormLayout(tab);
+        formLayout->setSpacing(6);
+        formLayout->setContentsMargins(11, 11, 11, 11);
+        formLayout->setObjectName(QStringLiteral("formLayout"));
+        gridLayout_4 = new QGridLayout();
+        gridLayout_4->setSpacing(6);
+        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+
+        gridLayout_4->addLayout(horizontalLayout_2, 1, 0, 1, 1);
+
+        verticalLayout_2 = new QVBoxLayout();
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        label_3 = new QLabel(tab);
+        label_3->setObjectName(QStringLiteral("label_3"));
+        QFont font1;
+        font1.setFamily(QString::fromUtf8("\345\276\256\350\273\237\346\255\243\351\273\221\351\253\224"));
+        font1.setPointSize(11);
+        label_3->setFont(font1);
+
+        verticalLayout_2->addWidget(label_3);
+
+        check_rula_1 = new QCheckBox(tab);
+        check_rula_1->setObjectName(QStringLiteral("check_rula_1"));
+        check_rula_1->setFont(font1);
+
+        verticalLayout_2->addWidget(check_rula_1);
+
+        check_rula_2 = new QCheckBox(tab);
+        check_rula_2->setObjectName(QStringLiteral("check_rula_2"));
+        check_rula_2->setFont(font1);
+
+        verticalLayout_2->addWidget(check_rula_2);
+
+        check_rula_3 = new QCheckBox(tab);
+        check_rula_3->setObjectName(QStringLiteral("check_rula_3"));
+        check_rula_3->setFont(font1);
+
+        verticalLayout_2->addWidget(check_rula_3);
+
+        label_8 = new QLabel(tab);
+        label_8->setObjectName(QStringLiteral("label_8"));
+        label_8->setFont(font1);
+
+        verticalLayout_2->addWidget(label_8);
+
+        check_rula_4 = new QCheckBox(tab);
+        check_rula_4->setObjectName(QStringLiteral("check_rula_4"));
+        check_rula_4->setFont(font1);
+
+        verticalLayout_2->addWidget(check_rula_4);
+
+        check_rula_5 = new QCheckBox(tab);
+        check_rula_5->setObjectName(QStringLiteral("check_rula_5"));
+        check_rula_5->setFont(font1);
+
+        verticalLayout_2->addWidget(check_rula_5);
+
+        label_2 = new QLabel(tab);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setFont(font1);
+
+        verticalLayout_2->addWidget(label_2);
+
+        load_choose1 = new QRadioButton(tab);
+        load_choose1->setObjectName(QStringLiteral("load_choose1"));
+        load_choose1->setFont(font1);
+
+        verticalLayout_2->addWidget(load_choose1);
+
+        load_choose2 = new QRadioButton(tab);
+        load_choose2->setObjectName(QStringLiteral("load_choose2"));
+        load_choose2->setFont(font1);
+
+        verticalLayout_2->addWidget(load_choose2);
+
+        load_choose3 = new QRadioButton(tab);
+        load_choose3->setObjectName(QStringLiteral("load_choose3"));
+        load_choose3->setFont(font1);
+
+        verticalLayout_2->addWidget(load_choose3);
+
+
+        gridLayout_4->addLayout(verticalLayout_2, 0, 0, 1, 1);
+
+
+        formLayout->setLayout(0, QFormLayout::LabelRole, gridLayout_4);
+
+        tabWidget->addTab(tab, QString());
+        tab_2 = new QWidget();
+        tab_2->setObjectName(QStringLiteral("tab_2"));
+        formLayout_2 = new QFormLayout(tab_2);
+        formLayout_2->setSpacing(6);
+        formLayout_2->setContentsMargins(11, 11, 11, 11);
+        formLayout_2->setObjectName(QStringLiteral("formLayout_2"));
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setSpacing(6);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        groupBox_2 = new QGroupBox(tab_2);
+        groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
+        groupBox_2->setFont(font1);
+        verticalLayout_4 = new QVBoxLayout(groupBox_2);
+        verticalLayout_4->setSpacing(6);
+        verticalLayout_4->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
+        reba_weight1 = new QRadioButton(groupBox_2);
+        reba_weight1->setObjectName(QStringLiteral("reba_weight1"));
+        reba_weight1->setFont(font1);
+
+        verticalLayout_4->addWidget(reba_weight1);
+
+        reba_weight2 = new QRadioButton(groupBox_2);
+        reba_weight2->setObjectName(QStringLiteral("reba_weight2"));
+        reba_weight2->setFont(font1);
+
+        verticalLayout_4->addWidget(reba_weight2);
+
+        reba_weight3 = new QRadioButton(groupBox_2);
+        reba_weight3->setObjectName(QStringLiteral("reba_weight3"));
+        reba_weight3->setFont(font1);
+
+        verticalLayout_4->addWidget(reba_weight3);
+
+
+        verticalLayout->addWidget(groupBox_2);
+
+        label_5 = new QLabel(tab_2);
+        label_5->setObjectName(QStringLiteral("label_5"));
+        label_5->setFont(font1);
+
+        verticalLayout->addWidget(label_5);
+
+        check_reba_1 = new QCheckBox(tab_2);
+        check_reba_1->setObjectName(QStringLiteral("check_reba_1"));
+        check_reba_1->setFont(font1);
+
+        verticalLayout->addWidget(check_reba_1);
+
+        check_reba_2 = new QCheckBox(tab_2);
+        check_reba_2->setObjectName(QStringLiteral("check_reba_2"));
+        check_reba_2->setFont(font1);
+
+        verticalLayout->addWidget(check_reba_2);
+
+        check_reba_3 = new QCheckBox(tab_2);
+        check_reba_3->setObjectName(QStringLiteral("check_reba_3"));
+        check_reba_3->setFont(font1);
+
+        verticalLayout->addWidget(check_reba_3);
+
+        groupBox_3 = new QGroupBox(tab_2);
+        groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
+        groupBox_3->setFont(font1);
+        formLayout_4 = new QFormLayout(groupBox_3);
+        formLayout_4->setSpacing(6);
+        formLayout_4->setContentsMargins(11, 11, 11, 11);
+        formLayout_4->setObjectName(QStringLiteral("formLayout_4"));
+        Cp4 = new QRadioButton(groupBox_3);
+        Cp4->setObjectName(QStringLiteral("Cp4"));
+        Cp4->setFont(font1);
+
+        formLayout_4->setWidget(5, QFormLayout::LabelRole, Cp4);
+
+        Cp1 = new QRadioButton(groupBox_3);
+        Cp1->setObjectName(QStringLiteral("Cp1"));
+        Cp1->setFont(font1);
+
+        formLayout_4->setWidget(0, QFormLayout::LabelRole, Cp1);
+
+        Cp2 = new QRadioButton(groupBox_3);
+        Cp2->setObjectName(QStringLiteral("Cp2"));
+        Cp2->setFont(font1);
+
+        formLayout_4->setWidget(1, QFormLayout::LabelRole, Cp2);
+
+        Cp3 = new QRadioButton(groupBox_3);
+        Cp3->setObjectName(QStringLiteral("Cp3"));
+        Cp3->setFont(font1);
+
+        formLayout_4->setWidget(2, QFormLayout::LabelRole, Cp3);
+
+
+        verticalLayout->addWidget(groupBox_3);
+
+        label_7 = new QLabel(tab_2);
+        label_7->setObjectName(QStringLiteral("label_7"));
+        label_7->setFont(font1);
+
+        verticalLayout->addWidget(label_7);
+
+        check_reba_act1 = new QCheckBox(tab_2);
+        check_reba_act1->setObjectName(QStringLiteral("check_reba_act1"));
+        check_reba_act1->setFont(font1);
+
+        verticalLayout->addWidget(check_reba_act1);
+
+        check_reba_act2 = new QCheckBox(tab_2);
+        check_reba_act2->setObjectName(QStringLiteral("check_reba_act2"));
+        check_reba_act2->setFont(font1);
+
+        verticalLayout->addWidget(check_reba_act2);
+
+        check_reba_act3 = new QCheckBox(tab_2);
+        check_reba_act3->setObjectName(QStringLiteral("check_reba_act3"));
+        check_reba_act3->setFont(font1);
+
+        verticalLayout->addWidget(check_reba_act3);
+
+
+        formLayout_2->setLayout(0, QFormLayout::SpanningRole, verticalLayout);
+
+        tabWidget->addTab(tab_2, QString());
+        tab_3 = new QWidget();
+        tab_3->setObjectName(QStringLiteral("tab_3"));
+        verticalLayout_5 = new QVBoxLayout(tab_3);
+        verticalLayout_5->setSpacing(6);
+        verticalLayout_5->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
+        groupBox_4 = new QGroupBox(tab_3);
+        groupBox_4->setObjectName(QStringLiteral("groupBox_4"));
+        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(groupBox_4->sizePolicy().hasHeightForWidth());
+        groupBox_4->setSizePolicy(sizePolicy2);
+        verticalLayout_6 = new QVBoxLayout(groupBox_4);
+        verticalLayout_6->setSpacing(6);
+        verticalLayout_6->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        label_4 = new QLabel(groupBox_4);
+        label_4->setObjectName(QStringLiteral("label_4"));
+        QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Preferred);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(label_4->sizePolicy().hasHeightForWidth());
+        label_4->setSizePolicy(sizePolicy3);
+
+        horizontalLayout_3->addWidget(label_4);
+
+        awba_duration = new QSpinBox(groupBox_4);
+        awba_duration->setObjectName(QStringLiteral("awba_duration"));
+        sizePolicy3.setHeightForWidth(awba_duration->sizePolicy().hasHeightForWidth());
+        awba_duration->setSizePolicy(sizePolicy3);
+        awba_duration->setMinimum(1);
+        awba_duration->setMaximum(60);
+
+        horizontalLayout_3->addWidget(awba_duration);
+
+        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Maximum);
+
+        horizontalLayout_3->addItem(verticalSpacer_2);
+
+
+        verticalLayout_6->addLayout(horizontalLayout_3);
+
+        awba_config1 = new QCheckBox(groupBox_4);
+        awba_config1->setObjectName(QStringLiteral("awba_config1"));
+        QSizePolicy sizePolicy4(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(awba_config1->sizePolicy().hasHeightForWidth());
+        awba_config1->setSizePolicy(sizePolicy4);
+
+        verticalLayout_6->addWidget(awba_config1);
+
+
+        verticalLayout_5->addWidget(groupBox_4);
+
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_5->addItem(verticalSpacer);
+
+        tabWidget->addTab(tab_3, QString());
+        tab_4 = new QWidget();
+        tab_4->setObjectName(QStringLiteral("tab_4"));
+        textbrowser = new QTextBrowser(tab_4);
+        textbrowser->setObjectName(QStringLiteral("textbrowser"));
+        textbrowser->setGeometry(QRect(50, 60, 349, 446));
+        tabWidget->addTab(tab_4, QString());
+
+        verticalLayout_3->addWidget(tabWidget);
+
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setSpacing(6);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        horizontalLayout_4->setContentsMargins(-1, 0, -1, -1);
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setSpacing(6);
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        horizontalLayout_5->setContentsMargins(-1, 20, -1, -1);
+        label = new QLabel(centralWidget);
+        label->setObjectName(QStringLiteral("label"));
+        QSizePolicy sizePolicy5(QSizePolicy::Fixed, QSizePolicy::Minimum);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy5);
+        QFont font2;
+        font2.setFamily(QString::fromUtf8("\345\276\256\350\273\237\346\255\243\351\273\221\351\253\224"));
+        font2.setPointSize(14);
+        label->setFont(font2);
+
+        horizontalLayout_5->addWidget(label);
+
+        Label_Score = new QLabel(centralWidget);
+        Label_Score->setObjectName(QStringLiteral("Label_Score"));
+        sizePolicy.setHeightForWidth(Label_Score->sizePolicy().hasHeightForWidth());
+        Label_Score->setSizePolicy(sizePolicy);
+        Label_Score->setFont(font2);
+
+        horizontalLayout_5->addWidget(Label_Score);
+
+
+        horizontalLayout_4->addLayout(horizontalLayout_5);
+
+
+        verticalLayout_3->addLayout(horizontalLayout_4);
+
+
+        gridLayout->addLayout(verticalLayout_3, 0, 4, 1, 1);
+
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1163, 27));
+        menuBar->setGeometry(QRect(0, 0, 1532, 27));
         menuwindow = new QMenu(menuBar);
         menuwindow->setObjectName(QStringLiteral("menuwindow"));
         MainWindow->setMenuBar(menuBar);
@@ -520,7 +589,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -542,6 +611,12 @@ public:
         actionLeft_Lower_Leg->setText(QApplication::translate("MainWindow", "Left Lower Leg", Q_NULLPTR));
         actionRight_Upper_Leg->setText(QApplication::translate("MainWindow", "Right Upper Leg", Q_NULLPTR));
         actionRight_Lower_Leg->setText(QApplication::translate("MainWindow", "Right Lower Leg", Q_NULLPTR));
+        BTN_set_origin->setText(QApplication::translate("MainWindow", "Set Origin", Q_NULLPTR));
+        BTN_StartAllLpms->setText(QApplication::translate("MainWindow", "Connect All", Q_NULLPTR));
+        groupBox->setTitle(QString());
+        btn_x_plus->setText(QApplication::translate("MainWindow", "X+90", Q_NULLPTR));
+        btn_y_plus->setText(QApplication::translate("MainWindow", "Y+90", Q_NULLPTR));
+        btn_z_plus->setText(QApplication::translate("MainWindow", "Z+90", Q_NULLPTR));
         label_3->setText(QApplication::translate("MainWindow", "Detail Confuguration:", Q_NULLPTR));
         check_rula_1->setText(QApplication::translate("MainWindow", "shoulder is raised", Q_NULLPTR));
         check_rula_2->setText(QApplication::translate("MainWindow", "upper arm is abducted", Q_NULLPTR));
@@ -570,18 +645,16 @@ public:
         label_7->setText(QApplication::translate("MainWindow", "Activity Score", Q_NULLPTR));
         check_reba_act1->setText(QApplication::translate("MainWindow", "1 or more body parts are held for longer than 1 minute.", Q_NULLPTR));
         check_reba_act2->setText(QApplication::translate("MainWindow", "Repeated small range actions (more than 4x per minute).", Q_NULLPTR));
-        check_reba_act3->setText(QApplication::translate("MainWindow", "Action causes rapid large range changes in postures or unstable base.", Q_NULLPTR));
+        check_reba_act3->setText(QApplication::translate("MainWindow", "Action causes rapid large range changes in postures.", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "REBA", Q_NULLPTR));
+        groupBox_4->setTitle(QApplication::translate("MainWindow", "Configuguration", Q_NULLPTR));
+        label_4->setText(QApplication::translate("MainWindow", "Duration:", Q_NULLPTR));
+        awba_duration->setPrefix(QString());
+        awba_config1->setText(QApplication::translate("MainWindow", "sitting or not", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MainWindow", "AWBA", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(tab_4), QApplication::translate("MainWindow", "Debug", Q_NULLPTR));
-        label->setText(QApplication::translate("MainWindow", "RULA Score : ", Q_NULLPTR));
+        label->setText(QApplication::translate("MainWindow", "Score : ", Q_NULLPTR));
         Label_Score->setText(QApplication::translate("MainWindow", "0", Q_NULLPTR));
-        BTN_set_origin->setText(QApplication::translate("MainWindow", "Set Origin", Q_NULLPTR));
-        BTN_StartAllLpms->setText(QApplication::translate("MainWindow", "Connect All", Q_NULLPTR));
-        groupBox->setTitle(QString());
-        btn_x_plus->setText(QApplication::translate("MainWindow", "X+90", Q_NULLPTR));
-        btn_y_plus->setText(QApplication::translate("MainWindow", "Y+90", Q_NULLPTR));
-        btn_z_plus->setText(QApplication::translate("MainWindow", "Z+90", Q_NULLPTR));
         menuwindow->setTitle(QApplication::translate("MainWindow", "Load Model", Q_NULLPTR));
     } // retranslateUi
 

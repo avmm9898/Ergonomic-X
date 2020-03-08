@@ -113,6 +113,8 @@ Makefile: GLtest.pro C:\Qt\5.9.8\msvc2017_64\mkspecs\win32-msvc\qmake.conf C:\Qt
 		C:\Qt\5.9.8\msvc2017_64\mkspecs\modules\qt_lib_bluetooth.pri \
 		C:\Qt\5.9.8\msvc2017_64\mkspecs\modules\qt_lib_bluetooth_private.pri \
 		C:\Qt\5.9.8\msvc2017_64\mkspecs\modules\qt_lib_bootstrap_private.pri \
+		C:\Qt\5.9.8\msvc2017_64\mkspecs\modules\qt_lib_charts.pri \
+		C:\Qt\5.9.8\msvc2017_64\mkspecs\modules\qt_lib_charts_private.pri \
 		C:\Qt\5.9.8\msvc2017_64\mkspecs\modules\qt_lib_concurrent.pri \
 		C:\Qt\5.9.8\msvc2017_64\mkspecs\modules\qt_lib_concurrent_private.pri \
 		C:\Qt\5.9.8\msvc2017_64\mkspecs\modules\qt_lib_core.pri \
@@ -273,6 +275,8 @@ C:\Qt\5.9.8\msvc2017_64\mkspecs\modules\qt_lib_axserver_private.pri:
 C:\Qt\5.9.8\msvc2017_64\mkspecs\modules\qt_lib_bluetooth.pri:
 C:\Qt\5.9.8\msvc2017_64\mkspecs\modules\qt_lib_bluetooth_private.pri:
 C:\Qt\5.9.8\msvc2017_64\mkspecs\modules\qt_lib_bootstrap_private.pri:
+C:\Qt\5.9.8\msvc2017_64\mkspecs\modules\qt_lib_charts.pri:
+C:\Qt\5.9.8\msvc2017_64\mkspecs\modules\qt_lib_charts_private.pri:
 C:\Qt\5.9.8\msvc2017_64\mkspecs\modules\qt_lib_concurrent.pri:
 C:\Qt\5.9.8\msvc2017_64\mkspecs\modules\qt_lib_concurrent_private.pri:
 C:\Qt\5.9.8\msvc2017_64\mkspecs\modules\qt_lib_core.pri:

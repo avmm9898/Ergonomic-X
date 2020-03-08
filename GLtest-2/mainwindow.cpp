@@ -270,13 +270,13 @@ void MainWindow::timer_loop()
         }
         else if((*it)->type=="rLowerLeg"){
             temp.setX(-myLpms.rUpperLeg->quat_raw.toEulerAngles().x());
-            temp.setY(myLpms.rUpperLeg->quat_raw.toEulerAngles().y());
+            temp.setY(0);
             temp.setZ(myLpms.rUpperLeg->quat_raw.toEulerAngles().z());
             (*it)->quat_raw=QQuaternion::fromEulerAngles(temp);
         }
         else if((*it)->type=="lLowerLeg"){
             temp.setX(myLpms.rLowerLeg->quat_raw.toEulerAngles().x());
-            temp.setY(-myLpms.rLowerLeg->quat_raw.toEulerAngles().y());
+            temp.setY(0);
             temp.setZ(-myLpms.rLowerLeg->quat_raw.toEulerAngles().z());
             (*it)->quat_raw=QQuaternion::fromEulerAngles(temp);
         }
@@ -578,20 +578,20 @@ int MainWindow::reba_calc()
     int LegScore=0;
 
     //step1. Locate Neck Position
-    if(Neck_roll>340 && Neck_roll<=350)
+    if(Neck_roll>340 || Neck_roll<=20)
         NeckScore=1;
-    else if(Neck_roll>180 && Neck_roll<=340)
-        NeckScore=2;
-    else if(Neck_roll>10 && Neck_roll<=180)
-        NeckScore=2;
     else
-        NeckScore=1;
+        NeckScore=2;
+
     if(abs(Neck_yaw-Trunk_yaw)>5)
         NeckScore+=1;
     if(abs(Neck_pitch)>5)
         NeckScore+=1;
+    if(NeckScore>3)
+        NeckScore=3;
+
     //step2. Locate Trunk Position
-    if(Trunk_roll==0){
+    if(Trunk_roll==0 || Trunk_roll==360){
         TrunkScore=1;
     }
     else if(Trunk_roll<360&&Trunk_roll>=340){
@@ -606,7 +606,6 @@ int MainWindow::reba_calc()
     else if(Trunk_roll>0 && Trunk_roll<180){
         TrunkScore=2;
     }
-    else TrunkScore=1;
 
     if(abs(Trunk_pitch)>5)
         TrunkScore+=1;
@@ -633,10 +632,10 @@ int MainWindow::reba_calc()
     int ScoreA=tableAScore+int(ui->reba_weight2->isChecked())*1+int(ui->reba_weight3->isChecked())*2;
 
     //step7. upper arm
-    if(UpperArm_roll<20 && (UpperArm_roll-360)>-20){
+    if(UpperArm_roll<20 || UpperArm_roll>340){
         UpperArmScore=1;
     }
-    else if ((UpperArm_roll>=20 && UpperArm_roll<45) || (UpperArm_roll<=340 && UpperArm_roll>180)) {
+    else if ((UpperArm_roll>=20 && UpperArm_roll<45) || (UpperArm_roll<=340 && UpperArm_roll>=180)) {
         UpperArmScore=2;
     }
     else if (UpperArm_roll>=45 && UpperArm_roll<90) {
@@ -645,7 +644,7 @@ int MainWindow::reba_calc()
     else if (UpperArm_roll>=90 && UpperArm_roll<180) {
         UpperArmScore=4;
     }
-    else UpperArmScore=1;
+
 
 
     if(ui->check_reba_1->isChecked()){
@@ -655,7 +654,7 @@ int MainWindow::reba_calc()
         UpperArmScore+=1;
     }
     if(ui->check_reba_3->isChecked()){
-        if(UpperArm_roll!=1)
+        if(UpperArmScore!=1)
             UpperArmScore-=1;
     }
 
@@ -725,35 +724,46 @@ int MainWindow::awba_calc()
 
 
     int AULAScore=0;
+    int duration=ui->awba_duration->value();
     //step AULA
-    if(Trunk_roll<5||Trunk_roll>355){
+    if(Trunk_roll<5||Trunk_roll>350){
         if( UpperArm_roll>350 || UpperArm_roll<45){
             AULAScore=1;
+            if(duration>=10)
+                AULAScore=3;
         }
         else if(UpperArm_roll>=45 && UpperArm_roll<90){
             AULAScore=2;
+            if(duration>=10)
+                AULAScore=4;
         }
         else if(UpperArm_roll>=90 && UpperArm_roll<125){
             AULAScore=3;
+            if(duration>=10)
+                AULAScore=4;
         }
         else{
             AULAScore=4;
         }
     }
-    else if(Trunk_roll<=315 &&Trunk_roll>275){
+    else if(Trunk_roll<=350 &&Trunk_roll>275){
         if(LowerArm_roll>355 || LowerArm_roll<45){
             AULAScore=2;
         }
         else {
             AULAScore=3;
         }
+        if(duration>=10)
+            AULAScore=4;
     }
     else if(Trunk_roll<=275 &&Trunk_roll>180){
         AULAScore=2;
+        if(duration>=10)
+            AULAScore=4;
     }
     //undefined
     else
-        return 0;
+        AULAScore=4;
 
     //ALLA step
     int ALLAScore=0;
@@ -764,8 +774,13 @@ int MainWindow::awba_calc()
         ALLAScore=3;
     else if(Leg_roll<100&&Leg_roll>=30)
         ALLAScore=4;
-    else if(Leg_roll>=100)
+    else if(Leg_roll>=100 && Leg_roll<=357){
         ALLAScore=3;
+        if(duration>=10)
+            AULAScore=4;
+    }
+    if(ui->awba_config1->isChecked())
+        ALLAScore=1;
     int AWBAtable[4][4]{
         {4,4,4,3},
         {4,3,3,3},
