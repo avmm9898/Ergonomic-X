@@ -55,15 +55,6 @@ public:
     QAction *actionRight_Lower_Leg;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
-    QGridLayout *gridLayout_2;
-    ThreeDWindow *widget;
-    QHBoxLayout *horizontalLayout;
-    QPushButton *BTN_set_origin;
-    QPushButton *BTN_StartAllLpms;
-    QGroupBox *groupBox;
-    QPushButton *btn_x_plus;
-    QPushButton *btn_y_plus;
-    QPushButton *btn_z_plus;
     QVBoxLayout *verticalLayout_3;
     QTabWidget *tabWidget;
     QWidget *tab;
@@ -116,10 +107,42 @@ public:
     QSpacerItem *verticalSpacer;
     QWidget *tab_4;
     QTextBrowser *textbrowser;
+    QWidget *tab_5;
+    QVBoxLayout *verticalLayout_7;
+    QCheckBox *check_manual;
+    QHBoxLayout *horizontalLayout_6;
+    QLabel *label_6;
+    QSpinBox *uparm_box;
+    QSpacerItem *horizontalSpacer;
+    QHBoxLayout *horizontalLayout_7;
+    QLabel *label_9;
+    QSpinBox *loarm_box;
+    QSpacerItem *horizontalSpacer_2;
+    QHBoxLayout *horizontalLayout_8;
+    QLabel *label_10;
+    QSpinBox *neck_box;
+    QSpacerItem *horizontalSpacer_3;
+    QHBoxLayout *horizontalLayout_9;
+    QLabel *label_11;
+    QSpinBox *trunk_box;
+    QSpacerItem *horizontalSpacer_4;
+    QHBoxLayout *horizontalLayout_10;
+    QLabel *label_12;
+    QSpinBox *upleg_box;
+    QSpacerItem *horizontalSpacer_5;
     QHBoxLayout *horizontalLayout_4;
     QHBoxLayout *horizontalLayout_5;
     QLabel *label;
     QLabel *Label_Score;
+    QGridLayout *gridLayout_2;
+    ThreeDWindow *widget;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *BTN_set_origin;
+    QPushButton *BTN_StartAllLpms;
+    QGroupBox *groupBox;
+    QPushButton *btn_x_plus;
+    QPushButton *btn_y_plus;
+    QPushButton *btn_z_plus;
     QMenuBar *menuBar;
     QMenu *menuwindow;
     QToolBar *mainToolBar;
@@ -172,55 +195,6 @@ public:
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        gridLayout_2 = new QGridLayout();
-        gridLayout_2->setSpacing(6);
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        gridLayout_2->setSizeConstraint(QLayout::SetMaximumSize);
-        widget = new ThreeDWindow(centralWidget);
-        widget->setObjectName(QStringLiteral("widget"));
-        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(widget->sizePolicy().hasHeightForWidth());
-        widget->setSizePolicy(sizePolicy1);
-        widget->setMinimumSize(QSize(500, 500));
-
-        gridLayout_2->addWidget(widget, 0, 0, 1, 1);
-
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        BTN_set_origin = new QPushButton(centralWidget);
-        BTN_set_origin->setObjectName(QStringLiteral("BTN_set_origin"));
-
-        horizontalLayout->addWidget(BTN_set_origin);
-
-        BTN_StartAllLpms = new QPushButton(centralWidget);
-        BTN_StartAllLpms->setObjectName(QStringLiteral("BTN_StartAllLpms"));
-
-        horizontalLayout->addWidget(BTN_StartAllLpms);
-
-        groupBox = new QGroupBox(centralWidget);
-        groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setEnabled(true);
-        btn_x_plus = new QPushButton(groupBox);
-        btn_x_plus->setObjectName(QStringLiteral("btn_x_plus"));
-        btn_x_plus->setGeometry(QRect(10, 0, 115, 24));
-        btn_y_plus = new QPushButton(groupBox);
-        btn_y_plus->setObjectName(QStringLiteral("btn_y_plus"));
-        btn_y_plus->setGeometry(QRect(80, 0, 145, 24));
-        btn_z_plus = new QPushButton(groupBox);
-        btn_z_plus->setObjectName(QStringLiteral("btn_z_plus"));
-        btn_z_plus->setGeometry(QRect(170, 0, 196, 24));
-
-        horizontalLayout->addWidget(groupBox);
-
-
-        gridLayout_2->addLayout(horizontalLayout, 1, 0, 1, 1);
-
-
-        gridLayout->addLayout(gridLayout_2, 0, 0, 1, 1);
-
         verticalLayout_3 = new QVBoxLayout();
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
@@ -453,11 +427,11 @@ public:
         verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
         groupBox_4 = new QGroupBox(tab_3);
         groupBox_4->setObjectName(QStringLiteral("groupBox_4"));
-        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Fixed);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(groupBox_4->sizePolicy().hasHeightForWidth());
-        groupBox_4->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(groupBox_4->sizePolicy().hasHeightForWidth());
+        groupBox_4->setSizePolicy(sizePolicy1);
         verticalLayout_6 = new QVBoxLayout(groupBox_4);
         verticalLayout_6->setSpacing(6);
         verticalLayout_6->setContentsMargins(11, 11, 11, 11);
@@ -467,18 +441,18 @@ public:
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
         label_4 = new QLabel(groupBox_4);
         label_4->setObjectName(QStringLiteral("label_4"));
-        QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Preferred);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(label_4->sizePolicy().hasHeightForWidth());
-        label_4->setSizePolicy(sizePolicy3);
+        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Preferred);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(label_4->sizePolicy().hasHeightForWidth());
+        label_4->setSizePolicy(sizePolicy2);
 
         horizontalLayout_3->addWidget(label_4);
 
         awba_duration = new QSpinBox(groupBox_4);
         awba_duration->setObjectName(QStringLiteral("awba_duration"));
-        sizePolicy3.setHeightForWidth(awba_duration->sizePolicy().hasHeightForWidth());
-        awba_duration->setSizePolicy(sizePolicy3);
+        sizePolicy2.setHeightForWidth(awba_duration->sizePolicy().hasHeightForWidth());
+        awba_duration->setSizePolicy(sizePolicy2);
         awba_duration->setMinimum(1);
         awba_duration->setMaximum(60);
 
@@ -493,11 +467,11 @@ public:
 
         awba_config1 = new QCheckBox(groupBox_4);
         awba_config1->setObjectName(QStringLiteral("awba_config1"));
-        QSizePolicy sizePolicy4(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        sizePolicy4.setHorizontalStretch(0);
-        sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(awba_config1->sizePolicy().hasHeightForWidth());
-        awba_config1->setSizePolicy(sizePolicy4);
+        QSizePolicy sizePolicy3(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(awba_config1->sizePolicy().hasHeightForWidth());
+        awba_config1->setSizePolicy(sizePolicy3);
 
         verticalLayout_6->addWidget(awba_config1);
 
@@ -515,6 +489,140 @@ public:
         textbrowser->setObjectName(QStringLiteral("textbrowser"));
         textbrowser->setGeometry(QRect(50, 60, 349, 446));
         tabWidget->addTab(tab_4, QString());
+        tab_5 = new QWidget();
+        tab_5->setObjectName(QStringLiteral("tab_5"));
+        verticalLayout_7 = new QVBoxLayout(tab_5);
+        verticalLayout_7->setSpacing(6);
+        verticalLayout_7->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_7->setObjectName(QStringLiteral("verticalLayout_7"));
+        check_manual = new QCheckBox(tab_5);
+        check_manual->setObjectName(QStringLiteral("check_manual"));
+        QSizePolicy sizePolicy4(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(check_manual->sizePolicy().hasHeightForWidth());
+        check_manual->setSizePolicy(sizePolicy4);
+
+        verticalLayout_7->addWidget(check_manual);
+
+        horizontalLayout_6 = new QHBoxLayout();
+        horizontalLayout_6->setSpacing(6);
+        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
+        label_6 = new QLabel(tab_5);
+        label_6->setObjectName(QStringLiteral("label_6"));
+        sizePolicy2.setHeightForWidth(label_6->sizePolicy().hasHeightForWidth());
+        label_6->setSizePolicy(sizePolicy2);
+
+        horizontalLayout_6->addWidget(label_6);
+
+        uparm_box = new QSpinBox(tab_5);
+        uparm_box->setObjectName(QStringLiteral("uparm_box"));
+        sizePolicy4.setHeightForWidth(uparm_box->sizePolicy().hasHeightForWidth());
+        uparm_box->setSizePolicy(sizePolicy4);
+        uparm_box->setMaximum(360);
+
+        horizontalLayout_6->addWidget(uparm_box);
+
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_6->addItem(horizontalSpacer);
+
+
+        verticalLayout_7->addLayout(horizontalLayout_6);
+
+        horizontalLayout_7 = new QHBoxLayout();
+        horizontalLayout_7->setSpacing(6);
+        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
+        label_9 = new QLabel(tab_5);
+        label_9->setObjectName(QStringLiteral("label_9"));
+        sizePolicy2.setHeightForWidth(label_9->sizePolicy().hasHeightForWidth());
+        label_9->setSizePolicy(sizePolicy2);
+
+        horizontalLayout_7->addWidget(label_9);
+
+        loarm_box = new QSpinBox(tab_5);
+        loarm_box->setObjectName(QStringLiteral("loarm_box"));
+        sizePolicy4.setHeightForWidth(loarm_box->sizePolicy().hasHeightForWidth());
+        loarm_box->setSizePolicy(sizePolicy4);
+        loarm_box->setMaximum(360);
+
+        horizontalLayout_7->addWidget(loarm_box);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_7->addItem(horizontalSpacer_2);
+
+
+        verticalLayout_7->addLayout(horizontalLayout_7);
+
+        horizontalLayout_8 = new QHBoxLayout();
+        horizontalLayout_8->setSpacing(6);
+        horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
+        label_10 = new QLabel(tab_5);
+        label_10->setObjectName(QStringLiteral("label_10"));
+        sizePolicy2.setHeightForWidth(label_10->sizePolicy().hasHeightForWidth());
+        label_10->setSizePolicy(sizePolicy2);
+
+        horizontalLayout_8->addWidget(label_10);
+
+        neck_box = new QSpinBox(tab_5);
+        neck_box->setObjectName(QStringLiteral("neck_box"));
+        sizePolicy4.setHeightForWidth(neck_box->sizePolicy().hasHeightForWidth());
+        neck_box->setSizePolicy(sizePolicy4);
+        neck_box->setMaximum(360);
+
+        horizontalLayout_8->addWidget(neck_box);
+
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_8->addItem(horizontalSpacer_3);
+
+
+        verticalLayout_7->addLayout(horizontalLayout_8);
+
+        horizontalLayout_9 = new QHBoxLayout();
+        horizontalLayout_9->setSpacing(6);
+        horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
+        label_11 = new QLabel(tab_5);
+        label_11->setObjectName(QStringLiteral("label_11"));
+
+        horizontalLayout_9->addWidget(label_11);
+
+        trunk_box = new QSpinBox(tab_5);
+        trunk_box->setObjectName(QStringLiteral("trunk_box"));
+        trunk_box->setMaximum(360);
+
+        horizontalLayout_9->addWidget(trunk_box);
+
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_9->addItem(horizontalSpacer_4);
+
+
+        verticalLayout_7->addLayout(horizontalLayout_9);
+
+        horizontalLayout_10 = new QHBoxLayout();
+        horizontalLayout_10->setSpacing(6);
+        horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
+        label_12 = new QLabel(tab_5);
+        label_12->setObjectName(QStringLiteral("label_12"));
+
+        horizontalLayout_10->addWidget(label_12);
+
+        upleg_box = new QSpinBox(tab_5);
+        upleg_box->setObjectName(QStringLiteral("upleg_box"));
+        upleg_box->setMaximum(360);
+
+        horizontalLayout_10->addWidget(upleg_box);
+
+        horizontalSpacer_5 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_10->addItem(horizontalSpacer_5);
+
+
+        verticalLayout_7->addLayout(horizontalLayout_10);
+
+        tabWidget->addTab(tab_5, QString());
 
         verticalLayout_3->addWidget(tabWidget);
 
@@ -557,6 +665,55 @@ public:
 
         gridLayout->addLayout(verticalLayout_3, 0, 4, 1, 1);
 
+        gridLayout_2 = new QGridLayout();
+        gridLayout_2->setSpacing(6);
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        gridLayout_2->setSizeConstraint(QLayout::SetMaximumSize);
+        widget = new ThreeDWindow(centralWidget);
+        widget->setObjectName(QStringLiteral("widget"));
+        QSizePolicy sizePolicy6(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy6.setHorizontalStretch(0);
+        sizePolicy6.setVerticalStretch(0);
+        sizePolicy6.setHeightForWidth(widget->sizePolicy().hasHeightForWidth());
+        widget->setSizePolicy(sizePolicy6);
+        widget->setMinimumSize(QSize(500, 500));
+
+        gridLayout_2->addWidget(widget, 0, 0, 1, 1);
+
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        BTN_set_origin = new QPushButton(centralWidget);
+        BTN_set_origin->setObjectName(QStringLiteral("BTN_set_origin"));
+
+        horizontalLayout->addWidget(BTN_set_origin);
+
+        BTN_StartAllLpms = new QPushButton(centralWidget);
+        BTN_StartAllLpms->setObjectName(QStringLiteral("BTN_StartAllLpms"));
+
+        horizontalLayout->addWidget(BTN_StartAllLpms);
+
+        groupBox = new QGroupBox(centralWidget);
+        groupBox->setObjectName(QStringLiteral("groupBox"));
+        groupBox->setEnabled(true);
+        btn_x_plus = new QPushButton(groupBox);
+        btn_x_plus->setObjectName(QStringLiteral("btn_x_plus"));
+        btn_x_plus->setGeometry(QRect(10, 0, 115, 24));
+        btn_y_plus = new QPushButton(groupBox);
+        btn_y_plus->setObjectName(QStringLiteral("btn_y_plus"));
+        btn_y_plus->setGeometry(QRect(80, 0, 145, 24));
+        btn_z_plus = new QPushButton(groupBox);
+        btn_z_plus->setObjectName(QStringLiteral("btn_z_plus"));
+        btn_z_plus->setGeometry(QRect(170, 0, 196, 24));
+
+        horizontalLayout->addWidget(groupBox);
+
+
+        gridLayout_2->addLayout(horizontalLayout, 1, 0, 1, 1);
+
+
+        gridLayout->addLayout(gridLayout_2, 0, 0, 1, 1);
+
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -589,7 +746,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(2);
+        tabWidget->setCurrentIndex(4);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -611,12 +768,6 @@ public:
         actionLeft_Lower_Leg->setText(QApplication::translate("MainWindow", "Left Lower Leg", Q_NULLPTR));
         actionRight_Upper_Leg->setText(QApplication::translate("MainWindow", "Right Upper Leg", Q_NULLPTR));
         actionRight_Lower_Leg->setText(QApplication::translate("MainWindow", "Right Lower Leg", Q_NULLPTR));
-        BTN_set_origin->setText(QApplication::translate("MainWindow", "Set Origin", Q_NULLPTR));
-        BTN_StartAllLpms->setText(QApplication::translate("MainWindow", "Connect All", Q_NULLPTR));
-        groupBox->setTitle(QString());
-        btn_x_plus->setText(QApplication::translate("MainWindow", "X+90", Q_NULLPTR));
-        btn_y_plus->setText(QApplication::translate("MainWindow", "Y+90", Q_NULLPTR));
-        btn_z_plus->setText(QApplication::translate("MainWindow", "Z+90", Q_NULLPTR));
         label_3->setText(QApplication::translate("MainWindow", "Detail Confuguration:", Q_NULLPTR));
         check_rula_1->setText(QApplication::translate("MainWindow", "shoulder is raised", Q_NULLPTR));
         check_rula_2->setText(QApplication::translate("MainWindow", "upper arm is abducted", Q_NULLPTR));
@@ -653,8 +804,21 @@ public:
         awba_config1->setText(QApplication::translate("MainWindow", "sitting or not", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MainWindow", "AWBA", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(tab_4), QApplication::translate("MainWindow", "Debug", Q_NULLPTR));
+        check_manual->setText(QApplication::translate("MainWindow", "Activate manual angles!", Q_NULLPTR));
+        label_6->setText(QApplication::translate("MainWindow", "Upper arm", Q_NULLPTR));
+        label_9->setText(QApplication::translate("MainWindow", "Lower arm", Q_NULLPTR));
+        label_10->setText(QApplication::translate("MainWindow", "Neck", Q_NULLPTR));
+        label_11->setText(QApplication::translate("MainWindow", "Trunk", Q_NULLPTR));
+        label_12->setText(QApplication::translate("MainWindow", "Upper leg", Q_NULLPTR));
+        tabWidget->setTabText(tabWidget->indexOf(tab_5), QApplication::translate("MainWindow", "Manual", Q_NULLPTR));
         label->setText(QApplication::translate("MainWindow", "Score : ", Q_NULLPTR));
         Label_Score->setText(QApplication::translate("MainWindow", "0", Q_NULLPTR));
+        BTN_set_origin->setText(QApplication::translate("MainWindow", "Set Origin", Q_NULLPTR));
+        BTN_StartAllLpms->setText(QApplication::translate("MainWindow", "Connect All", Q_NULLPTR));
+        groupBox->setTitle(QString());
+        btn_x_plus->setText(QApplication::translate("MainWindow", "X+90", Q_NULLPTR));
+        btn_y_plus->setText(QApplication::translate("MainWindow", "Y+90", Q_NULLPTR));
+        btn_z_plus->setText(QApplication::translate("MainWindow", "Z+90", Q_NULLPTR));
         menuwindow->setTitle(QApplication::translate("MainWindow", "Load Model", Q_NULLPTR));
     } // retranslateUi
 

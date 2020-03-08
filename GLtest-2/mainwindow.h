@@ -110,6 +110,8 @@ private slots:
 
     void on_actionRight_Lower_Leg_triggered();
 
+    void on_check_manual_clicked();
+
 private:
     Ui::MainWindow *ui;
 

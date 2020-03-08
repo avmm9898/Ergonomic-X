@@ -234,6 +234,10 @@ void MainWindow::lpms_connect(LpmsDevice *m_lpms)
 
 void MainWindow::timer_loop()
 {
+
+
+
+
     std::list<LpmsDevice *>::iterator it;
 
     QVector3D temp;  //for 少量的IMU用來測試RULA, REBA等分數
@@ -281,10 +285,30 @@ void MainWindow::timer_loop()
             (*it)->quat_raw=QQuaternion::fromEulerAngles(temp);
         }
         else{
-            data_receive(*it);
-            data_display(*it);
+            if(ui->check_manual->isChecked()){
+                myLpms.rUpperArm->euler_raw.setX(ui->uparm_box->value());
+                myLpms.rLowerArm->euler_raw.setX(ui->loarm_box->value());
+                myLpms.head->euler_raw.setX(ui->neck_box->value());
+                myLpms.body->euler_raw.setX(ui->trunk_box->value());
+                myLpms.rUpperLeg->euler_raw.setX(ui->upleg_box->value());
+
+                myLpms.rUpperArm->quat_raw=QQuaternion::fromEulerAngles(myLpms.rUpperArm->euler_raw);
+                myLpms.rLowerArm->quat_raw=QQuaternion::fromEulerAngles(myLpms.rLowerArm->euler_raw);
+                myLpms.head->quat_raw=QQuaternion::fromEulerAngles(myLpms.head->euler_raw);
+                myLpms.body->quat_raw=QQuaternion::fromEulerAngles(myLpms.body->euler_raw);
+                myLpms.rUpperLeg->quat_raw=QQuaternion::fromEulerAngles(myLpms.rUpperLeg->euler_raw);
+            }
+            else
+            {
+                data_receive(*it);
+                data_display(*it);
+            }
         }
     }
+
+
+
+
     //rula_calc();
     if(ui->tabWidget->currentIndex()==0){
         ui->label->setText("RULA Score");
@@ -531,6 +555,8 @@ int MainWindow::rula_calc()
         {5,5,6,6,7,7,7},
         {5,5,6,7,7,7,7}
     };
+    if(tableAScore>8) tableAScore=8;
+    if(tableBScore>7) tableBScore=7;
     int tableCScore=tableC[tableAScore-1][tableBScore-1];
 
     ui->textbrowser->append(QString::number(tableAScore));
@@ -1021,4 +1047,11 @@ void MainWindow::on_actionRight_Lower_Leg_triggered()
         ui->widget->loadObjFile(file.toStdString(), myLpms.rLowerLeg);
         ActiveModelID=myLpms.rLowerLeg->id;
     }
+}
+
+void MainWindow::on_check_manual_clicked()
+{
+    dataTimer = new QTimer(this);
+    dataTimer->start(20);
+    connect(dataTimer,SIGNAL(timeout()),this,SLOT(timer_loop()));
 }
