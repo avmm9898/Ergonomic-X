@@ -599,6 +599,16 @@
              </widget>
             </item>
             <item>
+             <widget class="QSlider" name="uparm_box_sli">
+              <property name="maximum">
+               <number>360</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="horizontalSpacer">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -638,6 +648,16 @@
               </property>
               <property name="maximum">
                <number>360</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="loarm_box_sli">
+              <property name="maximum">
+               <number>360</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
               </property>
              </widget>
             </item>
@@ -685,6 +705,16 @@
              </widget>
             </item>
             <item>
+             <widget class="QSlider" name="neck_box_sli">
+              <property name="maximum">
+               <number>360</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="horizontalSpacer_3">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -716,6 +746,16 @@
              </widget>
             </item>
             <item>
+             <widget class="QSlider" name="trunk_box_sli">
+              <property name="maximum">
+               <number>360</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="horizontalSpacer_4">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -743,6 +783,16 @@
              <widget class="QSpinBox" name="upleg_box">
               <property name="maximum">
                <number>360</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="upleg_box_sli">
+              <property name="maximum">
+               <number>360</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
               </property>
              </widget>
             </item>

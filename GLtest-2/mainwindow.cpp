@@ -286,17 +286,24 @@ void MainWindow::timer_loop()
         }
         else{
             if(ui->check_manual->isChecked()){
+
+                ui->uparm_box->setValue(ui->uparm_box_sli->value());
+                ui->loarm_box->setValue(ui->loarm_box_sli->value());
+                ui->neck_box->setValue(ui->neck_box_sli->value());
+                ui->trunk_box->setValue(ui->trunk_box_sli->value());
+                ui->upleg_box->setValue(ui->upleg_box_sli->value());
+
                 myLpms.rUpperArm->euler_raw.setX(ui->uparm_box->value());
                 myLpms.rLowerArm->euler_raw.setX(ui->loarm_box->value());
                 myLpms.head->euler_raw.setX(ui->neck_box->value());
                 myLpms.body->euler_raw.setX(ui->trunk_box->value());
                 myLpms.rUpperLeg->euler_raw.setX(ui->upleg_box->value());
 
-                myLpms.rUpperArm->quat_raw=QQuaternion::fromEulerAngles(myLpms.rUpperArm->euler_raw);
-                myLpms.rLowerArm->quat_raw=QQuaternion::fromEulerAngles(myLpms.rLowerArm->euler_raw);
-                myLpms.head->quat_raw=QQuaternion::fromEulerAngles(myLpms.head->euler_raw);
-                myLpms.body->quat_raw=QQuaternion::fromEulerAngles(myLpms.body->euler_raw);
-                myLpms.rUpperLeg->quat_raw=QQuaternion::fromEulerAngles(myLpms.rUpperLeg->euler_raw);
+                myLpms.rUpperArm->quat_raw=QQuaternion::fromEulerAngles(-myLpms.rUpperArm->euler_raw);
+                myLpms.rLowerArm->quat_raw=QQuaternion::fromEulerAngles(-myLpms.rLowerArm->euler_raw);
+                myLpms.head->quat_raw=QQuaternion::fromEulerAngles(-myLpms.head->euler_raw);
+                myLpms.body->quat_raw=QQuaternion::fromEulerAngles(-myLpms.body->euler_raw);
+                myLpms.rUpperLeg->quat_raw=QQuaternion::fromEulerAngles(-myLpms.rUpperLeg->euler_raw);
             }
             else
             {
@@ -309,19 +316,10 @@ void MainWindow::timer_loop()
 
 
 
-    //rula_calc();
-    if(ui->tabWidget->currentIndex()==0){
-        ui->label->setText("RULA Score");
-        ui->Label_Score->setText(QString::number(rula_calc()));
-    }
-    else if(ui->tabWidget->currentIndex()==1){
-        ui->label->setText("REBA Score");
-        ui->Label_Score->setText(QString::number(reba_calc()));
-    }
-    else if(ui->tabWidget->currentIndex()==2){
-        ui->label->setText("AWBA Score");
-        ui->Label_Score->setText(QString::number(awba_calc()));
-    }
+
+
+    ui->Label_Score->setText("RULA:"+QString::number(rula_calc())+" REBA:"+QString::number(reba_calc())+" AWBA:"+QString::number(awba_calc()));
+
 
 
 
@@ -397,7 +395,7 @@ int MainWindow::rula_calc()
         UpperArmScore+=1;
     }
     if(ui->check_rula_3->isChecked()){
-        if(UpperArm_roll!=1)
+        if(UpperArmScore!=1)
             UpperArmScore-=1;
     }
 

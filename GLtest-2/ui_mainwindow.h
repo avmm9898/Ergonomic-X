@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.8
+** Created by: Qt User Interface Compiler version 5.9.9
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -25,6 +25,7 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
+#include <QtWidgets/QSlider>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
@@ -113,22 +114,27 @@ public:
     QHBoxLayout *horizontalLayout_6;
     QLabel *label_6;
     QSpinBox *uparm_box;
+    QSlider *uparm_box_sli;
     QSpacerItem *horizontalSpacer;
     QHBoxLayout *horizontalLayout_7;
     QLabel *label_9;
     QSpinBox *loarm_box;
+    QSlider *loarm_box_sli;
     QSpacerItem *horizontalSpacer_2;
     QHBoxLayout *horizontalLayout_8;
     QLabel *label_10;
     QSpinBox *neck_box;
+    QSlider *neck_box_sli;
     QSpacerItem *horizontalSpacer_3;
     QHBoxLayout *horizontalLayout_9;
     QLabel *label_11;
     QSpinBox *trunk_box;
+    QSlider *trunk_box_sli;
     QSpacerItem *horizontalSpacer_4;
     QHBoxLayout *horizontalLayout_10;
     QLabel *label_12;
     QSpinBox *upleg_box;
+    QSlider *upleg_box_sli;
     QSpacerItem *horizontalSpacer_5;
     QHBoxLayout *horizontalLayout_4;
     QHBoxLayout *horizontalLayout_5;
@@ -523,6 +529,13 @@ public:
 
         horizontalLayout_6->addWidget(uparm_box);
 
+        uparm_box_sli = new QSlider(tab_5);
+        uparm_box_sli->setObjectName(QStringLiteral("uparm_box_sli"));
+        uparm_box_sli->setMaximum(360);
+        uparm_box_sli->setOrientation(Qt::Horizontal);
+
+        horizontalLayout_6->addWidget(uparm_box_sli);
+
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_6->addItem(horizontalSpacer);
@@ -547,6 +560,13 @@ public:
         loarm_box->setMaximum(360);
 
         horizontalLayout_7->addWidget(loarm_box);
+
+        loarm_box_sli = new QSlider(tab_5);
+        loarm_box_sli->setObjectName(QStringLiteral("loarm_box_sli"));
+        loarm_box_sli->setMaximum(360);
+        loarm_box_sli->setOrientation(Qt::Horizontal);
+
+        horizontalLayout_7->addWidget(loarm_box_sli);
 
         horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -573,6 +593,13 @@ public:
 
         horizontalLayout_8->addWidget(neck_box);
 
+        neck_box_sli = new QSlider(tab_5);
+        neck_box_sli->setObjectName(QStringLiteral("neck_box_sli"));
+        neck_box_sli->setMaximum(360);
+        neck_box_sli->setOrientation(Qt::Horizontal);
+
+        horizontalLayout_8->addWidget(neck_box_sli);
+
         horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_8->addItem(horizontalSpacer_3);
@@ -594,6 +621,13 @@ public:
 
         horizontalLayout_9->addWidget(trunk_box);
 
+        trunk_box_sli = new QSlider(tab_5);
+        trunk_box_sli->setObjectName(QStringLiteral("trunk_box_sli"));
+        trunk_box_sli->setMaximum(360);
+        trunk_box_sli->setOrientation(Qt::Horizontal);
+
+        horizontalLayout_9->addWidget(trunk_box_sli);
+
         horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_9->addItem(horizontalSpacer_4);
@@ -614,6 +648,13 @@ public:
         upleg_box->setMaximum(360);
 
         horizontalLayout_10->addWidget(upleg_box);
+
+        upleg_box_sli = new QSlider(tab_5);
+        upleg_box_sli->setObjectName(QStringLiteral("upleg_box_sli"));
+        upleg_box_sli->setMaximum(360);
+        upleg_box_sli->setOrientation(Qt::Horizontal);
+
+        horizontalLayout_10->addWidget(upleg_box_sli);
 
         horizontalSpacer_5 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
