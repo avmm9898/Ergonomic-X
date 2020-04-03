@@ -136,13 +136,13 @@ void ThreeDWindow::paintGL()
     vertex_lUpperArm[1]=1.89; //z
     vertex_lUpperArm[2]=-0.75 ; //x
 
-    vertex_rUpperLeg[0]=-0.12; //y
-    vertex_rUpperLeg[1]=0; //z
-    vertex_rUpperLeg[2]=0.3 ; //x
-
-    vertex_lUpperLeg[0]=-0.16; //y
+    vertex_lUpperLeg[0]=-0.13; //y
     vertex_lUpperLeg[1]=0; //z
     vertex_lUpperLeg[2]=-0.3 ; //x
+
+    vertex_rUpperLeg[0]=-0.13; //y
+    vertex_rUpperLeg[1]=0; //z
+    vertex_rUpperLeg[2]=0.33 ; //x
     //
 
 

@@ -108,9 +108,9 @@ MainWindow::MainWindow(QWidget *parent) :
     lpmsList.push_back(&lLowerLeg);
 
     QString modelfolder="C:/body_part/";
-    QString file = modelfolder+"body-1.obj";
+    QString file = modelfolder+"male_body.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.body);
-    file = modelfolder+"head.obj";
+    file = modelfolder+"male_head.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.head);
     file = modelfolder+"R_upper_arm.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.rUpperArm);
@@ -124,13 +124,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->widget->loadObjFile(file.toStdString(), myLpms.lLowerArm);
     file = modelfolder+"L_wrist.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.lWrist);
-    file = modelfolder+"L_lower_leg.obj";
+    file = modelfolder+"male_RLleg.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.lLowerLeg);
-    file = modelfolder+"L_upper_leg.obj";
+    file = modelfolder+"male_RUleg.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.lUpperLeg);
-    file = modelfolder+"R_lower_leg.obj";
+    file = modelfolder+"male_LLleg.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.rLowerLeg);
-    file = modelfolder+"R_upper_leg.obj";
+    file = modelfolder+"male_LUleg.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.rUpperLeg);
 }
 

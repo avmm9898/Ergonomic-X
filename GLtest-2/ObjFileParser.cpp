@@ -192,12 +192,13 @@ bool ObjFileParser::parse(std::string filename, std::string type)
     endVertex(1)=0;
     endVertex(2)=0;
     if(type=="head"){
-        centerVertex(1) = 5.5f;
+        centerVertex(1) = 5.52f;
         //centerVertex(1)=abs(maxVertex(1)-minVertex(1))-0.2;
     }//0=x,1=z,2=y
 
     else if(type=="body"){
-        centerVertex(1) = minVertex(1)+0.3;//0=y,1=z,2=x
+        centerVertex(1) = minVertex(1)+0.2;//0=y,1=z,2=x
+        centerVertex(0) = centerVertex(0)+0.17;
     }
     else if(type=="rUpperArm"){
         centerVertex(2) = minVertex(2)+0.1;//0=y,1=z,2=x
@@ -219,39 +220,39 @@ bool ObjFileParser::parse(std::string filename, std::string type)
     else if(type=="lUpperArm"){
         centerVertex(2) = maxVertex(2)-0.1;//0=y,1=z,2=x
         endVertex(2)=-(abs(maxVertex(2)-minVertex(2))-0.2);
-        endVertex(0)=-0.125;
+        endVertex(0)=-0.08;
     }
     else if(type=="lLowerArm"){
-        centerVertex(2) = maxVertex(2)-0.1;//0=y,1=z,2=x when multiply rotation matrix
-        endVertex(2)=-(abs(maxVertex(2)-minVertex(2))-0.1);
+        centerVertex(2) = maxVertex(2)-0.15;//0=y,1=z,2=x when multiply rotation matrix
+        endVertex(2)=-(abs(maxVertex(2)-minVertex(2))-0.2);
         endVertex(1)=-0.05;
         endVertex(0)=-0.1;
     }
     else if(type=="lWrist"){
-        centerVertex(2) = maxVertex(2)-0.1;//0=y,1=z,2=x when multiply rotation matrix
+        centerVertex(2) = maxVertex(2)-0.15;//0=y,1=z,2=x when multiply rotation matrix
         endVertex(2)=-(abs(maxVertex(2)-minVertex(2)));
     }
     else if(type=="rUpperLeg"){
         centerVertex(1) = maxVertex(1)-0.3;//0=y,1=z,2=x when multiply rotation matrix
-        endVertex(0)+=-0.05;
-        endVertex(1)=-abs(maxVertex(1)-minVertex(1)-0.3);
+        endVertex(0)+=-0.01;
+        endVertex(1)=-abs(maxVertex(1)-minVertex(1)-0.35);
         endVertex(2)+=-0.07;
     }
     else if(type=="rLowerLeg"){
-        centerVertex(1) = maxVertex(1)-0.2;//0=y,1=z,2=x when multiply rotation matrix
-        centerVertex(0)+=-0.21;
-        centerVertex(2)+=0.0;
+        centerVertex(1) = maxVertex(1)-0.1;//0=y,1=z,2=x when multiply rotation matrix
+        centerVertex(0)+=-0.27;
+        centerVertex(2)+=-0.25;
     }
     else if(type=="lUpperLeg"){
         centerVertex(1) = maxVertex(1)-0.3;//0=y,1=z,2=x when multiply rotation matrix
         endVertex(0)+=-0.05;
-        endVertex(1)=-abs(maxVertex(1)-minVertex(1)-0.24);
+        endVertex(1)=-abs(maxVertex(1)-minVertex(1)-0.3);
         endVertex(2)+=0.07;
     }
     else if(type=="lLowerLeg"){
         centerVertex(1) = maxVertex(1)-0.2;//0=y,1=z,2=x when multiply rotation matrix
-        centerVertex(0)+=-0.21;
-        centerVertex(2)+=-0.0;
+        centerVertex(0)+=-0.27;
+        centerVertex(2)+=0.25;
     }
 
 
