@@ -115,7 +115,7 @@ void ThreeDWindow::paintGL()
     glRotatef(zRot / 16.0f, 0.0f, 0.0f, 1.0f);
 
 
-    drawAxes();
+    //drawAxes();
     //drawFloor();
 
     Eigen::Vector3f vertex_head;
@@ -124,9 +124,9 @@ void ThreeDWindow::paintGL()
     Eigen::Vector3f vertex_lUpperLeg,vertex_rUpperLeg,vertex_lLowerLeg,vertex_rLowerLeg;
 
     //these are the parts connected to body directly
-    vertex_head[0]=-0.1;
+    vertex_head[0]= -0.1;
     vertex_head[1]= 2.22f;
-    vertex_head[2]=0;
+    vertex_head[2]= 0;
 
     vertex_rUpperArm[0]=-0.22; //y
     vertex_rUpperArm[1]=1.89; //z
