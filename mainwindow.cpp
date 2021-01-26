@@ -107,7 +107,7 @@ MainWindow::MainWindow(QWidget *parent) :
     lpmsList.push_back(&lUpperLeg);
     lpmsList.push_back(&lLowerLeg);
 
-    QString modelfolder="C:/body_part/";
+    QString modelfolder="3dmodel/";
     QString file = modelfolder+"male_body.obj";
     ui->widget->loadObjFile(file.toStdString(), myLpms.body);
     file = modelfolder+"male_head.obj";
