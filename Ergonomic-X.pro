@@ -10,7 +10,7 @@ QT+= opengl
 LIBS += -lopengl32 -lglu32 #solve link2019 error
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = GLtest
+TARGET = Ergonomic-X
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
